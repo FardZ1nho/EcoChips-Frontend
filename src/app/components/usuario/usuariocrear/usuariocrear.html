@@ -1,0 +1,30 @@
+<div class="form-container">
+  <h2>Registrar Usuario</h2>
+
+  <form (ngSubmit)="registrar()" #formUsuario="ngForm">
+    <label>Nombre:</label>
+    <input type="text" [(ngModel)]="usuario.nombre" name="nombre" required />
+
+    <label>Correo:</label>
+    <input type="email" [(ngModel)]="usuario.correo" name="correo" required />
+
+    <label>Contraseña:</label>
+    <input type="password" [(ngModel)]="usuario.contrasena" name="contrasena" required />
+
+    <label>Edad:</label>
+    <input type="number" [(ngModel)]="usuario.edad" name="edad" required />
+
+    <label>Género:</label>
+    <select [(ngModel)]="usuario.genero" name="genero" required>
+      <option value="">Seleccione</option>
+      <option value="Masculino">Masculino</option>
+      <option value="Femenino">Femenino</option>
+      <option value="Otro">Otro</option>
+    </select>
+
+    <button type="submit" [disabled]="!formUsuario.form.valid">Registrar</button>
+  </form>
+
+  <p *ngIf="mensaje">{{ mensaje }}</p>
+</div>
+

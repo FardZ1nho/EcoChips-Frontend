@@ -1,0 +1,29 @@
+<div class="contenedor">
+
+  <mat-card class="title-card">
+    <h2>Lista de Eventos asociados por Usuario</h2>
+  </mat-card>
+
+  <div class="grid-cards">
+    <mat-card class="registro-card" *ngFor="let registro of registrosPaginados">
+      <mat-card-content>
+        <p><strong>ID Usuario:</strong> {{ registro.idUsuario }}</p>
+        <p><strong>ID Evento:</strong> {{ registro.idEvento }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button class="btn-accion" (click)="editar(registro.idRegistroEvento)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button class="btn-accion" (click)="eliminar(registro.idRegistroEvento)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <mat-paginator
+    [pageSizeOptions]="pageSizeOptions"
+    [pageSize]="2"
+    showFirstLastButtons>
+  </mat-paginator>
+</div>

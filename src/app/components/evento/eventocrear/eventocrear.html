@@ -1,0 +1,32 @@
+<div class="form-container">
+  <h2>{{ titulo }}</h2>
+  <form [formGroup]="form" (ngSubmit)="guardar()">
+
+    <input type="hidden" formControlName="idEvento">
+
+    <label>Título</label>
+    <input type="text" formControlName="titulo" [ngClass]="{'error': form.get('titulo')?.invalid && form.get('titulo')?.touched}">
+    <div class="error-msg" *ngIf="form.get('titulo')?.invalid && form.get('titulo')?.touched">El título es obligatorio</div>
+
+    <label>Descripción</label>
+    <textarea formControlName="descripcion" [ngClass]="{'error': form.get('descripcion')?.invalid && form.get('descripcion')?.touched}"></textarea>
+    <div class="error-msg" *ngIf="form.get('descripcion')?.invalid && form.get('descripcion')?.touched">La descripción es obligatoria</div>
+
+    <label>Fecha</label>
+    <input type="date" formControlName="fecha" [ngClass]="{'error': form.get('fecha')?.invalid && form.get('fecha')?.touched}">
+    <div class="error-msg" *ngIf="form.get('fecha')?.invalid && form.get('fecha')?.touched">La fecha es obligatoria</div>
+
+    <label>Hora</label>
+    <input type="time" formControlName="hora" [ngClass]="{'error': form.get('hora')?.invalid && form.get('hora')?.touched}">
+    <div class="error-msg" *ngIf="form.get('hora')?.invalid && form.get('hora')?.touched">La hora es obligatoria</div>
+
+    <label>Dirección</label>
+    <input type="text" formControlName="direccion" [ngClass]="{'error': form.get('direccion')?.invalid && form.get('direccion')?.touched}">
+    <div class="error-msg" *ngIf="form.get('direccion')?.invalid && form.get('direccion')?.touched">La dirección es obligatoria</div>
+
+    <div class="acciones">
+      <button type="submit" class="btn-guardar">{{ modoEdicion ? 'Actualizar' : 'Guardar' }}</button>
+      <button type="button" class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>

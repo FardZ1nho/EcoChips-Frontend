@@ -1,0 +1,16 @@
+/* --- Botones dentro de la tabla --- */
+button[matButton] {
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 4px 12px;
+  color: rgb(238, 244, 241);
+  text-transform: none;
+  transition: all 0.25s ease;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+  background-color: rgb(13, 133, 65);
+}
+
+.container {
+  margin: 3%;
+}

@@ -1,0 +1,31 @@
+.form-container {
+    width: 100%;
+    max-width: 450px; /* Un poco más angosto para verse elegante */
+    margin: 30px auto;
+    padding: 25px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    border-top: 5px solid #2e7d32;
+}
+
+h2 {
+    text-align: center;
+    color: #1b5e20;
+    margin-bottom: 25px;
+}
+
+.full-width {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.acciones {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+button {
+    min-width: 120px;
+}

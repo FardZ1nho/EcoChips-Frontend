@@ -1,0 +1,40 @@
+<div class="contenedor">
+  <!-- Título destacado -->
+  <mat-card class="title-card">
+    <h2>Lista de Retos</h2>
+  </mat-card>
+
+  <!-- Grid de tarjetas -->
+  <div class="grid-cards">
+    <mat-card class="reto-card" *ngFor="let r of retosPaginados">
+      <mat-card-header>
+        <mat-card-title>{{ r.titulo }}</mat-card-title>
+        <mat-card-subtitle>ID: {{ r.idReto }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p><strong>Descripción:</strong> {{ r.descripcion }}</p>
+        <p><strong>Objetivo:</strong> {{ r.objetivoKg }} kg</p>
+        <p><strong>Inicio:</strong> {{ formatoFecha(r.fechaInicio) }}</p>
+        <p><strong>Fin:</strong> {{ formatoFecha(r.fechaFin) }}</p>
+
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button mat-icon-button color="primary" (click)="editar(r.idReto)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="eliminar(r.idReto)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- Paginador -->
+  <mat-paginator
+    [pageSizeOptions]="pageSizeOptions"
+    [pageSize]="5"
+    showFirstLastButtons>
+  </mat-paginator>
+</div>

@@ -1,0 +1,65 @@
+<div class="home-page">
+  <header class="top-header">
+    <div class="logo-section">
+      <img src="assets/img/logoEco.png" alt="EcoChips Logo" class="logo" />
+      <h1>EcoChips</h1>
+    </div>
+    <div class="user-section">
+      <div class="user-avatar">
+        <img src="assets/img/user-avatar.jpg" alt="Usuario" />
+      </div>
+      <span class="user-greeting">¡Hola, Usuario!</span>
+    </div>
+  </header>
+
+  <div class="main-container">
+
+    <!-- ===== MENÚ LATERAL ===== -->
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+
+        <div class="menu-item-wrapper" *ngFor="let item of menuItems">
+          <div 
+            class="menu-item" 
+            [class.active]="isSubmenuOpen(item.id)"
+            (click)="item.hasSubmenu ? toggleSubmenu(item.id) : navigateTo(item.route!)">
+            <span class="menu-label">{{ item.label }}</span>
+            <span 
+              *ngIf="item.hasSubmenu"
+              class="menu-arrow"
+              [class.rotated]="isSubmenuOpen(item.id)">
+              ›
+            </span>
+          </div>
+
+          <div 
+            *ngIf="item.hasSubmenu" 
+            class="submenu"
+            [class.open]="isSubmenuOpen(item.id)">
+            <div 
+              *ngFor="let subItem of item.submenuItems"
+              class="submenu-item"
+              (click)="navigateTo(subItem.route); $event.stopPropagation()">
+              <span class="submenu-dot">•</span>
+              <span class="submenu-label">{{ subItem.label }}</span>
+            </div>
+          </div>
+        </div>
+
+      </nav>
+
+      <div class="logout-section">
+        <button class="btn-logout" (click)="cerrarSesion()">
+          <span class="logout-icon">🚪</span>
+          Cerrar Sesión
+        </button>
+      </div>
+    </aside>
+
+    <!-- ===== CONTENIDO DINÁMICO ===== -->
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+
+  </div>
+</div>

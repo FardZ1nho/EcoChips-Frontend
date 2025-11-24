@@ -1,0 +1,61 @@
+<div class="login-page">
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-section">
+      <img src="assets/img/logoEco.png" alt="EcoChips logo" class="logo" />
+      <h1>EcoChips</h1>
+    </div>
+  </header>
+
+  <!-- Card de Login -->
+  <div class="login-container">
+    <div class="login-box">
+      <div class="login-header">
+        <h2>ECOCHIPS</h2>
+      </div>
+
+      <div class="login-form">
+        <div class="form-group">
+          <input 
+            type="email" 
+            placeholder="Correo electrónico" 
+            [(ngModel)]="correo"
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <input 
+            type="password" 
+            placeholder="Contraseña" 
+            [(ngModel)]="contrasena"
+            class="form-input"
+          />
+        </div>
+
+        <div class="extra">
+          <a href="#">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <button (click)="iniciarSesion()" class="btn-login">
+          INICIAR SESIÓN
+        </button>
+
+        <div class="divider">
+          <span>o continúa con</span>
+        </div>
+
+        <div class="social-login">
+          <img src="assets/img/google.png" alt="Google" />
+          <img src="assets/img/facebook.png" alt="Facebook" />
+          <img src="assets/img/apple.png" alt="Apple" />
+        </div>
+
+        <p class="registro-texto">
+          ¿No tienes cuenta?
+          <a routerLink="/registro">Regístrate</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+.contenedor {
+  width: 90%;
+  margin: 25px auto;
+}
+
+/* Card del título */
+.title-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px;
+  margin-bottom: 20px;
+  background: #e8f5e9;
+  border-left: 6px solid #2e7d32;
+}
+
+/* Contenedor de las cards: agregar separación entre tarjetas */
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+  margin-bottom: 10px; /* espacio con el paginador */
+}
+
+/* También puedes agregar un margen inferior a cada tarjeta individual */
+.reto-card {
+  padding: 15px;
+  margin-bottom: 10px;
+  transition: transform 220ms cubic-bezier(.2,.8,.2,1), box-shadow 220ms;
+}
+

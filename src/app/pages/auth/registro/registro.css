@@ -1,0 +1,364 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ========== PÁGINA COMPLETA ========== */
+.registro-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2F4F4F 0%, #3E3E3E 100%);
+  position: relative;
+}
+
+/* ========== HEADER ========== */
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  background-color: #e8e8e8;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-section .logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.logo-section h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  letter-spacing: 0.5px;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav-link {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #47B74D;
+}
+
+.btn-sabermas {
+  background-color: #9ef01a;
+  color: #000;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(158, 240, 26, 0.3);
+}
+
+.btn-sabermas:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(158, 240, 26, 0.4);
+}
+
+/* ========== CONTENEDOR DE REGISTRO ========== */
+.registro-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 85px);
+  padding: 40px 20px;
+}
+
+.registro-content {
+  width: 100%;
+  max-width: 480px;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== CARD DE REGISTRO ========== */
+.registro-box {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  padding: 45px 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(164, 229, 108, 0.2);
+}
+
+.card-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.card-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #2F2F2F;
+  margin-bottom: 0;
+}
+
+.card-header .highlight {
+  color: #47B74D;
+}
+
+.subtitle {
+  font-size: 22px;
+  color: #2F2F2F;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* ========== FORMULARIO ========== */
+.registro-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  position: relative;
+}
+
+.form-input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid #E0E0E0;
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+  background: #FAFAFA;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #A4E56C;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(164, 229, 108, 0.1);
+}
+
+.form-input::placeholder {
+  color: #999;
+}
+
+/* ========== TÉRMINOS Y CONDICIONES ========== */
+.terminos {
+  margin: 5px 0;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.checkbox-container input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #47B74D;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.terminos-text {
+  flex: 1;
+}
+
+.terminos a {
+  color: #00aa55;
+  text-decoration: none;
+}
+
+.terminos a:hover {
+  text-decoration: underline;
+}
+
+/* ========== BOTÓN REGISTRAR ========== */
+.btn-registrar {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #47B74D 0%, #A4E56C 100%);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(71, 183, 77, 0.3);
+  margin-top: 10px;
+}
+
+.btn-registrar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(71, 183, 77, 0.4);
+}
+
+.btn-registrar:active {
+  transform: translateY(0);
+}
+
+/* ========== DIVIDER ========== */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 25px 0 20px;
+  color: #999;
+  font-size: 14px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.divider span {
+  padding: 0 15px;
+}
+
+/* ========== SOCIAL LOGIN ========== */
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 10px 0 20px;
+}
+
+.social-login img {
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.social-login img:hover {
+  transform: scale(1.1);
+}
+
+/* ========== LOGIN LINK ========== */
+.texto-login {
+  text-align: center;
+  font-size: 14px;
+  color: #333;
+  margin-top: 10px;
+}
+
+.texto-login a {
+  color: #00aa55;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.texto-login a:hover {
+  text-decoration: underline;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .header {
+    padding: 15px 25px;
+  }
+
+  .logo h1 {
+    font-size: 20px;
+  }
+
+  .nav-menu {
+    gap: 15px;
+  }
+
+  .nav-link {
+    display: none;
+  }
+
+  .registro-container {
+    padding: 30px 15px;
+  }
+
+  .registro-card {
+    padding: 35px 25px;
+  }
+
+  .card-header h2 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 12px 20px;
+  }
+
+  .logo img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .logo h1 {
+    font-size: 18px;
+  }
+
+  .btn-header {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .registro-card {
+    padding: 30px 20px;
+  }
+
+  .card-header h2 {
+    font-size: 22px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .checkbox-container {
+    font-size: 12px;
+  }
+}

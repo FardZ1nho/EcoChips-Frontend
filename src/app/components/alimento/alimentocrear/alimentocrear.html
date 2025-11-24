@@ -1,0 +1,43 @@
+<div class="form-container">
+  <h2>{{ titulo }}</h2>
+  
+  <form [formGroup]="form" (ngSubmit)="aceptar()">
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre del Alimento</mat-label>
+      <input matInput placeholder="Ej. Manzana, Pollo..." formControlName="nombre">
+      <mat-error *ngIf="form.get('nombre')?.hasError('required')">
+        El nombre es obligatorio
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Tipo de Alimento</mat-label>
+      <mat-select formControlName="tipo">
+        <mat-option *ngFor="let t of listaTipos" [value]="t.value">
+          {{ t.viewValue }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('tipo')?.hasError('required')">
+        Debes seleccionar un tipo
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>CO2 por Porción</mat-label>
+      <input matInput type="number" placeholder="Ej. 0.5" formControlName="co2Porcion">
+      <mat-error *ngIf="form.get('co2Porcion')?.hasError('min')">
+        El valor no puede ser negativo
+      </mat-error>
+    </mat-form-field>
+
+    <div class="acciones">
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        Guardar
+      </button>
+      <button mat-button color="warn" type="button" routerLink="/home/alimentos/listar">
+        Cancelar
+      </button>
+    </div>
+
+  </form>
+</div>

@@ -1,0 +1,30 @@
+<div class="form-container">
+  <h2>{{ titulo }}</h2>
+  
+  <form [formGroup]="form" (ngSubmit)="aceptar()">
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Título de la Recompensa</mat-label>
+      <input matInput placeholder="Ej. Descuento 20%" formControlName="tituloRecompensa">
+      <mat-error *ngIf="form.get('tituloRecompensa')?.hasError('required')">Obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Costo (Puntos/Canjes)</mat-label>
+      <input matInput type="number" placeholder="Ej. 50" formControlName="costoCanjes">
+      <mat-error *ngIf="form.get('costoCanjes')?.hasError('required')">Obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput rows="3" placeholder="Detalle..." formControlName="descripcionRecompensa"></textarea>
+      <mat-error *ngIf="form.get('descripcionRecompensa')?.hasError('required')">Obligatorio</mat-error>
+    </mat-form-field>
+
+    <div class="acciones">
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Guardar</button>
+      <button mat-button color="warn" type="button" routerLink="/home/recompensas/listar">Cancelar</button>
+    </div>
+
+  </form>
+</div>

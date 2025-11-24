@@ -1,0 +1,64 @@
+<div class="form-container">
+  <h2>{{ titulo }}</h2>
+
+  <form [formGroup]="form" (ngSubmit)="aceptar()">
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Usuario</mat-label>
+      <mat-select formControlName="usuario">
+        <mat-option *ngFor="let u of listaUsuarios" [value]="u.idUsuario">
+          {{ u.nombre }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('usuario')?.hasError('required')">
+         Seleccione un usuario
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Transporte</mat-label>
+      <mat-select formControlName="transporte">
+        <mat-option *ngFor="let t of listaTransportes" [value]="t.idTransporte">
+          {{ t.nombre }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('transporte')?.hasError('required')">
+        Seleccione un transporte
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Distancia Recorrida (Km)</mat-label>
+      <input matInput type="number" formControlName="distanciaKm" placeholder="Ej. 15.5">
+      <mat-error *ngIf="form.get('distanciaKm')?.hasError('min')">
+        La distancia debe ser positiva
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Emisión CO2 (Opcional)</mat-label>
+      <input matInput type="number" formControlName="co2Emision">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Fecha</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="fecha">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="form.get('fecha')?.hasError('required')">
+        La fecha es obligatoria
+      </mat-error>
+    </mat-form-field>
+
+    <div class="acciones">
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        Guardar
+      </button>
+      <button mat-button color="warn" type="button" routerLink="/home/registrostransporte/listar">
+        Cancelar
+      </button>
+    </div>
+
+  </form>
+</div>

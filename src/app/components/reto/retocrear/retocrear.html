@@ -1,0 +1,40 @@
+<div class="form-container">
+  <h2>{{ titulo }}</h2>
+  <form [formGroup]="form" (ngSubmit)="registrar()">
+
+    <label>Título</label>
+    <input type="text" formControlName="titulo" [ngClass]="{'error': form.get('titulo')?.invalid && form.get('titulo')?.touched}">
+    <div class="error-msg" *ngIf="form.get('titulo')?.invalid && form.get('titulo')?.touched">
+      Este campo es obligatorio.
+    </div>
+
+    <label>Descripción</label>
+    <textarea rows="4" formControlName="descripcion" [ngClass]="{'error': form.get('descripcion')?.invalid && form.get('descripcion')?.touched}"></textarea>
+    <div class="error-msg" *ngIf="form.get('descripcion')?.invalid && form.get('descripcion')?.touched">
+      Campo obligatorio. Máx 100 palabras.
+    </div>
+
+    <label>Objetivo (kg)</label>
+    <input type="number" formControlName="objetivoKg" [ngClass]="{'error': form.get('objetivoKg')?.invalid && form.get('objetivoKg')?.touched}">
+    <div class="error-msg" *ngIf="form.get('objetivoKg')?.invalid && form.get('objetivoKg')?.touched">
+      Campo obligatorio.
+    </div>
+
+    <label>Fecha Inicio</label>
+    <input type="date" formControlName="fechaInicio" [min]="minDate" [ngClass]="{'error': form.get('fechaInicio')?.invalid && form.get('fechaInicio')?.touched}">
+    <div class="error-msg" *ngIf="form.get('fechaInicio')?.invalid && form.get('fechaInicio')?.touched">
+      Campo obligatorio.
+    </div>
+
+    <label>Fecha Fin</label>
+    <input type="date" formControlName="fechaFin" [min]="minDate" [ngClass]="{'error': form.get('fechaFin')?.invalid && form.get('fechaFin')?.touched}">
+    <div class="error-msg" *ngIf="form.get('fechaFin')?.invalid && form.get('fechaFin')?.touched">
+      Campo obligatorio.
+    </div>
+
+    <div class="acciones">
+      <button type="submit" class="btn-guardar">{{ modoEdicion ? 'Guardar' : 'Registrar' }}</button>
+      <button type="button" class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>

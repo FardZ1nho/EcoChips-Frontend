@@ -1,0 +1,144 @@
+<div class="content-wrapper">
+  <div class="welcome-section">
+    <h2>¡Bienvenido de nuevo, Usuario!</h2>
+    <p class="welcome-subtitle">Continúa tu camino hacia un estilo de vida más sostenible</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">🌱</div>
+      <div class="stat-value">247</div>
+      <div class="stat-label">kg CO₂ Ahorrados</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🏆</div>
+      <div class="stat-value">12</div>
+      <div class="stat-label">Retos Completados</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">⚡</div>
+      <div class="stat-value">89</div>
+      <div class="stat-label">Días Activo</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🎯</div>
+      <div class="stat-value">76%</div>
+      <div class="stat-label">Meta Mensual</div>
+    </div>
+  </div>
+
+  <div class="two-column-layout">
+    <div class="cards-container">
+
+      <div class="info-card">
+        <div class="card-image">
+          <img src="assets/img/landing1.jpg" alt="Noticias" />
+        </div>
+        <div class="card-content">
+          <span class="card-badge badge-news">Noticias</span>
+          <h3>Brasil reduce la deforestación en la Amazonia un 11% en el último año</h3>
+          <p>Durante el periodo de agosto 2024 a julio 2025, Amazonia brasileña registró una caída del 11%...</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="card-image">
+          <img src="assets/img/landing2.jpg" alt="Soporte" />
+        </div>
+        <div class="card-content">
+          <span class="card-badge badge-support">Soporte técnico</span>
+          <h3>¿Tienes problemas con la plataforma?</h3>
+          <p>Accede al centro de ayuda o comunícate con nuestro equipo técnico.</p>
+          <p class="support-email">📧 soporte@EcoChips.com</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="card-image">
+          <img src="assets/img/landing3.jpg" alt="Eventos" />
+        </div>
+        <div class="card-content">
+          <span class="card-badge badge-events">Eventos</span>
+          <h3>Próximos eventos y talleres</h3>
+          <p>Participa en charlas y actividades sobre sostenibilidad.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="right-sidebar">
+
+      <div class="widget">
+        <div class="widget-header">
+          <span class="widget-icon">⚡</span>
+          <h3 class="widget-title">Accesos Rápidos</h3>
+        </div>
+
+        <div class="quick-action" (click)="navigateTo('/alimentacion/registrar')">
+          <div class="action-icon">🥗</div>
+          <div class="action-info">
+            <h4>Alimentación</h4>
+            <p>Registra tus hábitos alimenticios</p>
+          </div>
+        </div>
+
+        <div class="quick-action" (click)="navigateTo('/retos/ver')">
+          <div class="action-icon">🎯</div>
+          <div class="action-info">
+            <h4>Ver Retos</h4>
+            <p>Desafíos disponibles</p>
+          </div>
+        </div>
+
+        <div class="quick-action" (click)="navigateTo('/progreso/estadisticas')">
+          <div class="action-icon">📈</div>
+          <div class="action-info">
+            <h4>Mi Progreso</h4>
+            <p>Estadísticas detalladas</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="widget eco-tips-widget">
+        <div class="widget-header">
+          <span class="widget-icon">💡</span>
+          <h3 class="widget-title">Tips Ecológicos</h3>
+        </div>
+
+        <div class="tip-item">
+          <div class="tip-icon">🔌</div>
+          <div class="tip-content">
+            <p class="tip-text">Desconecta los aparatos electrónicos...</p>
+          </div>
+        </div>
+
+        <div class="tip-item">
+          <div class="tip-icon">💧</div>
+          <div class="tip-content">
+            <p class="tip-text">Cierra el grifo mientras te cepillas...</p>
+          </div>
+        </div>
+
+        <div class="tip-item">
+          <div class="tip-icon">🛍️</div>
+          <div class="tip-content">
+            <p class="tip-text">Lleva tu propia bolsa reutilizable...</p>
+          </div>
+        </div>
+
+        <div class="tip-item">
+          <div class="tip-icon">♻️</div>
+          <div class="tip-content">
+            <p class="tip-text">Separa tus residuos correctamente...</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="eco-tip">
+        <div class="tip-label">Tip Destacado del Día</div>
+        <p class="tip-text">Prefiere alimentos locales y de temporada.</p>
+      </div>
+
+    </div>
+  </div>
+</div>

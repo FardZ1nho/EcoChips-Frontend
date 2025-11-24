@@ -1,0 +1,44 @@
+.form-container {
+  width: 400px;
+  margin: 3% auto;
+  padding: 25px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background: #f7f9f7;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+}
+
+button {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+p {
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+}
