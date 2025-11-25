@@ -26,6 +26,8 @@ import { Alimentolistar } from './components/alimento/alimentolistar/alimentolis
 import { Alimentocrear } from './components/alimento/alimentocrear/alimentocrear';
 import { Recompensalistar } from './components/recompensa/recompensalistar/recompensalistar';
 import { Recompensacrear } from './components/recompensa/recompensacrear/recompensacrear';
+import { SoporteSolicitudInsertar } from './components/soportesolicitud/soportesolicitudinsertar/soportesolicitudinsertar';
+import { SoporteSolicitudListar } from './components/soportesolicitud/soportesolicitudlistar/soportesolicitudlistar';
 
 export const routes: Routes = [
     { path: '', component: Landing },
@@ -74,6 +76,10 @@ export const routes: Routes = [
             { path: 'recompensas/listar', component: Recompensalistar },
             { path: 'recompensas/crear', component: Recompensacrear },
             { path: 'recompensas/editar/:id', component: Recompensacrear },
+
+            { path: 'soportesolicitudes/listar', component: SoporteSolicitudListar },
+            { path: 'soportesolicitudes/crear', component: SoporteSolicitudInsertar },
+            { path: 'soportesolicitudes/editar/:id', component: SoporteSolicitudInsertar },
 
         ]
     },
