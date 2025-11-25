@@ -204,7 +204,7 @@
 }
 
 .submenu.open {
-  max-height: 300px;
+  max-height: 600px; /* Aumentado para soportar submenús anidados */
 }
 
 .submenu-item {
@@ -251,6 +251,91 @@
   flex: 1;
 }
 
+/* ========== SUBMENÚ ANIDADO (NIVEL 2) ========== */
+.nested-submenu-wrapper {
+  width: 100%;
+}
+
+.submenu-item.nested-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 28px;
+}
+
+.nested-arrow {
+  font-size: 16px;
+  font-weight: 300;
+  transition: transform 0.3s ease;
+  margin-left: auto;
+}
+
+.nested-arrow.rotated {
+  transform: rotate(90deg);
+}
+
+.nested-submenu {
+  max-height: 0;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.25);
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-left: 15px;
+}
+
+.nested-submenu.open {
+  max-height: 200px;
+}
+
+.nested-submenu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 28px 10px 65px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nested-submenu-item::before {
+  content: '';
+  position: absolute;
+  left: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 2px;
+  background: #81C784;
+  transition: width 0.3s ease;
+}
+
+.nested-submenu-item:hover {
+  color: #FFFFFF;
+  background: rgba(129, 199, 132, 0.15);
+  padding-left: 70px;
+}
+
+.nested-submenu-item:hover::before {
+  width: 6px;
+}
+
+.nested-dot {
+  font-size: 16px;
+  line-height: 1;
+  opacity: 0.7;
+}
+
+.nested-label {
+  flex: 1;
+}
+
+.submenu-item.nested-trigger:hover {
+  background: rgba(129, 199, 132, 0.12);
+}
+
+/* ========== LOGOUT SECTION ========== */
 .logout-section {
   padding: 0 25px;
   margin-top: 20px;
@@ -787,6 +872,20 @@
     min-width: 200px;
   }
 
+  .nested-submenu {
+    position: relative;
+    background: rgba(0, 0, 0, 0.2);
+    margin-left: 10px;
+  }
+
+  .nested-submenu-item {
+    padding: 10px 20px 10px 50px;
+  }
+
+  .nested-submenu-item:hover {
+    padding-left: 55px;
+  }
+
   .logout-section {
     padding: 0;
     margin-top: 0;
@@ -841,6 +940,15 @@
 
   .right-sidebar {
     grid-template-columns: 1fr;
+  }
+
+  .nested-submenu-item {
+    font-size: 12px;
+    padding: 8px 15px 8px 40px;
+  }
+
+  .nested-arrow {
+    font-size: 14px;
   }
 }
 
