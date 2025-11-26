@@ -76,7 +76,9 @@ export class Home {
         { label: 'Registrar Evento - Usuario', route: '/home/registroeventos/crear' },
         { label: 'Listar Evento - Usuario', route: '/home/registroeventos/listar' },
         { label: 'Registrar Transporte - Usuario', route: '/home/registrostransporte/insertar' },
-        { label: 'Listar Transporte - Usuario', route: '/home/registrostransporte/listar' }
+        { label: 'Listar Transporte - Usuario', route: '/home/registrostransporte/listar' },
+        { label: 'Registrar Alimentación - Usuario', route: '/home/registrosalimentacion/insertar' },
+        { label: 'Listar Alimentación - Usuario', route: '/home/registrosalimentacion/listar' }
       ]
     },
     { 
