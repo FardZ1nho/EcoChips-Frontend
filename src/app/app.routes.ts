@@ -26,8 +26,13 @@ import { Alimentolistar } from './components/alimento/alimentolistar/alimentolis
 import { Alimentocrear } from './components/alimento/alimentocrear/alimentocrear';
 import { Recompensalistar } from './components/recompensa/recompensalistar/recompensalistar';
 import { Recompensacrear } from './components/recompensa/recompensacrear/recompensacrear';
+
+import { Registroalimentacionlistar } from './components/registroalimentacion/registroalimentacionlistar/registroalimentacionlistar';
+import { Registroalimentacioninsertar } from './components/registroalimentacion/registroalimentacioninsertar/registroalimentacioninsertar';
+
 import { SoporteSolicitudInsertar } from './components/soportesolicitud/soportesolicitudinsertar/soportesolicitudinsertar';
 import { SoporteSolicitudListar } from './components/soportesolicitud/soportesolicitudlistar/soportesolicitudlistar';
+
 
 export const routes: Routes = [
     { path: '', component: Landing },
@@ -68,6 +73,10 @@ export const routes: Routes = [
             { path: 'registrostransporte/listar', component: RegistroTransporteListar },
             { path: 'registrostransporte/insertar', component: RegistroTransporteInsertar }, 
             { path: 'registrostransporte/editar/:id', component: RegistroTransporteInsertar },
+
+            { path: 'registrosalimentacion/listar', component: Registroalimentacionlistar },
+            { path: 'registrosalimentacion/insertar', component: Registroalimentacioninsertar },
+            { path: 'registrosalimentacion/editar/:id', component: Registroalimentacioninsertar },
 
             { path: 'alimentos/listar', component: Alimentolistar },
             { path: 'alimentos/crear', component: Alimentocrear },
