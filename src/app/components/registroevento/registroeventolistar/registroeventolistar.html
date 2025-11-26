@@ -1,5 +1,4 @@
 <div class="contenedor">
-
   <mat-card class="title-card">
     <h2>Lista de Eventos asociados por Usuario</h2>
   </mat-card>
@@ -7,14 +6,24 @@
   <div class="grid-cards">
     <mat-card class="registro-card" *ngFor="let registro of registrosPaginados">
       <mat-card-content>
-        <p><strong>ID Usuario:</strong> {{ registro.idUsuario }}</p>
-        <p><strong>ID Evento:</strong> {{ registro.idEvento }}</p>
+        <div class="card-field">
+          <span class="field-label">ID Registro:</span>
+          <span class="field-value">{{ registro.idRegistroEvento }}</span>
+        </div>
+        <div class="card-field">
+          <span class="field-label">ID Usuario:</span>
+          <span class="field-value">{{ registro.idUsuario }}</span>
+        </div>
+        <div class="card-field">
+          <span class="field-label">ID Evento:</span>
+          <span class="field-value">{{ registro.idEvento }}</span>
+        </div>
       </mat-card-content>
       <mat-card-actions>
-        <button class="btn-accion" (click)="editar(registro.idRegistroEvento)">
+        <button mat-icon-button color="primary" (click)="editar(registro.idRegistroEvento)" class="btn-accion">
           <mat-icon>edit</mat-icon>
         </button>
-        <button class="btn-accion" (click)="eliminar(registro.idRegistroEvento)">
+        <button mat-icon-button color="warn" (click)="eliminar(registro.idRegistroEvento)" class="btn-accion">
           <mat-icon>delete</mat-icon>
         </button>
       </mat-card-actions>
@@ -22,8 +31,9 @@
   </div>
 
   <mat-paginator
-    [pageSizeOptions]="pageSizeOptions"
+    [pageSizeOptions]="[2, 4, 6, 8]"
     [pageSize]="2"
-    showFirstLastButtons>
+    showFirstLastButtons
+    class="custom-paginator">
   </mat-paginator>
 </div>

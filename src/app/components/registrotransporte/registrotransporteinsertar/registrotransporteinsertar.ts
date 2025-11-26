@@ -36,7 +36,7 @@ import { Usuarioservice } from '../../../services/usuarioservice';
     RouterLink
   ],
   templateUrl: './registrotransporteinsertar.html',
-  styleUrls: ['./registrotransporteinsertar.css'] // Asegúrate de que el CSS exista
+  styleUrls: ['./registrotransporteinsertar.css']
 })
 export class RegistroTransporteInsertar implements OnInit {
   form: FormGroup = new FormGroup({});
@@ -46,6 +46,7 @@ export class RegistroTransporteInsertar implements OnInit {
 
   listaUsuarios: Usuario[] = [];
   listaTransportes: Transporte[] = [];
+  fechaMaxima: Date = new Date(); // Fecha máxima = hoy
 
   constructor(
     private fb: FormBuilder,
@@ -62,11 +63,11 @@ export class RegistroTransporteInsertar implements OnInit {
 
     this.form = this.fb.group({
       idRegistroTransporte: [''],
-      usuario: ['', Validators.required],     // El select devuelve un ID
-      transporte: ['', Validators.required],  // El select devuelve un ID
+      usuario: ['', Validators.required],
+      transporte: ['', Validators.required],
       distanciaKm: ['', [Validators.required, Validators.min(0.1)]],
-      co2Emision: [''], 
       fecha: [new Date(), Validators.required]
+      // NOTA: Eliminamos co2Emision del formulario ya que se calculará automáticamente
     });
 
     this.route.params.subscribe(params => {
@@ -81,53 +82,81 @@ export class RegistroTransporteInsertar implements OnInit {
 
   init() {
     this.rts.listId(this.id).subscribe(data => {
-      // Al editar, Java nos devuelve IDs planos (idUsuario, idTransporte)
       this.form.patchValue({
         idRegistroTransporte: data.idRegistroTransporte,
-        usuario: data.idUsuario,       // Asignamos el ID al select de usuario
-        transporte: data.idTransporte, // Asignamos el ID al select de transporte
+        usuario: data.idUsuario,
+        transporte: data.idTransporte,
         distanciaKm: data.distanciaKm,
-        co2Emision: data.co2Emitido,   // Ojo: Java manda co2Emitido
         fecha: data.fecha
+        // NOTA: No mostramos co2Emitido en el formulario de edición
       });
     });
   }
 
+  // Función para validar que la fecha no sea futura
+  validarFechaNoFutura(): boolean {
+    const fechaSeleccionada = this.form.get('fecha')?.value;
+    if (!fechaSeleccionada) return true;
+
+    const fecha = new Date(fechaSeleccionada);
+    const hoy = new Date();
+    
+    // Resetear horas para comparar solo fechas
+    hoy.setHours(0, 0, 0, 0);
+    fecha.setHours(0, 0, 0, 0);
+
+    return fecha <= hoy;
+  }
+
   aceptar() {
-  if (this.form.valid) {
-    const reg: any = new RegistroTransporte();
-    if (this.edicion) {
-      reg.idRegistroTransporte = this.id;
-    } else {
-      reg.idRegistroTransporte = null; 
-    }
+    if (this.form.valid) {
+      // Validar que la fecha no sea futura
+      if (!this.validarFechaNoFutura()) {
+        alert('La fecha no puede ser posterior a la fecha actual');
+        return;
+      }
 
-    reg.usuario = new Usuario();
-    reg.usuario.idUsuario = this.form.value.usuario;
-    reg.transporte = new Transporte();
-    reg.transporte.idTransporte = this.form.value.transporte;
-    reg.distanciaKm = this.form.value.distanciaKm;
-    reg.co2Emitido = this.form.value.co2Emision || 0;
-    const fechaForm = this.form.value.fecha;
-    if (fechaForm instanceof Date) {
-         const year = fechaForm.getFullYear();
-         const month = (fechaForm.getMonth() + 1).toString().padStart(2, '0');
-         const day = fechaForm.getDate().toString().padStart(2, '0');
-         reg.fecha = `${year}-${month}-${day}`;
-    } else {
+      const reg: any = new RegistroTransporte();
+      
+      if (this.edicion) {
+        reg.idRegistroTransporte = this.id;
+      } else {
+        reg.idRegistroTransporte = null; 
+      }
+
+      // IMPORTANTE: Cambiamos la estructura para que coincida con el DTO del backend
+      reg.idUsuario = this.form.value.usuario; // Enviar solo el ID del usuario
+      reg.idTransporte = this.form.value.transporte; // Enviar solo el ID del transporte
+      reg.distanciaKm = this.form.value.distanciaKm;
+      
+      // NOTA: El campo co2Emitido NO se envía - el backend lo calculará automáticamente
+      // reg.co2Emitido = 0; // No enviar este campo
+
+      const fechaForm = this.form.value.fecha;
+      if (fechaForm instanceof Date) {
+        const year = fechaForm.getFullYear();
+        const month = (fechaForm.getMonth() + 1).toString().padStart(2, '0');
+        const day = fechaForm.getDate().toString().padStart(2, '0');
+        reg.fecha = `${year}-${month}-${day}`;
+      } else {
         reg.fecha = fechaForm;
-    }
+      }
 
-    if (this.edicion) {
-    } else {
-       this.rts.insert(reg).subscribe({
-         next: () => {
-           this.rts.list().subscribe(d => this.rts.setList(d));
-           this.router.navigate(['/home/registrostransporte/listar']);
-         },
-         error: (e) => console.error("Error:", e)
-       });
+      if (this.edicion) {
+        // Aquí va la lógica para editar si es necesario
+        this.rts.update(reg).subscribe(() => {
+          this.rts.list().subscribe(d => this.rts.setList(d));
+          this.router.navigate(['/home/registrostransporte/listar']);
+        });
+      } else {
+        this.rts.insert(reg).subscribe({
+          next: () => {
+            this.rts.list().subscribe(d => this.rts.setList(d));
+            this.router.navigate(['/home/registrostransporte/listar']);
+          },
+          error: (e) => console.error("Error:", e)
+        });
+      }
     }
   }
-}
 }

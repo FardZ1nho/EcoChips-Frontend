@@ -45,6 +45,7 @@ export class Registroalimentacioninsertar implements OnInit {
 
   listaUsuarios: Usuario[] = [];
   listaAlimentos: Alimento[] = [];
+  fechaMaxima: Date = new Date(); // Fecha máxima = hoy
 
   constructor(
     private fb: FormBuilder,
@@ -89,8 +90,29 @@ export class Registroalimentacioninsertar implements OnInit {
     });
   }
 
+  // Función para validar que la fecha no sea futura
+  validarFechaNoFutura(): boolean {
+    const fechaSeleccionada = this.form.get('fecha')?.value;
+    if (!fechaSeleccionada) return true;
+
+    const fecha = new Date(fechaSeleccionada);
+    const hoy = new Date();
+    
+    // Resetear horas para comparar solo fechas
+    hoy.setHours(0, 0, 0, 0);
+    fecha.setHours(0, 0, 0, 0);
+
+    return fecha <= hoy;
+  }
+
   aceptar() {
     if (this.form.valid) {
+      // Validar que la fecha no sea futura
+      if (!this.validarFechaNoFutura()) {
+        alert('La fecha no puede ser posterior a la fecha actual');
+        return;
+      }
+
       const registro: any = new RegistroAlimentacion();
       
       if (this.edicion) {
