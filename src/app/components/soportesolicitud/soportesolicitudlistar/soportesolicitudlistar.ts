@@ -33,7 +33,7 @@ export class SoporteSolicitudListar implements OnInit, AfterViewInit {
     'titulo', 
     'descripcion', 
     'fechahora', 
-    'Apartado', 
+    'apartado', 
     'idUsuario',
     'acciones'
   ];

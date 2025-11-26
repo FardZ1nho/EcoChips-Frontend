@@ -1,129 +1,89 @@
-
 <div class="form-container">
-  
-  
   <h2>{{ titulo }}</h2>
-
 
   <form [formGroup]="form" (ngSubmit)="aceptar()">
 
-   
-    <div class="campo">
-      <label for="titulo">Título de la Solicitud</label>
-      
-   
+    <!-- Usuario -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Usuario</mat-label>
+      <mat-select formControlName="usuario">
+        <mat-option *ngFor="let u of listaUsuarios" [value]="u.idUsuario">
+          {{ u.nombre }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('usuario')?.hasError('required')">
+        Seleccione un usuario
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Título -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Título de la Solicitud</mat-label>
       <input 
+        matInput
         type="text" 
-        id="titulo"
         formControlName="titulo" 
         placeholder="Ej. Problema con registro de transporte"
-        [ngClass]="{'input-error': form.get('titulo')?.invalid && form.get('titulo')?.touched}"
       >
-      
-     
-      <div class="mensaje-error" *ngIf="form.get('titulo')?.invalid && form.get('titulo')?.touched">
-        El título es obligatorio (máximo 100 caracteres).
-      </div>
-    </div>
+      <mat-error *ngIf="form.get('titulo')?.hasError('required')">
+        El título es obligatorio
+      </mat-error>
+      <mat-error *ngIf="form.get('titulo')?.hasError('maxlength')">
+        Máximo 100 caracteres
+      </mat-error>
+    </mat-form-field>
 
-  
-    <div class="campo">
-      <label for="descripcion">Descripción del Problema</label>
-      
-     
+    <!-- Apartado -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Apartado/Sección</mat-label>
+      <mat-select formControlName="Apartado" placeholder="Selecciona un apartado">
+        <mat-option *ngFor="let a of apartados" [value]="a">
+          {{ a }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('Apartado')?.hasError('required')">
+        Debes seleccionar un apartado
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Descripción -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción del Problema</mat-label>
       <textarea 
-        id="descripcion"
+        matInput
         formControlName="descripcion" 
-        rows="4"
-        placeholder="Describe detalladamente el problema que enfrentas..."
-        [ngClass]="{'input-error': form.get('descripcion')?.invalid && form.get('descripcion')?.touched}"
+        rows="5"
+        placeholder="Describe detalladamente el problema que enfrentas (mínimo 20 palabras, máximo 255 palabras)..."
       ></textarea>
-      
-      <div class="mensaje-error" *ngIf="form.get('descripcion')?.invalid && form.get('descripcion')?.touched">
-        La descripción es obligatoria (máximo 255 caracteres).
-      </div>
-    </div>
+      <mat-hint [class.warning]="!validarPalabras()" [class.success]="validarPalabras()">
+        Palabras: {{ contarPalabras() }} / Mínimo: 20 - Máximo: 255
+      </mat-hint>
+      <mat-error *ngIf="form.get('descripcion')?.hasError('required')">
+        La descripción es obligatoria
+      </mat-error>
+    </mat-form-field>
 
-   
-    <div class="campo">
-      <label for="fechahora">Fecha y Hora del Problema</label>
-      
-      
-      <mat-form-field appearance="outline" style="width: 100%;">
-        
-        
-        <input 
-          matInput 
-          [matDatepicker]="picker" 
-          formControlName="fechahora"
-          placeholder="Selecciona fecha y hora"
-        >
-        
-       
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        
-      
-        <mat-datepicker #picker></mat-datepicker>
-        
-       
-        <mat-error *ngIf="form.get('fechahora')?.invalid">
-          La fecha y hora son obligatorias.
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-   
-    <div class="campo">
-      <label for="Apartado">Apartado/Sección</label>
-      
-      <mat-form-field appearance="outline" style="width: 100%;">
-        
-      
-        <mat-select formControlName="Apartado" placeholder="Selecciona un apartado">
-          
-         
-          <mat-option *ngFor="let a of apartados" [value]="a">
-            {{ a }}
-          </mat-option>
-        </mat-select>
-        
-        <mat-error *ngIf="form.get('Apartado')?.invalid">
-          Debes seleccionar un apartado.
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-   
-    <div class="campo">
-      <label for="idUsuario">ID Usuario</label>
-      
-    
+    <!-- Fecha (solo lectura) -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Fecha del Reporte</mat-label>
       <input 
-        type="number" 
-        id="idUsuario"
-        formControlName="idUsuario" 
-        placeholder="ID del usuario"
-        min="1"
-        [ngClass]="{'input-error': form.get('idUsuario')?.invalid && form.get('idUsuario')?.touched}"
+        matInput 
+        [matDatepicker]="picker" 
+        formControlName="fechahora"
+        [readonly]="true"
+        placeholder="Fecha actual"
       >
-      
-      <div class="mensaje-error" *ngIf="form.get('idUsuario')?.invalid && form.get('idUsuario')?.touched">
-        El ID de usuario es obligatorio (mínimo 1).
-      </div>
-      
-    
-    </div>
+      <mat-hint>Fecha automática del día de hoy</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker disabled="false"></mat-datepicker>
+    </mat-form-field>
 
-  
+    <!-- Botones -->
     <div class="acciones">
-      
-   
-      <button type="submit" class="btn-guardar" [disabled]="form.invalid">
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || !validarPalabras()">
         Guardar
       </button>
-
-    
-      <button type="button" class="btn-cancelar" routerLink="/home/soportesolicitudes/listar">
+      <button mat-button color="warn" type="button" routerLink="/home/soportesolicitudes/listar">
         Cancelar
       </button>
     </div>
