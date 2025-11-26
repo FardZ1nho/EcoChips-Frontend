@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -15,15 +14,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 
 import { SoporteSolicitud } from '../../../models/SoporteSolicitud';
 import { SoporteSolicitudService } from '../../../services/soportesolicitudservice'; 
-
+import { Usuario } from '../../../models/Usuario';
+import { Usuarioservice } from '../../../services/usuarioservice';
 
 @Component({
   selector: 'app-soportesolicitudinsertar',
   standalone: true,
+  providers: [provideNativeDateAdapter()],
   imports: [
     CommonModule,           
     MatFormFieldModule,    
@@ -40,19 +41,14 @@ import { SoporteSolicitudService } from '../../../services/soportesolicitudservi
   styleUrl: './soportesolicitudinsertar.css',
 })
 export class SoporteSolicitudInsertar implements OnInit {
-  
-
   form: FormGroup = new FormGroup({});
-  
   edicion: boolean = false;
-  
   id: number = 0;
-  
-  s: SoporteSolicitud = new SoporteSolicitud();
-
   titulo: string = "Registrar Solicitud de Soporte";
+  fechaActual: Date = new Date();
 
- 
+  listaUsuarios: Usuario[] = [];
+
   apartados: string[] = [
     'Retos',
     'Transportes',
@@ -66,28 +62,29 @@ export class SoporteSolicitudInsertar implements OnInit {
     'Otro'
   ];
 
- 
   constructor(
     private sS: SoporteSolicitudService,
+    private uS: Usuarioservice,
     private router: Router,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute
   ) {}
 
- 
   ngOnInit(): void {
-    
-  
+    this.uS.list().subscribe(data => this.listaUsuarios = data);
+
     this.form = this.formBuilder.group({
       idSoporteSolicitud: [''], 
       titulo: ['', [Validators.required, Validators.maxLength(100)]],
-      descripcion: ['', [Validators.required, Validators.maxLength(255)]],
-      fechahora: [new Date(), Validators.required], 
+      descripcion: ['', [
+        Validators.required, 
+        Validators.maxLength(1000)
+      ]],
+      fechahora: [{value: this.fechaActual, disabled: true}, Validators.required],
       Apartado: ['', Validators.required],
-      idUsuario: [1, [Validators.required, Validators.min(1)]] 
+      usuario: ['', Validators.required]
     });
 
-   
     this.route.params.subscribe((data: Params) => {
       this.id = data['id'];
       this.edicion = data['id'] != null; 
@@ -99,65 +96,96 @@ export class SoporteSolicitudInsertar implements OnInit {
     });
   }
 
- 
   aceptar(): void {
-    
-  
-    if (this.form.valid) {
-      
-      
-      this.s.idSoporteSolicitud = this.edicion ? this.id : 0;
-      this.s.titulo = this.form.value.titulo;
-      this.s.descripcion = this.form.value.descripcion;
-      this.s.fechahora = this.form.value.fechahora;
-      this.s.Apartado = this.form.value.Apartado;
-      this.s.idUsuario = this.form.value.idUsuario;
+    if (this.form.valid && this.validarPalabras()) {
+      // Crear el objeto con la estructura correcta para el DTO
+      const solicitudData = {
+        idSoporteSolicitud: this.edicion ? this.id : 0,
+        titulo: this.form.value.titulo,
+        descripcion: this.form.value.descripcion,
+        fechahora: this.formatearLocalDateTime(this.fechaActual),
+        apartado: this.form.value.Apartado, // Nota: minúscula para el DTO
+        idUsuario: this.form.value.usuario
+      };
 
-    
+      console.log('Enviando datos:', solicitudData);
+
       if (this.edicion) {
-        
-        this.sS.update(this.s).subscribe(() => {
-          this.sS.list().subscribe((data) => {
-            this.sS.setList(data);
-            this.router.navigate(['/home/soportesolicitudes/listar']); 
-          });
+        this.sS.update(solicitudData).subscribe({
+          next: () => {
+            this.sS.list().subscribe((data) => {
+              this.sS.setList(data);
+              this.router.navigate(['/home/soportesolicitudes/listar']); 
+            });
+          },
+          error: (err) => {
+            console.error('Error al actualizar:', err);
+            alert('Error al actualizar la solicitud: ' + err.error);
+          }
         });
-        
       } else {
-        
-      
-        this.sS.insert(this.s).subscribe(() => {
-          this.sS.list().subscribe((data) => {
-            this.sS.setList(data);
-            this.router.navigate(['/home/soportesolicitudes/listar']);
-          });
+        this.sS.insert(solicitudData).subscribe({
+          next: () => {
+            this.sS.list().subscribe((data) => {
+              this.sS.setList(data);
+              this.router.navigate(['/home/soportesolicitudes/listar']);
+            });
+          },
+          error: (err) => {
+            console.error('Error al insertar:', err);
+            alert('Error al registrar la solicitud: ' + err.error);
+          }
         });
       }
-      
     } else {
-      
-     
       this.form.markAllAsTouched();
+      if (!this.validarPalabras()) {
+        alert('La descripción debe tener entre 20 y 255 palabras');
+      }
     }
   }
 
-  
+  // Formatear fecha para LocalDateTime (formato ISO)
+  formatearLocalDateTime(fecha: Date): string {
+    return fecha.toISOString().slice(0, 19); // "2024-01-15T10:30:00"
+  }
+
   init() {
     if (this.edicion) {
-      
-     
-      this.sS.listId(this.id).subscribe((data) => {
-        
-       
-        this.form.patchValue({
-          idSoporteSolicitud: data.idSoporteSolicitud,
-          titulo: data.titulo,
-          descripcion: data.descripcion,
-          fechahora: data.fechahora,
-          Apartado: data.Apartado,
-          idUsuario: data.idUsuario
-        });
+      this.sS.listId(this.id).subscribe({
+        next: (data) => {
+          // Convertir la fecha string a Date
+          let fechaData: Date;
+          if (typeof data.fechahora === 'string') {
+            fechaData = new Date(data.fechahora);
+          } else {
+            fechaData = new Date();
+          }
+          
+          this.form.patchValue({
+            idSoporteSolicitud: data.idSoporteSolicitud,
+            titulo: data.titulo,
+            descripcion: data.descripcion,
+            fechahora: fechaData,
+            Apartado: data.apartado, // Nota: minúscula del DTO
+            usuario: data.idUsuario
+          });
+        },
+        error: (err) => {
+          console.error('Error al cargar datos:', err);
+          alert('Error al cargar los datos de la solicitud');
+        }
       });
     }
+  }
+
+  contarPalabras(): number {
+    const descripcion = this.form.get('descripcion')?.value || '';
+    return descripcion.trim() === '' ? 0 : descripcion.trim().split(/\s+/).length;
+  }
+
+  validarPalabras(): boolean {
+    const palabras = this.contarPalabras();
+    return palabras >= 20 && palabras <= 255;
   }
 }

@@ -1,45 +1,126 @@
-
 .contenedor {
-    width: 90%;
+    width: 95%;
     margin: 25px auto;
 }
-  
 
+/* Título con estilo EcoChips (Verde) */
 .title-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px;
+    padding: 15px 20px;
     margin-bottom: 20px;
     background: #e8f5e9;
     border-left: 6px solid #2e7d32;
 }
 
+.title-card h2 {
+    margin: 0;
+    color: #1b5e20;
+    font-size: 22px;
+    font-weight: 500;
+}
 
+/* Botón nueva solicitud */
+.header-actions {
+    margin-bottom: 20px;
+}
+
+.btn-nuevo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Contenedor de la tabla con sombra */
 .table-container {
     border-radius: 8px;
     overflow: hidden;
+    background: white;
 }
-
 
 table {
     width: 100%;
 }
 
+/* Cabecera de la tabla */
 th.mat-header-cell {
     background-color: #f5f5f5;
+    color: #2e7d32;
     font-weight: bold;
-    color: #2e7d32; /* Verde corporativo */
-    font-size: 15px;
+    font-size: 14px;
+    text-transform: uppercase;
+    padding: 12px;
 }
 
-
+/* Filas */
 td.mat-cell {
-    padding: 12px 8px;
+    font-size: 14px;
+    color: #424242;
+    padding: 12px;
 }
 
-
+/* Efecto hover en las filas */
 tr.mat-row:hover {
-    background-color: #f5f5f5;
-    cursor: pointer;
+    background-color: #f9f9f9;
+}
+
+/* Botones de acción */
+button[mat-icon-button] {
+    margin-right: 8px;
+    transition: background-color 0.2s ease;
+}
+
+button[mat-icon-button]:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Paginator */
+mat-paginator {
+    background: #fafafa;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contenedor {
+        width: 98%;
+        margin: 15px auto;
+    }
+
+    .title-card {
+        padding: 12px 15px;
+        margin-bottom: 15px;
+    }
+
+    .title-card h2 {
+        font-size: 18px;
+    }
+
+    th.mat-header-cell,
+    td.mat-cell {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .header-actions {
+        text-align: center;
+    }
+
+    .btn-nuevo {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Ocultar columnas menos importantes en móviles */
+    .mat-column-descripcion,
+    .mat-column-fechahora {
+        display: none;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
 }
