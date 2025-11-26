@@ -1,0 +1,101 @@
+<div class="contenedor">
+  <!-- Tarjeta del título -->
+  <mat-card class="title-card">
+    <mat-card-header>
+      <mat-card-title>Registros de Alimentación</mat-card-title>
+    </mat-card-header>
+  </mat-card>
+
+  <div class="header-actions">
+    <button mat-raised-button color="primary" (click)="nuevoRegistro()" class="btn-nuevo">
+      <mat-icon>add</mat-icon>
+      Nuevo Registro
+    </button>
+  </div>
+
+  <div class="content-wrapper">
+    <!-- Tarjeta de la tabla -->
+    <mat-card class="table-card">
+      <mat-card-content>
+        <table mat-table [dataSource]="dataSource" class="datos-tabla">
+
+          <!-- ID -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> ID </th>
+            <td mat-cell *matCellDef="let element"> {{ element.idRegistroAlimentacion }} </td>
+          </ng-container>
+
+          <!-- Usuario -->
+          <ng-container matColumnDef="usuario">
+            <th mat-header-cell *matHeaderCellDef> Usuario </th>
+            <td mat-cell *matCellDef="let element"> {{ element.idUsuario }} </td>
+          </ng-container>
+
+          <!-- Alimento -->
+          <ng-container matColumnDef="alimento">
+            <th mat-header-cell *matHeaderCellDef> Alimento </th>
+            <td mat-cell *matCellDef="let element"> {{ element.idAlimento }} </td>
+          </ng-container>
+
+          <!-- Porciones -->
+          <ng-container matColumnDef="porciones">
+            <th mat-header-cell *matHeaderCellDef> Porciones </th>
+            <td mat-cell *matCellDef="let element"> {{ element.porciones }} </td>
+          </ng-container>
+
+          <!-- CO2 -->
+          <ng-container matColumnDef="co2">
+            <th mat-header-cell *matHeaderCellDef> CO₂ (kg) </th>
+            <td mat-cell *matCellDef="let element"> {{ element.co2Emitido | number:'1.2-2' }} </td>
+          </ng-container>
+
+          <!-- Fecha -->
+          <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef> Fecha </th>
+            <td mat-cell *matCellDef="let element"> {{ element.fecha | date:'dd/MM/yyyy' }} </td>
+          </ng-container>
+
+          <!-- Acciones -->
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button color="primary" (click)="editarRegistro(element.idRegistroAlimentacion)" class="btn-editar">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="eliminarRegistro(element.idRegistroAlimentacion)" class="btn-eliminar">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+        </mat-paginator>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Tarjeta de estadísticas -->
+    <mat-card class="stats-card">
+      <mat-card-header>
+        <mat-card-title>Estadísticas</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stat-item">
+          <span class="stat-label">Total Registros:</span>
+          <span class="stat-value">{{ totalRegistros }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Total Porciones:</span>
+          <span class="stat-value">{{ totalPorciones }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Total CO₂:</span>
+          <span class="stat-value">{{ totalCO2 | number:'1.2-2' }} kg</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
