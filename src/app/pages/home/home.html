@@ -19,6 +19,7 @@
       <nav class="sidebar-nav">
 
         <div class="menu-item-wrapper" *ngFor="let item of menuItems">
+          <!-- Item principal del menú -->
           <div 
             class="menu-item" 
             [class.active]="isSubmenuOpen(item.id)"
@@ -32,17 +33,54 @@
             </span>
           </div>
 
+          <!-- Submenú -->
           <div 
             *ngIf="item.hasSubmenu" 
             class="submenu"
             [class.open]="isSubmenuOpen(item.id)">
-            <div 
-              *ngFor="let subItem of item.submenuItems"
-              class="submenu-item"
-              (click)="navigateTo(subItem.route); $event.stopPropagation()">
-              <span class="submenu-dot">•</span>
-              <span class="submenu-label">{{ subItem.label }}</span>
-            </div>
+            
+            <ng-container *ngFor="let subItem of item.submenuItems">
+              
+              <!-- Si es un submenú anidado (como Solicitud/Respuesta) -->
+              <div *ngIf="isNestedMenu(subItem); else regularSubmenuItem" class="nested-submenu-wrapper">
+                <div 
+                  class="submenu-item nested-trigger"
+                  (click)="toggleNestedSubmenu(item.id + '-' + subItem.label, $event)">
+                  <span class="submenu-dot">•</span>
+                  <span class="submenu-label">{{ subItem.label }}</span>
+                  <span 
+                    class="nested-arrow"
+                    [class.rotated]="isNestedSubmenuOpen(item.id + '-' + subItem.label)">
+                    ›
+                  </span>
+                </div>
+                
+                <!-- Submenú anidado nivel 2 -->
+                <div 
+                  class="nested-submenu"
+                  [class.open]="isNestedSubmenuOpen(item.id + '-' + subItem.label)">
+                  <div 
+                    *ngFor="let nestedItem of subItem.submenuItems"
+                    class="nested-submenu-item"
+                    (click)="navigateTo(nestedItem.route); $event.stopPropagation()">
+                    <span class="nested-dot">◦</span>
+                    <span class="nested-label">{{ nestedItem.label }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Si es un item normal del submenú -->
+              <ng-template #regularSubmenuItem>
+                <div 
+                  *ngIf="getRoute(subItem) as route"
+                  class="submenu-item"
+                  (click)="navigateTo(route); $event.stopPropagation()">
+                  <span class="submenu-dot">•</span>
+                  <span class="submenu-label">{{ subItem.label }}</span>
+                </div>
+              </ng-template>
+
+            </ng-container>
           </div>
         </div>
 
