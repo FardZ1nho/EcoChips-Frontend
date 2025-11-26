@@ -29,21 +29,21 @@
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Distancia Recorrida (Km)</mat-label>
-      <input matInput type="number" formControlName="distanciaKm" placeholder="Ej. 15.5">
+      <input matInput type="number" formControlName="distanciaKm" placeholder="Ej. 15.5" step="0.1" min="0.1">
+      <mat-error *ngIf="form.get('distanciaKm')?.hasError('required')">
+        La distancia es obligatoria
+      </mat-error>
       <mat-error *ngIf="form.get('distanciaKm')?.hasError('min')">
-        La distancia debe ser positiva
+        La distancia debe ser mayor a 0
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Emisión CO2 (Opcional)</mat-label>
-      <input matInput type="number" formControlName="co2Emision">
-    </mat-form-field>
+    <!-- NOTA: Eliminamos el campo de CO2 ya que se calculará automáticamente -->
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Fecha</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="fecha">
-      <mat-hint>DD/MM/YYYY</mat-hint>
+      <input matInput [matDatepicker]="picker" formControlName="fecha" [max]="fechaMaxima">
+      <mat-hint>DD/MM/YYYY - Solo fechas actuales o anteriores</mat-hint>
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error *ngIf="form.get('fecha')?.hasError('required')">

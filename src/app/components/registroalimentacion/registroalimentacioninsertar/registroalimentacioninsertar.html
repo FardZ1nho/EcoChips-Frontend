@@ -40,8 +40,8 @@
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Fecha</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="fecha">
-      <mat-hint>DD/MM/YYYY</mat-hint>
+      <input matInput [matDatepicker]="picker" formControlName="fecha" [max]="fechaMaxima">
+      <mat-hint>DD/MM/YYYY - Solo fechas actuales o anteriores</mat-hint>
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error *ngIf="form.get('fecha')?.hasError('required')">

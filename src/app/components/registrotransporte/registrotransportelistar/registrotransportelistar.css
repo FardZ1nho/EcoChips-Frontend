@@ -2,30 +2,42 @@
     width: 95%;
     margin: 25px auto;
 }
-  
+
 /* Título con estilo EcoChips (Verde) */
 .title-card {
     display: flex;
-    justify-content: space-between; /* Separa el título del botón */
+    justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
     margin-bottom: 20px;
-    background: #e8f5e9; /* Fondo verde muy claro */
-    border-left: 6px solid #2e7d32; /* Borde verde oscuro a la izquierda */
+    background: #e8f5e9;
+    border-left: 6px solid #2e7d32;
 }
 
-h2 {
+.title-card h2 {
     margin: 0;
     color: #1b5e20;
     font-size: 22px;
     font-weight: 500;
 }
-  
+
+/* Botón nuevo registro */
+.header-actions {
+    margin-bottom: 20px;
+}
+
+.btn-nuevo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 /* Contenedor de la tabla con sombra */
 .table-container {
     border-radius: 8px;
     overflow: hidden;
     background: white;
+    margin-bottom: 30px;
 }
 
 table {
@@ -39,6 +51,7 @@ th.mat-header-cell {
     font-weight: bold;
     font-size: 14px;
     text-transform: uppercase;
+    padding: 12px;
 }
 
 /* Filas */
@@ -54,6 +67,152 @@ tr.mat-row:hover {
 }
 
 /* Botones de acción */
-button {
+button[mat-icon-button] {
     margin-right: 8px;
+}
+
+/* Contenedor de estadísticas */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Tarjetas de estadísticas */
+.stat-card {
+    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+    color: white;
+    border-radius: 12px;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(43, 108, 47, 0.3);
+}
+
+.stat-card mat-card-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 0;
+}
+
+/* Icono de estadística */
+.stat-icon {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-icon mat-icon {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+    color: white;
+}
+
+/* Información de estadística */
+.stat-info {
+    flex: 1;
+}
+
+.stat-value {
+    margin: 0 0 5px 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+}
+
+.stat-label {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.9;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Paginator */
+mat-paginator {
+    background: #fafafa;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contenedor {
+        width: 98%;
+        margin: 15px auto;
+    }
+
+    .title-card {
+        padding: 12px 15px;
+        margin-bottom: 15px;
+    }
+
+    .title-card h2 {
+        font-size: 18px;
+    }
+
+    .stats-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .stat-icon mat-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+    }
+
+    .stat-value {
+        font-size: 24px;
+    }
+
+    .stat-label {
+        font-size: 12px;
+    }
+
+    th.mat-header-cell,
+    td.mat-cell {
+        padding: 8px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-actions {
+        text-align: center;
+    }
+    
+    .btn-nuevo {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .stat-card mat-card-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .stat-value {
+        font-size: 22px;
+    }
 }
