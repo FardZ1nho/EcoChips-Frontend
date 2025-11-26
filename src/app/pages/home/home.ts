@@ -1,29 +1,36 @@
 import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { CommonModule } from '@angular/common';  // <- IMPORTANTE: Agrega esta línea
-
-interface MenuItem {
-  id: string;
-  label: string;
-  hasSubmenu: boolean;
-  submenuItems?: SubMenuItem[];
-  route?: string;
-}
+import { CommonModule } from '@angular/common';
 
 interface SubMenuItem {
   label: string;
   route: string;
 }
 
+interface MenuItem {
+  id: string;
+  label: string;
+  hasSubmenu: boolean;
+  submenuItems?: (SubMenuItem | MenuItemNested)[];
+  route?: string;
+}
+
+interface MenuItemNested {
+  label: string;
+  hasSubmenu: boolean;
+  submenuItems?: SubMenuItem[];
+}
+
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],  // <- IMPORTANTE: Agrega esta línea
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './home.html',
   styleUrls: ['./home.css']
 })
 export class Home {
   openSubmenu: string | null = null;
+  openNestedSubmenu: string | null = null;
 
   menuItems: MenuItem[] = [
     { 
@@ -120,15 +127,28 @@ export class Home {
       label: 'Soporte', 
       hasSubmenu: true,
       submenuItems: [
-        { label: 'Registrar', route: '/soporte/registrar' },
-        { label: 'Listar', route: '/soporte/listar' }
+        {
+          label: 'Solicitud',
+          hasSubmenu: true,
+          submenuItems: [
+            { label: 'Registrar Solicitud', route: '/home/soportesolicitudes/crear' },
+            { label: 'Listar Solicitudes', route: '/home/soportesolicitudes/listar' }
+          ]
+        },
+        {
+          label: 'Respuesta',
+          hasSubmenu: true,
+          submenuItems: [
+            { label: 'Registrar Respuesta', route: '/home/soporterespuestas/crear' },
+            { label: 'Listar Respuestas', route: '/home/soporterespuestas/listar' }
+          ]
+        }
       ]
     }
   ];
 
   constructor(private router: Router) {}
 
-  // ---- Métodos propios que ya tenías ----
   irUsuarios() {
     this.router.navigate(['/usuarios']);
   }
@@ -141,17 +161,38 @@ export class Home {
     this.router.navigate(['/transportes']);
   }
 
-  // ---- Funciones del nuevo menú ----
   toggleSubmenu(menuId: string): void {
     this.openSubmenu = this.openSubmenu === menuId ? null : menuId;
+    // Resetear submenú anidado al cerrar el principal
+    if (this.openSubmenu !== menuId) {
+      this.openNestedSubmenu = null;
+    }
+  }
+
+  toggleNestedSubmenu(nestedId: string, event: Event): void {
+    event.stopPropagation();
+    this.openNestedSubmenu = this.openNestedSubmenu === nestedId ? null : nestedId;
   }
 
   isSubmenuOpen(menuId: string): boolean {
     return this.openSubmenu === menuId;
   }
 
+  isNestedSubmenuOpen(nestedId: string): boolean {
+    return this.openNestedSubmenu === nestedId;
+  }
+
   navigateTo(route: string): void {
     this.router.navigate([route]);
+  }
+
+  isNestedMenu(item: any): item is MenuItemNested {
+    return item.hasSubmenu !== undefined;
+  }
+
+  // Helper para obtener la ruta de un SubMenuItem
+  getRoute(item: SubMenuItem | MenuItemNested): string {
+    return 'route' in item ? item.route : '';
   }
 
   cerrarSesion(): void {
