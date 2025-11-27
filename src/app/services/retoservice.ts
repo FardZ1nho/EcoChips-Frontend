@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Reto } from '../models/Reto';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { RetoPopularDTO } from '../models/RetoPopularDTO';
 
 const base_url = environment.base;
 
@@ -42,5 +43,9 @@ export class Retoservice {
 
   delete(id: number) {
     return this.http.delete(`${this.url}/${id}`, { responseType: 'text' });
+  }
+
+  getRetosPopulares(): Observable<RetoPopularDTO[]> {
+    return this.http.get<RetoPopularDTO[]>(`${this.url}/reportes/populares`);
   }
 }

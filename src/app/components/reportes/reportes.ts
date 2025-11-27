@@ -45,14 +45,14 @@ export class Reportes {
       titulo: 'Retos', 
       icono: '🏆', 
       descripcion: 'Ver reporte detallado de retos',
-      ruta: '/home/reportes/retos' 
+      ruta: '/home/reportes/top-usuarios' 
     },
     { 
       id: 5, 
       titulo: 'Participaciones', 
       icono: '👥', 
       descripcion: 'Ver reporte detallado de participaciones',
-      ruta: '/home/reportes/participaciones' 
+      ruta: '/home/reportes/populares' 
     },
     { 
       id: 6, 

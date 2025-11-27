@@ -35,6 +35,8 @@ import { SoporteSolicitudListar } from './components/soportesolicitud/soportesol
 
 // ✅ AGREGAR ESTE IMPORT
 import { Reportes } from './components/reportes/reportes';
+import { ReporteRetosPopulares } from './components/reporteRetosPopulares/reporteRetosPopulares';
+import { ReportePrTopUsuarios } from './components/reportePrTopUsuarios/reportePrTopUsuarios';
 
 
 export const routes: Routes = [
@@ -96,6 +98,8 @@ export const routes: Routes = [
             { path: 'soportesolicitudes/crear', component: SoporteSolicitudInsertar },
             { path: 'soportesolicitudes/editar/:id', component: SoporteSolicitudInsertar },
 
+            { path: 'reportes/populares', component: ReporteRetosPopulares},
+            { path: 'reportes/top-usuarios', component: ReportePrTopUsuarios}
         ]
     },
 ];
