@@ -33,6 +33,9 @@ import { Registroalimentacioninsertar } from './components/registroalimentacion/
 import { SoporteSolicitudInsertar } from './components/soportesolicitud/soportesolicitudinsertar/soportesolicitudinsertar';
 import { SoporteSolicitudListar } from './components/soportesolicitud/soportesolicitudlistar/soportesolicitudlistar';
 
+// ✅ AGREGAR ESTE IMPORT
+import { Reportes } from './components/reportes/reportes';
+
 
 export const routes: Routes = [
     { path: '', component: Landing },
@@ -43,6 +46,9 @@ export const routes: Routes = [
     { path: 'home', component: Home,
         children: [
             { path: '', component: HomeDashboard },
+
+            // ✅ AGREGAR ESTA RUTA DE REPORTES
+            { path: 'reportes', component: Reportes },
 
             // --- RETOS ---
             { path: 'retos/listar', component: Retolistar },
