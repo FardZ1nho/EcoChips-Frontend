@@ -1,0 +1,22 @@
+<div class="chart-wrapper">
+  <h2>🏆 Top Usuarios con Más Retos Completados 🏆</h2>
+  
+  <div *ngIf="hasData; else noDataTemplate" class="chart-container">
+    <canvas
+      baseChart
+      [datasets]="barChartData"
+      [labels]="barChartLabels"
+      [options]="barChartOptions"
+      [legend]="barChartLegend"
+      [type]="barChartType"
+    >
+    </canvas>
+  </div>
+
+  <ng-template #noDataTemplate>
+    <div class="no-data">
+      <mat-icon class="no-data-icon">info_outline</mat-icon>
+      <p class="no-data-message">No hay datos disponibles para mostrar.</p>
+    </div>
+  </ng-template>
+</div>

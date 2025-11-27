@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { ParticipacionReto } from '../models/ParticipacionReto';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { TopUsuarioDTO } from '../models/TopUsuarioDTO';
 
 const base_url = environment.base;
 
@@ -42,5 +43,9 @@ export class ParticipacionRetoService {
 
   delete(id: number) {
     return this.http.delete(`${this.url}/${id}`, { responseType: 'text' });
+  }
+
+  getTopUsuarios(): Observable<TopUsuarioDTO[]> {
+    return this.http.get<TopUsuarioDTO[]>(`${this.url}/reportes/top-usuarios`);
   }
 }
