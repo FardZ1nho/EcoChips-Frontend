@@ -83,9 +83,7 @@ export class Home {
         { label: 'Registrar Evento - Usuario', route: '/home/registroeventos/crear' },
         { label: 'Listar Evento - Usuario', route: '/home/registroeventos/listar' },
         { label: 'Registrar Transporte - Usuario', route: '/home/registrostransporte/insertar' },
-        { label: 'Listar Transporte - Usuario', route: '/home/registrostransporte/listar' },
-        { label: 'Registrar Alimentación - Usuario', route: '/home/registrosalimentacion/insertar' },
-        { label: 'Listar Alimentación - Usuario', route: '/home/registrosalimentacion/listar' }
+        { label: 'Listar Transporte - Usuario', route: '/home/registrostransporte/listar' }
       ]
     },
     { 
@@ -123,6 +121,12 @@ export class Home {
         { label: 'Registrar', route: '/recomendacion/registrar' },
         { label: 'Listar', route: '/recomendacion/listar' }
       ]
+    },
+    { 
+      id: 'reportes', 
+      label: 'Reportes', 
+      hasSubmenu: false,
+      route: '/home/reportes'
     },
     { 
       id: 'soporte', 
@@ -165,7 +169,6 @@ export class Home {
 
   toggleSubmenu(menuId: string): void {
     this.openSubmenu = this.openSubmenu === menuId ? null : menuId;
-    // Resetear submenú anidado al cerrar el principal
     if (this.openSubmenu !== menuId) {
       this.openNestedSubmenu = null;
     }
@@ -192,7 +195,6 @@ export class Home {
     return item.hasSubmenu !== undefined;
   }
 
-  // Helper para obtener la ruta de un SubMenuItem
   getRoute(item: SubMenuItem | MenuItemNested): string {
     return 'route' in item ? item.route : '';
   }

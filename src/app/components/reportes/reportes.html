@@ -1,0 +1,41 @@
+<div class="reportes-page">
+  <!-- Encabezado -->
+  <div class="reportes-header">
+    <h1 class="reportes-titulo">📊 Reportes</h1>
+    <p class="reportes-subtitulo">Selecciona el tipo de reporte que deseas visualizar</p>
+  </div>
+
+  <!-- Grid de botones -->
+  <div class="reportes-grid">
+    <button 
+      *ngFor="let reporte of reportes" 
+      class="reporte-card"
+      (click)="navegarReporte(reporte.ruta)">
+      
+      <div class="card-decoracion"></div>
+      
+      <div class="card-icono">
+        {{ reporte.icono }}
+      </div>
+
+      <div class="card-contenido">
+        <h3 class="card-titulo">{{ reporte.titulo }}</h3>
+        <p class="card-descripcion">{{ reporte.descripcion }}</p>
+      </div>
+
+      <div class="card-flecha">→</div>
+    </button>
+  </div>
+
+  <!-- Información adicional -->
+  <div class="info-adicional">
+    <div class="info-icono">💡</div>
+    <div class="info-contenido">
+      <h4 class="info-titulo">Información sobre Reportes</h4>
+      <p class="info-texto">
+        Los reportes te permiten visualizar información detallada y estadísticas sobre cada módulo del sistema. 
+        Puedes generar reportes en formato PDF o Excel, filtrar por fechas, y exportar los datos para análisis posteriores.
+      </p>
+    </div>
+  </div>
+</div>
