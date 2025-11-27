@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
+// Interfaces para definir la estructura del menú
 interface SubMenuItem {
   label: string;
   route: string;
@@ -32,6 +33,7 @@ export class Home {
   openSubmenu: string | null = null;
   openNestedSubmenu: string | null = null;
 
+  // --- TU ESTRUCTURA DE MENÚ ---
   menuItems: MenuItem[] = [
     { 
       id: 'inicio', 
@@ -69,7 +71,7 @@ export class Home {
     { 
       id: 'eventos', 
       label: 'Eventos', 
-      hasSubmenu: true,
+      hasSubmenu: true, 
       submenuItems: [
         { label: 'Registrar', route: '/home/eventos/crear' },
         { label: 'Listar', route: '/home/eventos/listar' }
@@ -102,7 +104,7 @@ export class Home {
       submenuItems: [
         { label: 'Registrar', route: '/home/recompensas/crear' },
         { label: 'Listar', route: '/home/recompensas/listar' }
-     ]
+      ]
     },
     { 
       id: 'participaciones', 
@@ -155,6 +157,7 @@ export class Home {
 
   constructor(private router: Router) {}
 
+  // --- MÉTODOS DE NAVEGACIÓN AUXILIARES ---
   irUsuarios() {
     this.router.navigate(['/usuarios']);
   }
@@ -167,6 +170,7 @@ export class Home {
     this.router.navigate(['/transportes']);
   }
 
+  // --- LÓGICA DE APERTURA/CIERRE DE MENÚS ---
   toggleSubmenu(menuId: string): void {
     this.openSubmenu = this.openSubmenu === menuId ? null : menuId;
     if (this.openSubmenu !== menuId) {
@@ -199,8 +203,15 @@ export class Home {
     return 'route' in item ? item.route : '';
   }
 
+  // --- FUNCIÓN DE CERRAR SESIÓN (IMPORTANTE) ---
   cerrarSesion(): void {
-    console.log('Cerrando sesión...');
+    console.log('Cerrando sesión y eliminando credenciales...');
+    
+    // 1. ELIMINAR LA LLAVE DEL LOCALSTORAGE (Esto activa el bloqueo del Guard)
+    localStorage.removeItem('usuario');
+    localStorage.removeItem('token'); 
+
+    // 2. REDIRIGIR AL LOGIN
     this.router.navigate(['/login']);
   }
 }
