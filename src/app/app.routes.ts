@@ -3,6 +3,9 @@ import { Login } from './pages/auth/login/login';
 import { Registro } from './pages/auth/registro/registro';
 import { Landing } from './pages/landing/landing';
 
+// IMPORTAR EL GUARD
+import { AuthGuard } from './guards/auth-guard'; 
+
 import { Usuariolistar } from './components/usuario/usuariolistar/usuariolistar';
 import { UsuarioCrear } from './components/usuario/usuariocrear/usuariocrear';
 
@@ -33,23 +36,23 @@ import { Registroalimentacioninsertar } from './components/registroalimentacion/
 import { SoporteSolicitudInsertar } from './components/soportesolicitud/soportesolicitudinsertar/soportesolicitudinsertar';
 import { SoporteSolicitudListar } from './components/soportesolicitud/soportesolicitudlistar/soportesolicitudlistar';
 
-// ✅ AGREGAR ESTE IMPORT
 import { Reportes } from './components/reportes/reportes';
 import { ReporteRetosPopulares } from './components/reporteRetosPopulares/reporteRetosPopulares';
 import { ReportePrTopUsuarios } from './components/reportePrTopUsuarios/reportePrTopUsuarios';
-
 
 export const routes: Routes = [
     { path: '', component: Landing },
     { path: 'login', component: Login },
     { path: 'registro', component: Registro },
 
-    // HOME + SUBMENÚS (Aquí empieza el contenedor principal)
-    { path: 'home', component: Home,
+    // HOME + SUBMENÚS (Protegido con canActivate)
+    { 
+        path: 'home', 
+        component: Home,
+        canActivate: [AuthGuard], // <--- ¡AQUÍ ESTÁ LA MAGIA! Si el Guard dice false, no entras.
         children: [
             { path: '', component: HomeDashboard },
 
-            // ✅ AGREGAR ESTA RUTA DE REPORTES
             { path: 'reportes', component: Reportes },
 
             // --- RETOS ---

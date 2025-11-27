@@ -285,4 +285,15 @@
     width: 38px;
     height: 38px;
   }
+
+  .error-message {
+  color: #d32f2f;
+  background-color: #ffebee;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 14px;
+  border: 1px solid #ffcdd2;
+}
 }

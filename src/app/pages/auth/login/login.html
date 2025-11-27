@@ -15,28 +15,39 @@
       </div>
 
       <div class="login-form">
+        
+        <!-- INPUT CORREO -->
         <div class="form-group">
           <input 
             type="email" 
             placeholder="Correo electrónico" 
             [(ngModel)]="correo"
+            name="correo"
             class="form-input"
           />
         </div>
 
+        <!-- INPUT CONTRASEÑA -->
         <div class="form-group">
           <input 
             type="password" 
             placeholder="Contraseña" 
             [(ngModel)]="contrasena"
+            name="contrasena"
             class="form-input"
           />
+        </div>
+
+        <!-- MENSAJE DE ERROR (Solo se ve si hay error) -->
+        <div *ngIf="mensajeError" class="error-message">
+          {{ mensajeError }}
         </div>
 
         <div class="extra">
           <a href="#">¿Olvidaste tu contraseña?</a>
         </div>
 
+        <!-- BOTÓN DE LOGIN -->
         <button (click)="iniciarSesion()" class="btn-login">
           INICIAR SESIÓN
         </button>
