@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Alimento } from '../models/Alimento'; // Asegúrate de crear este archivo primero
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { TipoAlimentoCO2DTO } from '../models/TipoAlimentoCO2DTO';
 
 const base_url = environment.base;
 
@@ -10,7 +11,6 @@ const base_url = environment.base;
   providedIn: 'root',
 })
 export class AlimentoService {
-  // Asumo que tu endpoint en Java es /alimentos
   private url = `${base_url}/alimentos`; 
   private listaCambio = new Subject<Alimento[]>();
 
@@ -42,5 +42,9 @@ export class AlimentoService {
 
   getList() {
     return this.listaCambio.asObservable();
+  }
+
+  getPromedioCO2PorTipo(): Observable<TipoAlimentoCO2DTO[]> {
+    return this.http.get<TipoAlimentoCO2DTO[]>(`${this.url}/reportes/promedio-co2-tipo`);
   }
 }

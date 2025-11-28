@@ -39,6 +39,8 @@ import { SoporteSolicitudListar } from './components/soportesolicitud/soportesol
 import { Reportes } from './components/reportes/reportes';
 import { ReporteRetosPopulares } from './components/reporteRetosPopulares/reporteRetosPopulares';
 import { ReportePrTopUsuarios } from './components/reportePrTopUsuarios/reportePrTopUsuarios';
+import { ReporteTransporteImpacto } from './components/reporte-transporte-impacto/reporte-transporte-impacto';
+import { ReporteAlimentoCO2 } from './components/reporte-alimento-co2/reporte-alimento-co2';
 
 export const routes: Routes = [
     { path: '', component: Landing },
@@ -102,7 +104,9 @@ export const routes: Routes = [
             { path: 'soportesolicitudes/editar/:id', component: SoporteSolicitudInsertar },
 
             { path: 'reportes/populares', component: ReporteRetosPopulares},
-            { path: 'reportes/top-usuarios', component: ReportePrTopUsuarios}
+            { path: 'reportes/top-usuarios', component: ReportePrTopUsuarios},
+            { path: 'reportes/top5-contaminantes', component: ReporteTransporteImpacto},
+            { path: 'reportes/promedio-co2-tipo', component: ReporteAlimentoCO2}
         ]
     },
 ];

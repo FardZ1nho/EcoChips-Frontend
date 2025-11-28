@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="grafico1">
+    <h2>🏭 Top 5 Transportes Contaminantes 🏭</h2>
+
+    <div *ngIf="hasData" class="chart-container">
+      <canvas baseChart
+              [datasets]="barChartData"
+              [labels]="barChartLabels"
+              [options]="barChartOptions"
+              [legend]="barChartLegend"
+              [type]="barChartType">
+      </canvas>
+    </div>
+
+    <div *ngIf="!hasData" class="no-data">
+      <mat-icon class="no-data-icon">info_outline</mat-icon>
+      <p class="no-data-message">No hay datos de impacto ambiental disponibles.</p>
+    </div>
+  </div>
+</div>
