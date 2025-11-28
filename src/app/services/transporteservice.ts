@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Transporte } from '../models/Transporte';
+import { TransporteImpactoDTO } from '../models/TransporteImpactoDTO';
 
 const base_url = environment.base;
 
@@ -41,5 +42,9 @@ export class Transporteservice {
   
   delete(id: number) {
     return this.http.delete(`${this.url}/${id}`, { responseType: 'text' });
+  }
+
+  getTransporteImpacto(): Observable<TransporteImpactoDTO[]> {
+    return this.http.get<TransporteImpactoDTO[]>(`${this.url}/reportes/top5-contaminantes`);
   }
 }

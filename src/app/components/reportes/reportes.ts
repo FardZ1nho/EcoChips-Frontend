@@ -24,14 +24,14 @@ export class Reportes {
       titulo: 'Alimentación', 
       icono: '🍎', 
       descripcion: 'Ver reporte detallado de alimentación',
-      ruta: '/home/reportes/alimentacion' 
+      ruta: '/home/reportes/promedio-co2-tipo' 
     },
     { 
       id: 2, 
       titulo: 'Transporte', 
       icono: '🚗', 
       descripcion: 'Ver reporte detallado de transporte',
-      ruta: '/home/reportes/transporte' 
+      ruta: '/home/reportes/top5-contaminantes' 
     },
     { 
       id: 3, 

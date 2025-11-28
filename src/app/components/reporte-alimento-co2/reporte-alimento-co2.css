@@ -1,0 +1,67 @@
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+  padding-bottom: 50px;
+}
+
+.grafico1 {
+  width: 95%;
+  max-width: 1000px; /* Un poco menos ancho que el de barras para que la dona no se deforme */
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  border-top: 5px solid #2e7d32; /* Verde para alimentos */
+}
+
+.chart-container {
+  position: relative;
+  width: 100%; 
+  max-width: 600px; /* Tamaño ideal para un gráfico de dona */
+  height: 500px;    /* Altura fija para mantener la proporción circular */
+  margin: 20px auto;
+}
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #757575;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.no-data-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 10px;
+}
+
+h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 5px;
+    font-size: 26px;
+    font-weight: 500;
+}
+
+.subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 25px;
+    font-size: 16px;
+}
