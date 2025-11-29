@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -17,6 +17,33 @@ export class AuthService {
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {}
+
+  // ==========================================
+  // 🔐 MÉTODOS PARA HEADERS AUTORIZACIÓN
+  // ==========================================
+
+  // Obtener headers con token de autorización
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  }
+
+  // Verificar si el token existe y es válido
+  isTokenValid(): boolean {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.warn('❌ No hay token en localStorage');
+      return false;
+    }
+    
+    // Aquí podrías agregar lógica para verificar expiración del token
+    // Por ahora solo verificamos que exista
+    console.log('🔍 Token válido:', true);
+    return true;
+  }
 
   // ==========================================
   // 🔐 LOGIN CON TIPO DE USUARIO
@@ -114,6 +141,74 @@ export class AuthService {
         }
       })
     );
+  }
+
+  // ==========================================
+  // 👤 COMPLETAR PERFIL
+  // ==========================================
+  completarPerfil(idUsuario: number, datosCompletos: any): Observable<any> {
+    // Verificar token antes de proceder
+    if (!this.isTokenValid()) {
+      console.error('❌ Token no válido para completar perfil');
+      return new Observable(observer => {
+        observer.error('Token no válido. Por favor, inicia sesión nuevamente.');
+      });
+    }
+
+    console.group('👤 AuthService - Completando perfil');
+    console.log('ID Usuario:', idUsuario);
+    console.log('Datos a enviar:', datosCompletos);
+    console.log('Headers:', this.getAuthHeaders());
+    console.groupEnd();
+    
+    return this.http.put(
+      `${base_url}/Usuarios/completar-perfil/${idUsuario}`, 
+      datosCompletos, 
+      { 
+        headers: this.getAuthHeaders(),
+        responseType: 'text' 
+      }
+    );
+  }
+
+  // Obtener ID del usuario actual
+  getCurrentUserId(): number {
+    const usuario = this.getUsuarioActual();
+    const id = usuario?.idUsuario || 0;
+    console.log('🔍 getCurrentUserId():', id);
+    return id;
+  }
+
+  // Verificar si el perfil está completo
+  isPerfilCompleto(): boolean {
+    const usuario = this.getUsuarioActual();
+    if (!usuario) {
+      console.warn('⚠️ isPerfilCompleto(): No hay usuario');
+      return false;
+    }
+    
+    const completo = usuario.edad > 0 && usuario.genero !== 'PENDIENTE';
+    console.log('🔍 isPerfilCompleto():', completo, '- Edad:', usuario.edad, 'Género:', usuario.genero);
+    return completo;
+  }
+
+  // Actualizar usuario en localStorage después de completar perfil
+  actualizarUsuarioLocal(usuarioActualizado: any): void {
+    const usuarioStr = localStorage.getItem('usuario');
+    if (usuarioStr) {
+      try {
+        const usuario = JSON.parse(usuarioStr);
+        const usuarioNuevo = { 
+          ...usuario, 
+          edad: usuarioActualizado.edad,
+          genero: usuarioActualizado.genero
+        };
+        localStorage.setItem('usuario', JSON.stringify(usuarioNuevo));
+        console.log('✅ Usuario actualizado en localStorage:', usuarioNuevo);
+      } catch (error) {
+        console.error('❌ Error al actualizar usuario en localStorage:', error);
+      }
+    }
   }
 
   // ==========================================
