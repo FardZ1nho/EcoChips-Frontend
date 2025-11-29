@@ -64,8 +64,8 @@ export class Home {
       label: 'Progreso', 
       hasSubmenu: true,
       submenuItems: [
-        { label: 'Registrar', route: '/progreso/registrar' },
-        { label: 'Listar', route: '/progreso/listar' }
+        { label: 'Registrar', route: '/home/progreso/registrar' },
+        { label: 'Listar', route: '/home/progreso/listar' }
       ]
     },
     { 
@@ -122,8 +122,9 @@ export class Home {
       label: 'Recomendación', 
       hasSubmenu: true,
       submenuItems: [
-        { label: 'Registrar', route: '/recomendacion/registrar' },
-        { label: 'Listar', route: '/recomendacion/listar' }
+        { label: 'Registrar', route: '/home/recomendaciones/crear' },
+        { label: 'Listar', route: '/home/recomendaciones/listar' },
+  
       ]
     },
     { 

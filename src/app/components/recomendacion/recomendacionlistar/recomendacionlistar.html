@@ -1,0 +1,64 @@
+<div class="contenedor">
+
+  <!-- Título -->
+  <mat-card class="title-card">
+    <h2>Lista de Recomendaciones</h2>
+  </mat-card>
+
+  <!-- Tabla -->
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource" class="tabla">
+
+      <!-- ID -->
+      <ng-container matColumnDef="idRecomendacion">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let row"> {{ row.idRecomendacion }} </td>
+      </ng-container>
+
+      <!-- Título -->
+      <ng-container matColumnDef="titulo">
+        <th mat-header-cell *matHeaderCellDef> Título </th>
+        <td mat-cell *matCellDef="let row"> {{ row.titulo }} </td>
+      </ng-container>
+
+      <!-- Descripción -->
+      <ng-container matColumnDef="descripcion">
+        <th mat-header-cell *matHeaderCellDef> Descripción </th>
+        <td mat-cell *matCellDef="let row"> {{ row.descripcion }} </td>
+      </ng-container>
+
+      <!-- Tipo -->
+      <ng-container matColumnDef="tipo">
+        <th mat-header-cell *matHeaderCellDef> Tipo </th>
+        <td mat-cell *matCellDef="let row"> {{ row.tipo }} </td>
+      </ng-container>
+
+      <!-- Acciones -->
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button color="primary" (click)="editar(row.idRecomendacion)">
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button mat-icon-button color="warn" (click)="eliminar(row.idRecomendacion)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Filas -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+  </div>
+
+  <!-- Paginador -->
+  <mat-paginator
+    [pageSizeOptions]="pageSizeOptions"
+    [pageSize]="5"
+    showFirstLastButtons>
+  </mat-paginator>
+
+</div>

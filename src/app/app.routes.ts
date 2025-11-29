@@ -41,6 +41,18 @@ import { ReporteRetosPopulares } from './components/reporteRetosPopulares/report
 import { ReportePrTopUsuarios } from './components/reportePrTopUsuarios/reportePrTopUsuarios';
 import { ReporteTransporteImpacto } from './components/reporte-transporte-impacto/reporte-transporte-impacto';
 import { ReporteAlimentoCO2 } from './components/reporte-alimento-co2/reporte-alimento-co2';
+import { ProgresoCrear } from './components/progreso/progresocrear/progresocrear';
+import { ProgresoListar } from './components/progreso/progresolistar/progresolistar';
+
+import { RecomendacionCrear } from './components/recomendacion/recomendacioncrear/recomendacioncrear';
+import { RecomendacionListar } from './components/recomendacion/recomendacionlistar/recomendacionlistar';
+
+
+
+import { ReporteRecoPrTipo } from './components/reporteRecomendacionesPorTipo/reporteRecoPrTipo';
+import { RecomendacionTipoCountDTO } from './models/RecomendacionTipoCountDTO';
+
+
 
 export const routes: Routes = [
     { path: '', component: Landing },
@@ -106,7 +118,20 @@ export const routes: Routes = [
             { path: 'reportes/populares', component: ReporteRetosPopulares},
             { path: 'reportes/top-usuarios', component: ReportePrTopUsuarios},
             { path: 'reportes/top5-contaminantes', component: ReporteTransporteImpacto},
-            { path: 'reportes/promedio-co2-tipo', component: ReporteAlimentoCO2}
+            { path: 'reportes/promedio-co2-tipo', component: ReporteAlimentoCO2},
+
+            { path: 'recomendaciones/listar', component: RecomendacionListar},
+            { path: 'recomendaciones/crear', component: RecomendacionCrear},
+            { path: 'recomendaciones/editar/:id', component: RecomendacionCrear},
+
+            { path: 'progreso/registrar', component: ProgresoCrear },
+            { path: 'progreso/listar', component: ProgresoListar },
+            { path: 'progreso/editar/:id', component: ProgresoCrear },
+
+            { path: 'reportes/por-tipo', component: ReporteRecoPrTipo},
+
+ 
+
         ]
     },
 ];

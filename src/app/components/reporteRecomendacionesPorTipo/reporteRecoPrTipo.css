@@ -1,0 +1,47 @@
+.container {
+ display: flex;
+ justify-content: center;
+ width: 100%;
+ margin-top: 20px;
+}
+
+.grafico1 {
+ flex: 1;
+ min-width: 0;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ background-color: white;
+ padding: 20px;
+ border-radius: 10px;
+ box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.chart-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+canvas {
+ width: 100% !important;
+ height: auto !important;
+}
+
+.no-data {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ color: gray;
+ margin-top: 20px;
+}
+
+.no-data-icon {
+ font-size: 48px;
+}
+
+.no-data-message {
+ font-size: 18px;
+ text-align: center;
+}

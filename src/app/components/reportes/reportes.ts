@@ -74,7 +74,16 @@ export class Reportes {
       icono: '💬', 
       descripcion: 'Ver reporte detallado de soporte',
       ruta: '/home/reportes/soporte' 
+    },
+    { 
+      id: 9, 
+      titulo: 'Recomendacion', 
+      icono: '💬', 
+      descripcion: 'Ver reporte detallado de recomendacion',
+      ruta: '/home/reportes/por-tipo' 
     }
+
+
   ];
 
   constructor(private router: Router) {}
