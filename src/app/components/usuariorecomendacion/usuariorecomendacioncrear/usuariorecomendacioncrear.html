@@ -1,0 +1,50 @@
+<div class="form-container">
+  <h2>{{ titulo }}</h2>
+  
+  <form [formGroup]="form" (ngSubmit)="aceptar()">
+
+    <!-- SELECT USUARIO -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Usuario</mat-label>
+      <mat-select formControlName="idUsuario">
+        <mat-option *ngFor="let u of listaUsuarios" [value]="u.idUsuario">
+          {{ u.nombre }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('idUsuario')?.hasError('required')">
+        Selecciona un usuario
+      </mat-error>
+    </mat-form-field>
+
+    <!-- SELECT RECOMENDACIÓN -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Recomendación</mat-label>
+      <mat-select formControlName="idRecomendacion">
+        <mat-option *ngFor="let r of listaRecomendaciones" [value]="r.idRecomendacion">
+          {{ r.titulo }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('idRecomendacion')?.hasError('required')">
+        Selecciona una recomendación
+      </mat-error>
+    </mat-form-field>
+
+    <!-- FECHA ASIGNACIÓN -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Fecha de Asignación</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="fechaAsignacion">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="form.get('fechaAsignacion')?.hasError('required')">
+        La fecha es obligatoria
+      </mat-error>
+    </mat-form-field>
+
+    <div class="acciones">
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Guardar</button>
+      <button mat-button color="warn" type="button" routerLink="/home/usuariorecomendacion/listar">Cancelar</button>
+    </div>
+
+  </form>
+</div>
