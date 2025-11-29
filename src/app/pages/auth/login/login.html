@@ -5,6 +5,11 @@
       <img src="assets/img/logoEco.png" alt="EcoChips logo" class="logo" />
       <h1>EcoChips</h1>
     </div>
+    
+    <!-- 🆕 Botón para volver al selector -->
+    <button class="btn-back" (click)="volverAlLanding()">
+      ← Volver
+    </button>
   </header>
 
   <!-- Card de Login -->
@@ -12,6 +17,16 @@
     <div class="login-box">
       <div class="login-header">
         <h2>ECOCHIPS</h2>
+        
+        <!-- 🆕 Badge del tipo de usuario -->
+        <div class="user-type-badge" 
+             [class.admin-badge]="tipoUsuarioSeleccionado === 'ADMIN'"
+             [class.user-badge]="tipoUsuarioSeleccionado === 'USER'">
+          <span class="badge-icon">
+            {{ tipoUsuarioSeleccionado === 'ADMIN' ? '👨‍💼' : '👤' }}
+          </span>
+          <span class="badge-text">{{ getNombreTipoUsuario() }}</span>
+        </div>
       </div>
 
       <div class="login-form">
@@ -24,6 +39,7 @@
             [(ngModel)]="correo"
             name="correo"
             class="form-input"
+            [disabled]="isLoading"
           />
         </div>
 
@@ -35,6 +51,8 @@
             [(ngModel)]="contrasena"
             name="contrasena"
             class="form-input"
+            [disabled]="isLoading"
+            (keyup.enter)="iniciarSesion()"
           />
         </div>
 
@@ -48,8 +66,16 @@
         </div>
 
         <!-- BOTÓN DE LOGIN -->
-        <button (click)="iniciarSesion()" class="btn-login">
-          INICIAR SESIÓN
+        <button 
+          (click)="iniciarSesion()" 
+          class="btn-login"
+          [disabled]="isLoading"
+          [class.loading]="isLoading">
+          <span *ngIf="!isLoading">INICIAR SESIÓN</span>
+          <span *ngIf="isLoading">
+            <span class="spinner"></span>
+            VERIFICANDO...
+          </span>
         </button>
 
         <div class="divider">

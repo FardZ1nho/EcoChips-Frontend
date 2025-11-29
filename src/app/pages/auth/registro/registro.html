@@ -19,57 +19,92 @@
         <div class="card-header">
           <h2>ÚNETE A <span class="highlight">ECOCHIPS</span></h2>
           <p class="subtitle">Y EMPIEZA TU CAMBIO</p>
+          
+          <!-- 🆕 Badge de Usuario -->
+          <div class="user-badge">
+            <span class="badge-icon">👤</span>
+            <span class="badge-text">Registro de Usuario</span>
+          </div>
         </div>
 
         <div class="registro-form">
-          <!-- CAMBIO 1: usuario.nombre -->
+          
+          <!-- 🆕 MENSAJE DE ÉXITO -->
+          <div *ngIf="mensajeExito" class="success-message">
+            {{ mensajeExito }}
+          </div>
+
+          <!-- 🆕 MENSAJE DE ERROR -->
+          <div *ngIf="mensajeError" class="error-message">
+            {{ mensajeError }}
+          </div>
+
+          <!-- INPUT NOMBRE -->
           <div class="form-group">
             <input 
               type="text" 
-              placeholder="Nombre" 
+              placeholder="Nombre completo" 
               [(ngModel)]="usuario.nombre"
               class="form-input"
+              [disabled]="isLoading"
+              maxlength="100"
             />
           </div>
 
-          <!-- CAMBIO 2: usuario.correo -->
+          <!-- INPUT CORREO -->
           <div class="form-group">
             <input 
               type="email" 
               placeholder="Correo electrónico" 
               [(ngModel)]="usuario.correo"
               class="form-input"
+              [disabled]="isLoading"
+              maxlength="100"
             />
           </div>
 
-          <!-- CAMBIO 3: usuario.contrasena -->
+          <!-- INPUT CONTRASEÑA -->
           <div class="form-group">
             <input 
               type="password" 
-              placeholder="Contraseña" 
+              placeholder="Contraseña (mínimo 6 caracteres)" 
               [(ngModel)]="usuario.contrasena"
               class="form-input"
+              [disabled]="isLoading"
+              minlength="6"
+              (keyup.enter)="registrar()"
             />
           </div>
 
-          <!-- Este se queda igual porque es variable suelta -->
+          <!-- TÉRMINOS Y CONDICIONES -->
           <div class="terminos">
             <label class="checkbox-container">
-              <input type="checkbox" [(ngModel)]="aceptaTerminos" />
+              <input 
+                type="checkbox" 
+                [(ngModel)]="aceptaTerminos"
+                [disabled]="isLoading"
+              />
               <span class="terminos-text">
                 Acepto los 
-                <a href="#">Términos y Condiciones</a> 
+                <a href="#" (click)="$event.preventDefault()">Términos y Condiciones</a> 
                 y la 
-                <a href="#">Política de Privacidad</a>
+                <a href="#" (click)="$event.preventDefault()">Política de Privacidad</a>
               </span>
             </label>
           </div>
 
+          <!-- BOTÓN REGISTRAR -->
           <button 
             (click)="registrar()" 
             class="btn-registrar"
+            [disabled]="isLoading"
+            [class.loading]="isLoading"
           >
-            REGISTRARME
+            <span *ngIf="!isLoading">REGISTRARME</span>
+            <span *ngIf="isLoading">
+              <span class="spinner"></span>
+              REGISTRANDO...
+            </span>
           </button>
 
           <div class="divider">
@@ -83,7 +118,7 @@
 
           <p class="texto-login">
             ¿Ya tienes cuenta? 
-            <a routerLink="/login">INICIAR SESIÓN</a>
+            <a routerLink="/">Volver al inicio</a>
           </p>
         </div>
       </div>

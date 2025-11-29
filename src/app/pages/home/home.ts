@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/authservice';
 
 // Interfaces para definir la estructura del menú
 interface SubMenuItem {
@@ -29,9 +30,14 @@ interface MenuItemNested {
   templateUrl: './home.html',
   styleUrls: ['./home.css']
 })
-export class Home {
+export class Home implements OnInit {
   openSubmenu: string | null = null;
   openNestedSubmenu: string | null = null;
+
+  // ✅ NUEVAS PROPIEDADES PARA MOSTRAR INFO DEL USUARIO
+  nombreUsuario: string = 'Usuario';
+  tipoUsuario: string = 'USER';
+  esAdmin: boolean = false;
 
   // --- TU ESTRUCTURA DE MENÚ ---
   menuItems: MenuItem[] = [
@@ -160,9 +166,34 @@ export class Home {
     }
   ];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService 
+  ) {}
 
-  // --- MÉTODOS DE NAVEGACIÓN AUXILIARES ---
+  ngOnInit(): void {
+    this.cargarInfoUsuario();
+  }
+
+  cargarInfoUsuario(): void {
+    const usuario = this.authService.getUsuarioActual();
+    
+    if (usuario) {
+      this.nombreUsuario = usuario.nombre || 'Usuario';
+      
+      console.log('👤 Usuario cargado:', this.nombreUsuario);
+    }
+
+    const tipo = this.authService.getTipoUsuario();
+    if (tipo) {
+      this.tipoUsuario = tipo;
+      this.esAdmin = tipo === 'ADMIN';
+      
+      console.log('🔑 Tipo de usuario:', this.tipoUsuario);
+      console.log('👑 Es Admin:', this.esAdmin);
+    }
+  }
+
   irUsuarios() {
     this.router.navigate(['/usuarios']);
   }
@@ -175,7 +206,6 @@ export class Home {
     this.router.navigate(['/transportes']);
   }
 
-  // --- LÓGICA DE APERTURA/CIERRE DE MENÚS ---
   toggleSubmenu(menuId: string): void {
     this.openSubmenu = this.openSubmenu === menuId ? null : menuId;
     if (this.openSubmenu !== menuId) {
@@ -208,15 +238,11 @@ export class Home {
     return 'route' in item ? item.route : '';
   }
 
-  // --- FUNCIÓN DE CERRAR SESIÓN (IMPORTANTE) ---
   cerrarSesion(): void {
-    console.log('Cerrando sesión y eliminando credenciales...');
+    console.log('🚪 Cerrando sesión...');
     
-    // 1. ELIMINAR LA LLAVE DEL LOCALSTORAGE (Esto activa el bloqueo del Guard)
-    localStorage.removeItem('usuario');
-    localStorage.removeItem('token'); 
-
-    // 2. REDIRIGIR AL LOGIN
-    this.router.navigate(['/login']);
+    this.authService.logout();
+    
+    
   }
 }

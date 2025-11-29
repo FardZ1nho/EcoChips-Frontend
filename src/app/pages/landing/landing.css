@@ -123,7 +123,7 @@
   position: relative;
   z-index: 10;
   text-align: center;
-  max-width: 900px;
+  max-width: 1100px;
   padding: 0 20px;
   animation: fadeInUp 1s ease-out;
 }
@@ -173,52 +173,153 @@
   margin-right: auto;
 }
 
-.hero-actions {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
+/* ========== 🆕 SELECTOR DE USUARIO ========== */
+.user-selector {
+  margin-top: 50px;
+  animation: fadeIn 1.2s ease;
 }
 
-.btn-primary {
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.selector-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: #fff;
+  margin-bottom: 35px;
+  font-weight: 600;
+}
+
+.selector-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  max-width: 800px;
+  margin: 0 auto 35px;
+}
+
+.selector-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(164, 229, 108, 0.2);
+  border-radius: 20px;
+  padding: 30px 20px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  text-align: center;
+}
+
+.selector-card:hover {
+  transform: translateY(-8px);
+  border-color: #A4E56C;
+  box-shadow: 0 15px 40px rgba(164, 229, 108, 0.3);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.card-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
   background: linear-gradient(135deg, #A4E56C 0%, #47B74D 100%);
-  color: #000;
-  border: none;
-  padding: 15px 40px;
-  border-radius: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 25px rgba(164, 229, 108, 0.4);
+}
+
+.card-icon {
+  font-size: 40px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.card-title {
+  font-size: 1.5rem;
   font-weight: 700;
-  font-size: 16px;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.card-description {
+  font-size: 0.95rem;
+  color: #e0e0e0;
+  line-height: 1.5;
+  margin-bottom: 25px;
+  min-height: 60px;
+}
+
+.btn-card {
+  width: 100%;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-weight: 700;
+  font-size: 14px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(164, 229, 108, 0.4);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
-.btn-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(164, 229, 108, 0.5);
+.btn-user {
+  background: linear-gradient(135deg, #A4E56C 0%, #47B74D 100%);
+  color: #000;
+  box-shadow: 0 6px 20px rgba(164, 229, 108, 0.4);
 }
 
-.btn-secondary {
+.btn-user:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(164, 229, 108, 0.5);
+}
+
+.btn-admin {
+  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+}
+
+.btn-admin:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+}
+
+/* 📝 Sección de Registro */
+.registro-link {
+  margin-top: 30px;
+  animation: fadeIn 1.5s ease;
+}
+
+.registro-text {
+  color: #e0e0e0;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  font-weight: 400;
+}
+
+.btn-registro {
   background: transparent;
   color: #A4E56C;
   border: 2px solid #A4E56C;
-  padding: 15px 40px;
-  border-radius: 30px;
-  font-weight: 700;
-  font-size: 16px;
+  padding: 12px 35px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 15px;
   cursor: pointer;
   transition: all 0.3s ease;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
-.btn-secondary:hover {
+.btn-registro:hover {
   background: #A4E56C;
   color: #000;
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(164, 229, 108, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(164, 229, 108, 0.3);
 }
 
 /* ========== FEATURES SECTION ========== */
@@ -326,15 +427,9 @@
     padding: 80px 15px 40px;
   }
 
-  .hero-actions {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .btn-primary,
-  .btn-secondary {
-    width: 100%;
-    max-width: 300px;
+  .selector-cards {
+    grid-template-columns: 1fr;
+    max-width: 400px;
   }
 
   .features-container {
@@ -359,5 +454,9 @@
   .btn-header {
     padding: 8px 16px;
     font-size: 13px;
+  }
+
+  .card-description {
+    min-height: auto;
   }
 }
