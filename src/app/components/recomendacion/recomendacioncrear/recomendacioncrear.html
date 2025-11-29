@@ -1,0 +1,55 @@
+<div class="form-container">
+  <h2>{{ titulo }}</h2>
+ 
+  <form [formGroup]="form" (ngSubmit)="registrar()">
+
+       <input type="hidden" formControlName="idRecomendacion">
+
+        <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Título</mat-label>
+     <input matInput placeholder="Título de la recomendación" formControlName="titulo">
+      <mat-error *ngIf="form.get('titulo')?.hasError('required') && form.get('titulo')?.touched">
+       El título es obligatorio.
+     </mat-error>
+    </mat-form-field>
+
+       <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput placeholder="Detalles de la recomendación" formControlName="descripcion"></textarea>
+      <mat-error *ngIf="form.get('descripcion')?.hasError('required') && form.get('descripcion')?.touched">
+        La descripción es obligatoria.
+        </mat-error> 
+       </mat-form-field>
+
+       <mat-form-field appearance="outline" class="full-width">
+         <mat-label>Tipo de Recomendación</mat-label>
+       <mat-select formControlName="tipo">
+                <mat-option disabled value="">-- Seleccione un tipo --</mat-option>
+ 
+                 <mat-option *ngFor="let tipo of tiposDisponibles" [value]="tipo">
+          {{ tipo }}
+       </mat-option>
+       </mat-select>
+      <mat-error *ngIf="form.get('tipo')?.hasError('required') && form.get('tipo')?.touched">
+        Debes seleccionar un tipo.
+     </mat-error>
+    </mat-form-field>
+
+      <div class="acciones">
+       <button mat-raised-button
+               color="primary"
+                type="submit"
+        [disabled]="form.invalid">
+       {{ modoEdicion ? 'Guardar Cambios' : 'Registrar' }}
+       </button>
+
+       <button mat-button
+                color="warn"
+                  type="button"
+            routerLink="/home/recomendaciones/listar">
+       Cancelar
+      </button>
+   </div>
+
+  </form>
+</div>

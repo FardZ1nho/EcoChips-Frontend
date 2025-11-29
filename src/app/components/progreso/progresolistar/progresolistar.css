@@ -1,0 +1,50 @@
+/* progresolistar.css */
+
+.contenedor {
+width: 95%;
+margin: 25px auto;
+}
+
+.title-card {
+ display: flex;
+justify-content: space-between;
+align-items: center;
+ padding: 15px 20px;
+   margin-bottom: 20px;
+   background: #e8f5e9; /* Fondo verde claro */
+    border-left: 6px solid #2e7d32; /* Borde vertical verde oscuro */
+}
+
+h2 {
+ margin: 0;
+ color: #1b5e20; /* Color del texto del encabezado */
+ font-size: 22px;
+ font-weight: 500;
+}
+  
+.table-container {
+border-radius: 8px;
+overflow: hidden;
+background: white;
+}
+
+table {
+ width: 100%;
+}
+
+th.mat-header-cell {
+ background-color: #f5f5f5; /* Fondo de la cabecera */
+ color: #2e7d32; /* Color de texto en la cabecera */
+ font-weight: bold;
+ font-size: 14px;
+}
+
+td.mat-cell {
+   font-size: 14px;
+   color: #424242;
+  padding: 12px;
+}
+
+tr.mat-row:hover {
+   background-color: #f9f9f9;
+}

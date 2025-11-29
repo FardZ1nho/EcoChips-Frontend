@@ -1,0 +1,99 @@
+/* Estilos para el contenedor principal: tarjeta centrada, sombra y borde superior verde */
+.form-container {
+    width: 100%;
+    max-width: 450px; /* Ancho compacto similar al ejemplo */
+    margin: 50px auto; /* Centrado en la página */
+    
+    background-color: #ffffff; /* Fondo blanco */
+    padding: 20px 30px;
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Sombra suave */
+    
+    /* Línea verde en la parte superior del contenedor */
+    border-top: 5px solid #2e7d32; 
+    border-bottom: 1px solid #e0e0e0;
+    border-left: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+}
+
+/* Estilos para el título del formulario */
+h2 {
+    text-align: center;
+    color: #2e7d32; /* Título en verde */
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+/* Estilos para las etiquetas */
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Estilos para campos de entrada y la lista desplegable (select) */
+input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    transition: border-color 0.2s;
+}
+
+input:focus, select:focus {
+    border-color: #2e7d32; /* Borde verde al enfocar */
+    outline: none;
+}
+
+/* Estilos para errores */
+.error {
+    border-color: red;
+}
+
+.error-msg {
+    color: red;
+    font-size: 13px;
+    margin-top: 3px;
+}
+
+/* Estilos para la sección de botones */
+.acciones {
+    display: flex;
+    justify-content: center; /* Centra los botones horizontalmente */
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.btn-guardar, .btn-cancelar {
+    padding: 10px 25px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+/* Botón Guardar (Verde) */
+.btn-guardar {
+    background-color: #2e7d32;
+    color: white;
+}
+
+.btn-guardar:hover {
+    background-color: #0b7dda; /* Color al pasar el ratón */
+}
+
+/* Botón Cancelar (Gris/Plano) */
+.btn-cancelar {
+    /* En la imagen, Cancelar es un botón plano o con fondo muy claro, pero
+       si tu clase `.btn-cancelar` tiene un fondo fijo, mantenemos un gris neutro. */
+    background-color: #9e9e9e; 
+    color: white;
+}
+
+.btn-cancelar:hover {
+    background-color: #d32f2f; /* Color al pasar el ratón */
+}

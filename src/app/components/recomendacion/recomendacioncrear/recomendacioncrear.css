@@ -1,0 +1,44 @@
+/* Estilos para centrar el formulario en la pantalla */
+.form-container {
+    /* Anchura fija y centrado */
+    width: 100%;
+    max-width: 450px; /* Ajusta este ancho si es necesario */
+    margin: 50px auto; /* Centra horizontalmente y añade margen superior */
+    
+    /* Estilos visuales para parecerse a la imagen */
+    background-color: #ffffff; /* Fondo blanco */
+    padding: 20px 30px; 
+    border-radius: 8px; /* Borde redondeado */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    border: 1px solid #ddd; /* Borde sutil, si es necesario */
+    
+    /* Color de fondo del encabezado */
+    border-top: 5px solid #2e7d32; /* El verde que se ve en la imagen */
+}
+
+/* Título */
+.form-container h2 {
+    text-align: center;
+    color: #2e7d32; /* Color verde similar */
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+/* Hace que los campos de Angular Material ocupen todo el ancho */
+.full-width {
+    width: 100%;
+}
+
+/* Estilos para los botones (sección de acciones) */
+.acciones {
+    display: flex;
+    justify-content: flex-end; /* Alinea los botones a la derecha */
+    gap: 10px; /* Espacio entre botones */
+    margin-top: 20px;
+}
+
+/* Estilos de los botones de Material si quieres ajustarlos más */
+.acciones button {
+    /* mat-raised-button ya tiene un buen estilo, pero puedes ajustarlo */
+    /* mat-button (Cancelar) ya es un botón plano, pero se le puede dar color */
+}

@@ -1,0 +1,46 @@
+<div class="form-container">
+  <h2>{{ titulo }}</h2>
+  <form [formGroup]="form" (ngSubmit)="guardar()">
+
+    <input type="hidden" formControlName="idProgreso">
+
+    <label>ID Usuario</label>
+    <input type="number" formControlName="idUsuario" 
+           [ngClass]="{'error': form.get('idUsuario')?.invalid && form.get('idUsuario')?.touched}">
+    <div class="error-msg" *ngIf="form.get('idUsuario')?.invalid && form.get('idUsuario')?.touched">
+      El ID del usuario es obligatorio
+    </div>
+
+    <label>Puntos</label>
+    <input type="number" formControlName="puntos" 
+           [ngClass]="{'error': form.get('puntos')?.invalid && form.get('puntos')?.touched}">
+    <div class="error-msg" *ngIf="form.get('puntos')?.invalid && form.get('puntos')?.touched">
+      Los puntos son obligatorios
+    </div>
+
+        <label for="estado">Estado</label>
+    <select id="estado" formControlName="estado"
+            [ngClass]="{'error': form.get('estado')?.invalid && form.get('estado')?.touched}">
+        
+                <option value="" disabled>-- Seleccione el estado --</option>
+        
+                <option *ngFor="let estado of estadosDisponibles" [value]="estado">
+          {{ estado }}
+        </option>
+    </select>
+    <div class="error-msg" *ngIf="form.get('estado')?.invalid && form.get('estado')?.touched">
+      El estado es obligatorio
+    </div>
+        <label>Fecha</label>
+    <input type="date" formControlName="fecha" 
+           [ngClass]="{'error': form.get('fecha')?.invalid && form.get('fecha')?.touched}">
+    <div class="error-msg" *ngIf="form.get('fecha')?.invalid && form.get('fecha')?.touched">
+      La fecha es obligatoria
+      </div>
+
+    <div class="acciones">
+      <button type="submit" class="btn-guardar">{{ modoEdicion ? 'Actualizar' : 'Guardar' }}</button>
+      <button type="button" class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>
