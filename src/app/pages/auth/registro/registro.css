@@ -142,6 +142,43 @@
   margin: 0;
 }
 
+/* 🆕 BADGE DE USUARIO */
+.user-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 14px;
+  background: linear-gradient(135deg, #A4E56C 0%, #47B74D 100%);
+  color: #000;
+  box-shadow: 0 4px 15px rgba(164, 229, 108, 0.3);
+  margin-top: 15px;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.badge-icon {
+  font-size: 18px;
+}
+
+.badge-text {
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
 /* ========== FORMULARIO ========== */
 .registro-form {
   display: flex;
@@ -171,8 +208,59 @@
   box-shadow: 0 0 0 4px rgba(164, 229, 108, 0.1);
 }
 
+.form-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #f5f5f5;
+}
+
 .form-input::placeholder {
   color: #999;
+}
+
+/* 🆕 MENSAJE DE ÉXITO */
+.success-message {
+  color: #2e7d32;
+  background-color: #e8f5e9;
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #c8e6c9;
+  animation: slideDown 0.4s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🆕 MENSAJE DE ERROR */
+.error-message {
+  color: #d32f2f;
+  background-color: #ffebee;
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #ffcdd2;
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
 }
 
 /* ========== TÉRMINOS Y CONDICIONES ========== */
@@ -227,15 +315,43 @@
   transition: all 0.3s ease;
   box-shadow: 0 8px 20px rgba(71, 183, 77, 0.3);
   margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
-.btn-registrar:hover {
+.btn-registrar:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 12px 30px rgba(71, 183, 77, 0.4);
 }
 
-.btn-registrar:active {
+.btn-registrar:active:not(:disabled) {
   transform: translateY(0);
+}
+
+.btn-registrar:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn-registrar.loading {
+  pointer-events: none;
+}
+
+/* 🆕 SPINNER DE CARGA */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ========== DIVIDER ========== */
@@ -302,7 +418,7 @@
     padding: 15px 25px;
   }
 
-  .logo h1 {
+  .logo-section h1 {
     font-size: 20px;
   }
 
@@ -318,12 +434,21 @@
     padding: 30px 15px;
   }
 
-  .registro-card {
+  .registro-box {
     padding: 35px 25px;
   }
 
   .card-header h2 {
     font-size: 24px;
+  }
+
+  .user-badge {
+    padding: 8px 20px;
+    font-size: 13px;
+  }
+
+  .badge-icon {
+    font-size: 16px;
   }
 }
 
@@ -332,21 +457,21 @@
     padding: 12px 20px;
   }
 
-  .logo img {
+  .logo-section .logo {
     width: 35px;
     height: 35px;
   }
 
-  .logo h1 {
+  .logo-section h1 {
     font-size: 18px;
   }
 
-  .btn-header {
+  .btn-sabermas {
     padding: 8px 16px;
     font-size: 13px;
   }
 
-  .registro-card {
+  .registro-box {
     padding: 30px 20px;
   }
 
@@ -356,6 +481,11 @@
 
   .subtitle {
     font-size: 14px;
+  }
+
+  .user-badge {
+    padding: 8px 18px;
+    font-size: 12px;
   }
 
   .checkbox-container {

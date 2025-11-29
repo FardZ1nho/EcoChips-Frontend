@@ -20,9 +20,42 @@
     <p class="hero-subtitle">
       Elige aprender a cuidar el planeta de una vez por todas, una vez que termines este curso serás capaz de crear cualquier estrategia de sostenibilidad y reducir tus propias emisiones.
     </p>
-    <div class="hero-actions">
-      <button routerLink="/registro" class="btn-primary">REGISTRARSE</button>
-      <button routerLink="/login" class="btn-secondary">INICIAR SESIÓN</button>
+
+    <!-- 🆕 SELECTOR DE TIPO DE USUARIO -->
+    <div class="user-selector">
+      <h3 class="selector-title">¿Cómo deseas acceder?</h3>
+      
+      <div class="selector-cards">
+        <!-- 👤 TARJETA USUARIO -->
+        <div class="selector-card user-card" (click)="seleccionarUsuario()">
+          <div class="card-icon-wrapper">
+            <span class="card-icon">👤</span>
+          </div>
+          <h4 class="card-title">Usuario</h4>
+          <p class="card-description">
+            Participa en retos, eventos y gestiona tu huella de carbono personal.
+          </p>
+          <button class="btn-card btn-user">Acceder como Usuario</button>
+        </div>
+
+        <!-- 👨‍💼 TARJETA ADMIN -->
+        <div class="selector-card admin-card" (click)="seleccionarAdmin()">
+          <div class="card-icon-wrapper">
+            <span class="card-icon">👨‍💼</span>
+          </div>
+          <h4 class="card-title">Administrador</h4>
+          <p class="card-description">
+            Gestiona usuarios, retos, eventos y accede a reportes del sistema.
+          </p>
+          <button class="btn-card btn-admin">Acceder como Admin</button>
+        </div>
+      </div>
+
+      <!-- 📝 ENLACE A REGISTRO -->
+      <div class="registro-link">
+        <p class="registro-text">¿No tienes cuenta?</p>
+        <button (click)="irARegistro()" class="btn-registro">Crear cuenta nueva</button>
+      </div>
     </div>
   </div>
 </main>
