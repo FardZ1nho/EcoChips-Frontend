@@ -51,6 +51,9 @@ import { RecomendacionListar } from './components/recomendacion/recomendacionlis
 
 import { ReporteRecoPrTipo } from './components/reporteRecomendacionesPorTipo/reporteRecoPrTipo';
 import { RecomendacionTipoCountDTO } from './models/RecomendacionTipoCountDTO';
+import { UsuarioRecomendacionListar } from './components/usuariorecomendacion/usuariorecomendacionlistar/usuariorecomendacionlistar';
+import { UsuarioRecomendacionCrear } from './components/usuariorecomendacion/usuariorecomendacioncrear/usuariorecomendacioncrear';
+import { ListarPorUsuarioComponent } from './components/usuariorecomendacion/listarporusuario/listarporusuario';
 
 
 
@@ -130,8 +133,10 @@ export const routes: Routes = [
 
             { path: 'reportes/por-tipo', component: ReporteRecoPrTipo},
 
- 
-
+            { path: 'usuariorecomendacion/listar', component: UsuarioRecomendacionListar },
+            { path: 'usuariorecomendacion/crear', component: UsuarioRecomendacionCrear },
+            { path: 'usuariorecomendacion/editar/:id', component: UsuarioRecomendacionCrear },
+            { path: 'usuariorecomendacion/buscar', component: ListarPorUsuarioComponent },
         ]
     },
 ];

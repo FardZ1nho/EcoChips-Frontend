@@ -124,7 +124,9 @@ export class Home {
       submenuItems: [
         { label: 'Registrar', route: '/home/recomendaciones/crear' },
         { label: 'Listar', route: '/home/recomendaciones/listar' },
-  
+        { label: 'Registrar Usuario-Recomendación', route: '/home/usuariorecomendacion/crear' },
+        { label: 'Listar Usuario-Recomendación', route: '/home/usuariorecomendaciones/listar' },
+        { label: 'Listar Recomendaciones por Usuario', route: '/home/usuariorecomendacion/buscar' }
       ]
     },
     { 

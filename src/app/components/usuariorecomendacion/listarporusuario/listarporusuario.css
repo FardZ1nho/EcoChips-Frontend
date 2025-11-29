@@ -1,0 +1,74 @@
+.contenedor {
+  width: 95%;
+  max-width: 900px;
+  margin: 30px auto;
+}
+
+.search-card {
+  padding: 20px;
+  text-align: center;
+  background-color: #f1f8e9;
+  border-left: 6px solid #2e7d32;
+  margin-bottom: 25px;
+}
+
+h2 {
+  color: #1b5e20;
+  margin-bottom: 15px;
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+}
+
+mat-form-field {
+  width: 100%;
+  max-width: 300px;
+}
+
+.table-container {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+}
+
+th.mat-header-cell {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.badge {
+  background-color: #c8e6c9;
+  color: #1b5e20;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.bold-text {
+  font-weight: 500;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #757575;
+  background: white;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.empty-state mat-icon {
+  font-size: 48px;
+  height: 48px;
+  width: 48px;
+  margin-bottom: 10px;
+  color: #bdbdbd;
+}
