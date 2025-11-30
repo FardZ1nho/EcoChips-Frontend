@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Progreso } from '../models/Progreso';
 import { Subject } from 'rxjs';
 
@@ -15,12 +15,27 @@ export class Progresoservice {
 
   constructor(private http: HttpClient) {}
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    console.log('🔐 Token usado en progreso:', token ? 'SÍ' : 'NO');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  }
+
   list() {
-    return this.http.get<Progreso[]>(this.url);
+    return this.http.get<Progreso[]>(this.url, { 
+      headers: this.getAuthHeaders()
+    });
   }
 
   insert(e: Progreso) {
-    return this.http.post(this.url, e, { responseType: 'text' });
+    console.log('🎯 Registrando progreso...');
+    return this.http.post(this.url, e, { 
+      headers: this.getAuthHeaders(),
+      responseType: 'text' 
+    });
   }
 
   setList(listaNueva: Progreso[]) {
@@ -32,14 +47,42 @@ export class Progresoservice {
   }
 
   listId(id: number) {
-    return this.http.get<Progreso>(`${this.url}/${id}`);
+    return this.http.get<Progreso>(`${this.url}/${id}`, { 
+      headers: this.getAuthHeaders()
+    });
   }
 
   update(e: Progreso) {
-    return this.http.put(`${this.url}`, e, { responseType: 'text' });
+    return this.http.put(`${this.url}`, e, { 
+      headers: this.getAuthHeaders(),
+      responseType: 'text' 
+    });
   }
 
   delete(id: number) {
-    return this.http.delete(`${this.url}/${id}`, { responseType: 'text' });
+    return this.http.delete(`${this.url}/${id}`, { 
+      headers: this.getAuthHeaders(),
+      responseType: 'text' 
+    });
+  }
+
+  obtenerPorUsuario(idUsuario: number) {
+    return this.http.get<Progreso>(`${this.url}/usuario/${idUsuario}`, { 
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  agregarPuntos(idUsuario: number, puntos: number) {
+    return this.http.post(`${this.url}/agregar-puntos/${idUsuario}/${puntos}`, {}, { 
+      headers: this.getAuthHeaders(),
+      responseType: 'text' 
+    });
+  }
+
+  cambiarEstado(idUsuario: number, estado: string) {
+    return this.http.post(`${this.url}/cambiar-estado/${idUsuario}`, estado, { 
+      headers: this.getAuthHeaders(),
+      responseType: 'text' 
+    });
   }
 }

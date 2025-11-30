@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { RegistroAlimentacion } from '../models/RegistroAlimentacion'; // ← Ruta corregida
+import { HttpClient, HttpHeaders } from '@angular/common/http'; // ← Agregar HttpHeaders
+import { RegistroAlimentacion } from '../models/RegistroAlimentacion';
 import { Subject } from 'rxjs';
 
 const base_url = environment.base;
@@ -15,30 +15,60 @@ export class RegistroAlimentacionService {
 
   constructor(private http: HttpClient) {}
 
+  // 🔥 MÉTODO PARA HEADERS DE AUTENTICACIÓN
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    console.log('🔐 Token usado en registro alimentación:', token ? 'SÍ' : 'NO');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  }
+
+  // 📋 LISTAR - SOLO ADMIN puede ver todos los registros
   list() {
-    return this.http.get<RegistroAlimentacion[]>(this.url);
+    return this.http.get<RegistroAlimentacion[]>(this.url, { 
+      headers: this.getAuthHeaders()
+    });
   }
 
+  // ➕ INSERTAR - USUARIO puede registrar su alimentación
   insert(r: RegistroAlimentacion) {
-    // ENVIAR DIRECTAMENTE EL OBJETO - ya no necesita conversión
-    return this.http.post(this.url, r, { responseType: 'text' });
+    console.log('🎯 Registrando alimentación...');
+    return this.http.post(this.url, r, { 
+      headers: this.getAuthHeaders(),
+      responseType: 'text' 
+    });
   }
 
+  // 👁️ LISTAR POR ID - ADMIN o USUARIO dueño
   listId(id: number) {
-    return this.http.get<RegistroAlimentacion>(`${this.url}/${id}`);
+    return this.http.get<RegistroAlimentacion>(`${this.url}/${id}`, { 
+      headers: this.getAuthHeaders()
+    });
   }
 
+  // ✏️ ACTUALIZAR - ADMIN o USUARIO dueño
   update(r: RegistroAlimentacion) {
-    // ENVIAR DIRECTAMENTE EL OBJETO - ya no necesita conversión
-    return this.http.put(this.url, r, { responseType: 'text' });
+    return this.http.put(this.url, r, { 
+      headers: this.getAuthHeaders(),
+      responseType: 'text' 
+    });
   }
 
+  // 🗑️ ELIMINAR - ADMIN o USUARIO dueño
   delete(id: number) {
-    return this.http.delete(`${this.url}/${id}`, { responseType: 'text' });
+    return this.http.delete(`${this.url}/${id}`, { 
+      headers: this.getAuthHeaders(),
+      responseType: 'text' 
+    });
   }
 
+  // 👤 LISTAR POR USUARIO - ADMIN o USUARIO dueño
   listarPorUsuario(idUsuario: number) {
-    return this.http.get<RegistroAlimentacion[]>(`${this.url}/usuario/${idUsuario}`);
+    return this.http.get<RegistroAlimentacion[]>(`${this.url}/usuario/${idUsuario}`, { 
+      headers: this.getAuthHeaders()
+    });
   }
 
   setList(listaNueva: RegistroAlimentacion[]) {
@@ -48,15 +78,4 @@ export class RegistroAlimentacionService {
   getList() {
     return this.listaCambio.asObservable();
   }
-
-  // ⚠️ ELIMINAR ESTE MÉTODO - ya no es necesario
-  // private convertirADTO(registro: RegistroAlimentacion): any {
-  //   return {
-  //     idRegistroAlimentacion: registro.idRegistroAlimentacion,
-  //     idUsuario: registro.idUsuario,        // ← IDs planos
-  //     idAlimento: registro.idAlimento,      // ← IDs planos
-  //     porciones: registro.porciones,
-  //     fecha: registro.fecha
-  //   };
-  // }
 }

@@ -120,9 +120,9 @@ export const routes: Routes = [
             { path: 'participacionretos/editar/:id', component: ParticipacionRetoCrear, canActivate: [UserGuard] },
 
             // --- EVENTOS (Solo User) ---
-            { path: 'eventos/listar', component: EventoListar, canActivate: [UserGuard] },
-            { path: 'eventos/crear', component: EventoCrear, canActivate: [UserGuard] },
-            { path: 'eventos/editar/:id', component: EventoCrear, canActivate: [UserGuard] },
+            { path: 'eventos/listar', component: EventoListar, canActivate: [AdminGuard] },
+            { path: 'eventos/crear', component: EventoCrear, canActivate: [AdminGuard] },
+            { path: 'eventos/editar/:id', component: EventoCrear, canActivate: [AdminGuard] },
 
             { path: 'registroeventos/listar', component: RegistroEventoListar, canActivate: [UserGuard] },
             { path: 'registroeventos/crear', component: RegistroEventoCrear, canActivate: [UserGuard] },
