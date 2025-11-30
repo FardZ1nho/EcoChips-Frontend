@@ -53,6 +53,7 @@ import { ReporteRecoPrTipo } from './components/reporteRecomendacionesPorTipo/re
 import { UsuarioRecomendacionListar } from './components/usuariorecomendacion/usuariorecomendacionlistar/usuariorecomendacionlistar';
 import { UsuarioRecomendacionCrear } from './components/usuariorecomendacion/usuariorecomendacioncrear/usuariorecomendacioncrear';
 import { ListarPorUsuarioComponent } from './components/usuariorecomendacion/listarporusuario/listarporusuario';
+import { CompletarPerfilComponent } from './components/completar-perfil/completar-perfil';
 
 export const routes: Routes = [
     // 🌍 RUTAS PÚBLICAS (Sin autenticación)
@@ -67,7 +68,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard], // ✅ Verifica que esté autenticado
         children: [
             { path: '', component: HomeDashboard },
-
+            { path: 'completar-perfil', component: CompletarPerfilComponent },
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
             // 👨‍💼 RUTAS SOLO PARA ADMINISTRADORES
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

@@ -1,0 +1,99 @@
+<div class="completar-perfil-page">
+  <!-- Contenido Principal -->
+  <div class="completar-container">
+    <div class="completar-content">
+      
+      <!-- Card del formulario -->
+      <div class="completar-card">
+        <div class="card-header">
+          <h2>COMPLETA TU <span class="highlight">PERFIL</span></h2>
+          <p class="subtitle">Y MEJORA TU EXPERIENCIA</p>
+        </div>
+
+        <div class="completar-form">
+          
+          <!-- Mensaje de Éxito -->
+          <div *ngIf="mensajeExito" class="success-message">
+            {{ mensajeExito }}
+          </div>
+
+          <!-- Mensaje de Error -->
+          <div *ngIf="mensajeError" class="error-message">
+            {{ mensajeError }}
+          </div>
+
+          <!-- Formulario -->
+          <form [formGroup]="form">
+
+            <!-- Campo Edad -->
+            <div class="form-group">
+              <label for="edad">Edad</label>
+              <input 
+                id="edad"
+                type="number" 
+                placeholder="Ingresa tu edad" 
+                formControlName="edad"
+                class="form-input"
+                [class.error]="edad?.invalid && edad?.touched"
+                [disabled]="isLoading"
+                min="1"
+                max="120"
+              />
+              <div *ngIf="edad?.invalid && edad?.touched" class="error-text">
+                {{ getEdadErrorMessage() }}
+              </div>
+            </div>
+
+            <!-- Campo Género -->
+            <div class="form-group">
+              <label for="genero">Género</label>
+              <select 
+                id="genero"
+                formControlName="genero"
+                class="form-input"
+                [class.error]="genero?.invalid && genero?.touched"
+                [disabled]="isLoading"
+              >
+                <option value="">Selecciona tu género</option>
+                <option *ngFor="let genero of generos" [value]="genero.value">
+                  {{ genero.label }}
+                </option>
+              </select>
+              <div *ngIf="genero?.invalid && genero?.touched" class="error-text">
+                {{ getGeneroErrorMessage() }}
+              </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="acciones">
+              <button 
+                type="button"
+                (click)="completarPerfil()" 
+                class="btn-completar"
+                [disabled]="form.invalid || isLoading"
+                [class.loading]="isLoading"
+              >
+                <span *ngIf="!isLoading">COMPLETAR PERFIL</span>
+                <span *ngIf="isLoading">
+                  <span class="spinner"></span>
+                  GUARDANDO...
+                </span>
+              </button>
+
+              <button 
+                type="button"
+                (click)="cancelar()" 
+                class="btn-cancelar"
+                [disabled]="isLoading"
+              >
+                CANCELAR
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

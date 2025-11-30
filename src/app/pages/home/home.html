@@ -13,6 +13,20 @@
     </div>
   </header>
 
+  <!-- 🆕 BANNER COMPLETAR PERFIL -->
+  <div *ngIf="!perfilCompleto" class="completar-banner">
+    <div class="banner-content">
+      <div class="banner-icon">📝</div>
+      <div class="banner-text">
+        <h3>¡Completa tu perfil!</h3>
+        <p>Ayúdanos a conocerte mejor para personalizar tu experiencia en EcoChips</p>
+      </div>
+      <button (click)="irACompletarPerfil()" class="btn-banner">
+        Completar Datos
+      </button>
+    </div>
+  </div>
+
   <div class="main-container">
 
     <!-- ===== MENÚ LATERAL ===== -->

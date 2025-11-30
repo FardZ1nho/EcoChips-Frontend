@@ -34,10 +34,13 @@ export class Home implements OnInit {
   openSubmenu: string | null = null;
   openNestedSubmenu: string | null = null;
 
-  // ✅ NUEVAS PROPIEDADES PARA MOSTRAR INFO DEL USUARIO
+  // ✅ PROPIEDADES EXISTENTES
   nombreUsuario: string = 'Usuario';
   tipoUsuario: string = 'USER';
   esAdmin: boolean = false;
+
+  // 🆕 NUEVA PROPIEDAD PARA COMPLETAR PERFIL
+  perfilCompleto: boolean = false;
 
   // --- TU ESTRUCTURA DE MENÚ ---
   menuItems: MenuItem[] = [
@@ -173,6 +176,7 @@ export class Home implements OnInit {
 
   ngOnInit(): void {
     this.cargarInfoUsuario();
+    this.verificarPerfilCompleto(); // 🆕 Llamar al nuevo método
   }
 
   cargarInfoUsuario(): void {
@@ -192,6 +196,18 @@ export class Home implements OnInit {
       console.log('🔑 Tipo de usuario:', this.tipoUsuario);
       console.log('👑 Es Admin:', this.esAdmin);
     }
+  }
+
+  // 🆕 MÉTODO PARA VERIFICAR SI EL PERFIL ESTÁ COMPLETO
+  verificarPerfilCompleto(): void {
+    this.perfilCompleto = this.authService.isPerfilCompleto();
+    console.log('🔍 Perfil completo:', this.perfilCompleto);
+  }
+
+  // 🆕 MÉTODO PARA IR A COMPLETAR PERFIL
+  irACompletarPerfil(): void {
+    console.log('🎯 Navegando a completar perfil');
+    this.router.navigate(['/home/completar-perfil']);
   }
 
   irUsuarios() {
@@ -242,7 +258,5 @@ export class Home implements OnInit {
     console.log('🚪 Cerrando sesión...');
     
     this.authService.logout();
-    
-    
   }
 }
