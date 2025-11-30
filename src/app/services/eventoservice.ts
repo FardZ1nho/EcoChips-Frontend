@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http'; // ← AGREGAR HttpHeaders
 import { Evento } from '../models/Evento';
 import { Subject } from 'rxjs';
 
@@ -15,12 +15,28 @@ export class Eventoservice {
 
   constructor(private http: HttpClient) {}
 
+  // 🔥 AGREGAR ESTE MÉTODO PARA HEADERS
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    console.log('🎉 Token usado en eventos:', token ? 'SÍ' : 'NO');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  }
+
   list() {
-    return this.http.get<Evento[]>(this.url);
+    return this.http.get<Evento[]>(this.url, { 
+      headers: this.getAuthHeaders()  // ← AGREGAR HEADERS
+    });
   }
 
   insert(e: Evento) {
-    return this.http.post(this.url, e, { responseType: 'text' });
+    console.log('📤 Insertando evento con headers...');
+    return this.http.post(this.url, e, { 
+      headers: this.getAuthHeaders(),  // ← AGREGAR HEADERS
+      responseType: 'text' 
+    });
   }
 
   setList(listaNueva: Evento[]) {
@@ -32,14 +48,22 @@ export class Eventoservice {
   }
 
   listId(id: number) {
-    return this.http.get<Evento>(`${this.url}/${id}`);
+    return this.http.get<Evento>(`${this.url}/${id}`, { 
+      headers: this.getAuthHeaders()  // ← AGREGAR HEADERS
+    });
   }
 
   update(e: Evento) {
-    return this.http.put(`${this.url}/${e.idEvento}`, e, { responseType: 'text' });
+    return this.http.put(`${this.url}/${e.idEvento}`, e, { 
+      headers: this.getAuthHeaders(),  // ← AGREGAR HEADERS
+      responseType: 'text' 
+    });
   }
 
   delete(id: number) {
-    return this.http.delete(`${this.url}/${id}`, { responseType: 'text' });
+    return this.http.delete(`${this.url}/${id}`, { 
+      headers: this.getAuthHeaders(),  // ← AGREGAR HEADERS
+      responseType: 'text' 
+    });
   }
 }

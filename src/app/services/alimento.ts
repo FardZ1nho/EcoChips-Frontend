@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { Alimento } from '../models/Alimento'; // Asegúrate de crear este archivo primero
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Alimento } from '../models/Alimento';
 import { Observable, Subject } from 'rxjs';
 import { TipoAlimentoCO2DTO } from '../models/TipoAlimentoCO2DTO';
 
@@ -16,24 +16,47 @@ export class AlimentoService {
 
   constructor(private http: HttpClient) {}
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    console.log('🍎 Token usado en alimentos:', token ? 'SÍ' : 'NO');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  }
+
   list() {
-    return this.http.get<Alimento[]>(this.url);
+    return this.http.get<Alimento[]>(this.url, { 
+      headers: this.getAuthHeaders()  // ← AGREGAR HEADERS
+    });
   }
 
   insert(a: Alimento) {
-    return this.http.post(this.url, a, { responseType: 'text' });
+    console.log('📤 Insertando alimento con headers...');
+    return this.http.post(this.url, a, { 
+      headers: this.getAuthHeaders(),  // ← AGREGAR HEADERS
+      responseType: 'text' 
+    });
   }
 
   listId(id: number) {
-    return this.http.get<Alimento>(`${this.url}/${id}`);
+    return this.http.get<Alimento>(`${this.url}/${id}`, { 
+      headers: this.getAuthHeaders()  // ← AGREGAR HEADERS
+    });
   }
 
   update(a: Alimento) {
-    return this.http.put(this.url, a, { responseType: 'text' });
+    return this.http.put(this.url, a, { 
+      headers: this.getAuthHeaders(),  // ← AGREGAR HEADERS
+      responseType: 'text' 
+    });
   }
 
   delete(id: number) {
-    return this.http.delete(`${this.url}/${id}`, { responseType: 'text' });
+    return this.http.delete(`${this.url}/${id}`, { 
+      headers: this.getAuthHeaders(),  // ← AGREGAR HEADERS
+      responseType: 'text' 
+    });
   }
 
   setList(listaNueva: Alimento[]) {
@@ -45,6 +68,11 @@ export class AlimentoService {
   }
 
   getPromedioCO2PorTipo(): Observable<TipoAlimentoCO2DTO[]> {
-    return this.http.get<TipoAlimentoCO2DTO[]>(`${this.url}/reportes/promedio-co2-tipo`);
+    return this.http.get<TipoAlimentoCO2DTO[]>(
+      `${this.url}/reportes/promedio-co2-tipo`, 
+      { 
+        headers: this.getAuthHeaders()  // ← AGREGAR HEADERS
+      }
+    );
   }
 }

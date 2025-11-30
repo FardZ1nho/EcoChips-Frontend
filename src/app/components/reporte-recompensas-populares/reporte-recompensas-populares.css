@@ -1,0 +1,81 @@
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+  padding-bottom: 50px; /* Espacio para scroll */
+}
+
+.grafico1 {
+  /* Ocupa casi todo el ancho disponible, hasta un máximo razonable */
+  width: 95%;
+  max-width: 1000px;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  
+  /* Borde superior azul para diferenciarlo de otros reportes */
+  /* Si prefieres verde como el resto, cambia #1976d2 por #2e7d32 */
+  border-top: 5px solid #1976d2; 
+}
+
+.chart-container {
+  position: relative;
+  width: 100%; 
+  max-width: 600px; /* Tamaño ideal para que la dona no se vea gigante */
+  height: 500px;    /* Altura fija para mantener proporción */
+  margin: 20px auto;
+}
+
+/* Asegura que el canvas ocupe el espacio asignado */
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Estilos para el estado "Sin datos" */
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #757575;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.no-data-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 10px;
+  color: #bdbdbd; /* Gris suave */
+}
+
+.no-data-message {
+  font-size: 18px;
+  text-align: center;
+}
+
+/* Título */
+h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 5px;
+    font-size: 26px;
+    font-weight: 500;
+}
+
+/* Subtítulo */
+.subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 25px;
+    font-size: 16px;
+}

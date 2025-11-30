@@ -3,20 +3,27 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
+// Material Imports
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 
+// Modelos
 import { RegistroAlimentacion } from '../../../models/RegistroAlimentacion';
 import { Usuario } from '../../../models/Usuario';
 import { Alimento } from '../../../models/Alimento';
+
+// Servicios
 import { RegistroAlimentacionService } from '../../../services/registroalimentacionservice';
 import { Usuarioservice } from '../../../services/usuarioservice';
 import { AlimentoService } from '../../../services/alimento';
-import { MatCardModule } from '@angular/material/card';
+import { AuthService } from '../../../services/authservice';
+
 
 @Component({
   selector: 'app-registroalimentacioninsertar',
@@ -31,11 +38,12 @@ import { MatCardModule } from '@angular/material/card';
     MatDatepickerModule,
     MatNativeDateModule,
     MatButtonModule,
+    MatIconModule,
     RouterLink,
     MatCardModule
   ],
   templateUrl: './registroalimentacioninsertar.html',
-  styleUrl: './registroalimentacioninsertar.css'
+  styleUrls: ['./registroalimentacioninsertar.css']
 })
 export class Registroalimentacioninsertar implements OnInit {
   form: FormGroup = new FormGroup({});
@@ -45,29 +53,41 @@ export class Registroalimentacioninsertar implements OnInit {
 
   listaUsuarios: Usuario[] = [];
   listaAlimentos: Alimento[] = [];
-  fechaMaxima: Date = new Date(); // Fecha máxima = hoy
+  fechaMaxima: Date = new Date(); // Se usará en el HTML [max]="fechaMaxima" si lo deseas
 
   constructor(
     private fb: FormBuilder,
     private raS: RegistroAlimentacionService,
     private uS: Usuarioservice,
     private aS: AlimentoService,
+    private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    // Cargar listas
     this.uS.list().subscribe(data => this.listaUsuarios = data);
     this.aS.list().subscribe(data => this.listaAlimentos = data);
 
+    // Obtener ID del usuario logueado
+    const usuarioLogueadoId = this.authService.getCurrentUserId();
+
+    // Inicializar formulario
     this.form = this.fb.group({
       idRegistroAlimentacion: [''],
-      usuario: ['', Validators.required],
+      
+      // Usuario: Sigue bloqueado (disabled: true) porque debe ser el usuario logueado
+      usuario: [{ value: usuarioLogueadoId, disabled: true }, Validators.required],
+      
       alimento: ['', Validators.required],
       porciones: ['', [Validators.required, Validators.min(1)]],
+      
+      // CAMBIO: Fecha con valor por defecto (hoy) pero EDITABLE (sin disabled: true)
       fecha: [new Date(), Validators.required]
     });
 
+    // Verificar edición
     this.route.params.subscribe(params => {
       this.id = params['id'];
       if (this.id) {
@@ -87,18 +107,21 @@ export class Registroalimentacioninsertar implements OnInit {
         porciones: data.porciones,
         fecha: data.fecha
       });
+      
+      // Solo bloqueamos el usuario, permitimos editar la fecha si se desea
+      this.form.get('usuario')?.disable();
     });
   }
 
-  // Función para validar que la fecha no sea futura
+  // Validación para que no elijan fechas futuras
   validarFechaNoFutura(): boolean {
-    const fechaSeleccionada = this.form.get('fecha')?.value;
+    const fechaSeleccionada = this.form.get('fecha')?.value; // Usamos .get() normal ya que está habilitado
     if (!fechaSeleccionada) return true;
 
     const fecha = new Date(fechaSeleccionada);
     const hoy = new Date();
     
-    // Resetear horas para comparar solo fechas
+    // Ignoramos la hora para comparar solo fechas
     hoy.setHours(0, 0, 0, 0);
     fecha.setHours(0, 0, 0, 0);
 
@@ -107,7 +130,6 @@ export class Registroalimentacioninsertar implements OnInit {
 
   aceptar() {
     if (this.form.valid) {
-      // Validar que la fecha no sea futura
       if (!this.validarFechaNoFutura()) {
         alert('La fecha no puede ser posterior a la fecha actual');
         return;
@@ -121,11 +143,15 @@ export class Registroalimentacioninsertar implements OnInit {
         registro.idRegistroAlimentacion = null; 
       }
 
-      registro.idUsuario = this.form.value.usuario;
-      registro.idAlimento = this.form.value.alimento;
-      registro.porciones = this.form.value.porciones;
+      // Usamos getRawValue() principalmente por el campo 'usuario' que está disabled
+      const datosFormulario = this.form.getRawValue();
+
+      registro.idUsuario = datosFormulario.usuario;
+      registro.idAlimento = datosFormulario.alimento;
+      registro.porciones = datosFormulario.porciones;
       
-      const fechaForm = this.form.value.fecha;
+      // Formateo de fecha
+      const fechaForm = datosFormulario.fecha;
       if (fechaForm instanceof Date) {
         const year = fechaForm.getFullYear();
         const month = (fechaForm.getMonth() + 1).toString().padStart(2, '0');
@@ -135,6 +161,7 @@ export class Registroalimentacioninsertar implements OnInit {
         registro.fecha = fechaForm;
       }
 
+      // Guardar
       if (this.edicion) {
         this.raS.update(registro).subscribe(() => {
           this.raS.list().subscribe(d => this.raS.setList(d));
@@ -146,7 +173,7 @@ export class Registroalimentacioninsertar implements OnInit {
             this.raS.list().subscribe(d => this.raS.setList(d));
             this.router.navigate(['/home/registrosalimentacion/listar']);
           },
-          error: (e) => console.error("Error:", e)
+          error: (e) => console.error("Error al registrar alimentación:", e)
         });
       }
     }

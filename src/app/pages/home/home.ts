@@ -93,10 +93,12 @@ export class Home implements OnInit {
       submenuItems: [
         { label: 'Registrar Evento - Usuario', route: '/home/registroeventos/crear' },
         { label: 'Listar Evento - Usuario', route: '/home/registroeventos/listar' },
-        { label: 'Registrar Transporte - Usuario', route: '/home/registrostransporte/insertar' },
+        { label: 'Registrar uso de Transporte', route: '/home/registrostransporte/insertar' },
         { label: 'Listar Transporte - Usuario', route: '/home/registrostransporte/listar' },
-        { label: 'Registrar Alimento - Usuario', route: '/home/registrosalimentacion/insertar' },
-        { label: 'Listar Alimento - Usuario', route: '/home/registrosalimentacion/listar' }
+        { label: 'Historial Transporte por Usuario', route: '/home/registrostransporte/buscar' },
+        { label: 'Registrar consumo de Alimento', route: '/home/registrosalimentacion/insertar' },
+        { label: 'Listar Alimento - Usuario', route: '/home/registrosalimentacion/listar' },
+        { label: 'Historial Alimentación por Usuario', route: '/home/registrosalimentacion/buscar' },
       ]
     },
     { 
@@ -114,7 +116,10 @@ export class Home implements OnInit {
       hasSubmenu: true,
       submenuItems: [
         { label: 'Registrar', route: '/home/recompensas/crear' },
-        { label: 'Listar', route: '/home/recompensas/listar' }
+        { label: 'Listar', route: '/home/recompensas/listar' }, 
+        { label: 'Canjear', route: '/home/usuariorecompensa/crear' },
+        { label: 'Listar Canjes', route: '/home/usuariorecompensa/listar' },
+        { label: 'Historial de Canjes por Usuario', route: '/home/usuariorecompensa/buscar' },
       ]
     },
     { 

@@ -35,10 +35,12 @@
                 formControlName="edad"
                 class="form-input"
                 [class.error]="edad?.invalid && edad?.touched"
-                [disabled]="isLoading"
                 min="1"
                 max="120"
               />
+              <!-- ELIMINADO: [disabled]="isLoading" porque da conflicto con ReactiveForms.
+                   Si quieres deshabilitarlo al cargar, hazlo en el .ts con this.edad.disable() -->
+              
               <div *ngIf="edad?.invalid && edad?.touched" class="error-text">
                 {{ getEdadErrorMessage() }}
               </div>
@@ -52,13 +54,15 @@
                 formControlName="genero"
                 class="form-input"
                 [class.error]="genero?.invalid && genero?.touched"
-                [disabled]="isLoading"
               >
+                <!-- ELIMINADO: [disabled]="isLoading" -->
+                
                 <option value="">Selecciona tu género</option>
                 <option *ngFor="let genero of generos" [value]="genero.value">
                   {{ genero.label }}
                 </option>
               </select>
+              
               <div *ngIf="genero?.invalid && genero?.touched" class="error-text">
                 {{ getGeneroErrorMessage() }}
               </div>

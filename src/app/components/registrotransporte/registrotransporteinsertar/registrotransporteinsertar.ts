@@ -18,6 +18,8 @@ import { Transporte } from '../../../models/Transporte';
 import { Transporteservice } from '../../../services/transporteservice';
 import { RegistroTransporteService } from '../../../services/registrotransporteservice';
 import { Usuarioservice } from '../../../services/usuarioservice';
+import { AuthService } from '../../../services/authservice';
+
 
 @Component({
   selector: 'app-registrotransporteinsertar',
@@ -53,6 +55,7 @@ export class RegistroTransporteInsertar implements OnInit {
     private rts: RegistroTransporteService,
     private uS: Usuarioservice,
     private tS: Transporteservice,
+    private authService: AuthService, // <--- 2. INYECTAR AUTH SERVICE
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -61,13 +64,16 @@ export class RegistroTransporteInsertar implements OnInit {
     this.uS.list().subscribe(data => this.listaUsuarios = data);
     this.tS.list().subscribe(data => this.listaTransportes = data);
 
+    // 3. Obtener ID del usuario logueado
+    const usuarioLogueadoId = this.authService.getCurrentUserId();
+
     this.form = this.fb.group({
       idRegistroTransporte: [''],
-      usuario: ['', Validators.required],
+      // 4. CAMBIO CLAVE: Valor por defecto y deshabilitado
+      usuario: [{ value: usuarioLogueadoId, disabled: true }, Validators.required],
       transporte: ['', Validators.required],
       distanciaKm: ['', [Validators.required, Validators.min(0.1)]],
       fecha: [new Date(), Validators.required]
-      // NOTA: Eliminamos co2Emision del formulario ya que se calculará automáticamente
     });
 
     this.route.params.subscribe(params => {
@@ -88,12 +94,13 @@ export class RegistroTransporteInsertar implements OnInit {
         transporte: data.idTransporte,
         distanciaKm: data.distanciaKm,
         fecha: data.fecha
-        // NOTA: No mostramos co2Emitido en el formulario de edición
       });
+      
+      // Si estamos editando, nos aseguramos que siga bloqueado el usuario
+      this.form.get('usuario')?.disable();
     });
   }
 
-  // Función para validar que la fecha no sea futura
   validarFechaNoFutura(): boolean {
     const fechaSeleccionada = this.form.get('fecha')?.value;
     if (!fechaSeleccionada) return true;
@@ -101,7 +108,6 @@ export class RegistroTransporteInsertar implements OnInit {
     const fecha = new Date(fechaSeleccionada);
     const hoy = new Date();
     
-    // Resetear horas para comparar solo fechas
     hoy.setHours(0, 0, 0, 0);
     fecha.setHours(0, 0, 0, 0);
 
@@ -110,7 +116,6 @@ export class RegistroTransporteInsertar implements OnInit {
 
   aceptar() {
     if (this.form.valid) {
-      // Validar que la fecha no sea futura
       if (!this.validarFechaNoFutura()) {
         alert('La fecha no puede ser posterior a la fecha actual');
         return;
@@ -124,15 +129,14 @@ export class RegistroTransporteInsertar implements OnInit {
         reg.idRegistroTransporte = null; 
       }
 
-      // IMPORTANTE: Cambiamos la estructura para que coincida con el DTO del backend
-      reg.idUsuario = this.form.value.usuario; // Enviar solo el ID del usuario
-      reg.idTransporte = this.form.value.transporte; // Enviar solo el ID del transporte
-      reg.distanciaKm = this.form.value.distanciaKm;
-      
-      // NOTA: El campo co2Emitido NO se envía - el backend lo calculará automáticamente
-      // reg.co2Emitido = 0; // No enviar este campo
+      // 5. CAMBIO CLAVE: Usamos getRawValue() para leer el campo 'usuario' aunque esté disabled
+      const datosFormulario = this.form.getRawValue();
 
-      const fechaForm = this.form.value.fecha;
+      reg.idUsuario = datosFormulario.usuario; 
+      reg.idTransporte = datosFormulario.transporte;
+      reg.distanciaKm = datosFormulario.distanciaKm;
+      
+      const fechaForm = datosFormulario.fecha;
       if (fechaForm instanceof Date) {
         const year = fechaForm.getFullYear();
         const month = (fechaForm.getMonth() + 1).toString().padStart(2, '0');
@@ -143,7 +147,6 @@ export class RegistroTransporteInsertar implements OnInit {
       }
 
       if (this.edicion) {
-        // Aquí va la lógica para editar si es necesario
         this.rts.update(reg).subscribe(() => {
           this.rts.list().subscribe(d => this.rts.setList(d));
           this.router.navigate(['/home/registrostransporte/listar']);
