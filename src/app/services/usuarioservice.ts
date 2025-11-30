@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Usuario } from '../models/Usuario';
-import { Subject, Observable } from 'rxjs'; // ✅ Importante: Observable agregado
+import { Subject, Observable } from 'rxjs';
 
-const base_url = environment.base; // Asegúrate que en environment.ts sea 'http://localhost:8080'
+const base_url = environment.base;
 
 @Injectable({
   providedIn: 'root',
@@ -15,41 +15,51 @@ export class Usuarioservice {
 
   constructor(private http: HttpClient) {}
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    console.log('🔐 Token usado en usuarios:', token ? 'SÍ' : 'NO');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  }
+
   // ==========================================
-  // ✅ 1. MÉTODOS DE SEGURIDAD (Login y Registro)
+  // ✅ 1. MÉTODOS DE SEGURIDAD (Login y Registro) - SIN headers
   // ==========================================
 
-  // Método para LOGIN (Conecta con tu backend /login)
   login(correo: string, contrasena: string): Observable<any> {
     const loginData = {
       correo: correo,
       contrasena: contrasena
     };
-    return this.http.post(`${this.url}/login`, loginData);
+    return this.http.post(`${this.url}/login`, loginData); // ❌ SIN headers (público)
   }
 
-  // Método para REGISTRAR (Usa DTO limpio para no fallar con datos extra)
   registrar(usuario: Usuario): Observable<any> {
     const dataToSend = {
       nombre: usuario.nombre,
       correo: usuario.correo,
       contrasena: usuario.contrasena
     };
-    // responseType: 'text' es necesario porque tu backend devuelve un String plano
-    return this.http.post(`${this.url}/registro`, dataToSend, { responseType: 'text' });
+    return this.http.post(`${this.url}/registro`, dataToSend, { responseType: 'text' }); // ❌ SIN headers (público)
   }
 
   // ==========================================
-  // ♻️ 2. MÉTODOS CRUD Y REPORTES (TUS ORIGINALES)
+  // ♻️ 2. MÉTODOS CRUD Y REPORTES - CON headers
   // ==========================================
 
   list() {
-    return this.http.get<Usuario[]>(this.url);
+    return this.http.get<Usuario[]>(this.url, { 
+      headers: this.getAuthHeaders() // ✅ CON headers
+    });
   }
 
-  // Insertar normal (puede usarse para admin)
   insert(u: Usuario) {
-    return this.http.post(this.url, u, { responseType: 'text' });
+    return this.http.post(this.url, u, { 
+      headers: this.getAuthHeaders(), // ✅ CON headers
+      responseType: 'text' 
+    });
   }
 
   setList(listaNueva: Usuario[]) {
@@ -60,38 +70,47 @@ export class Usuarioservice {
     return this.listaCambio.asObservable();
   }
 
-  // Buscar usuario por ID
   listId(id: number) {
-    return this.http.get<Usuario>(`${this.url}/${id}`);
+    return this.http.get<Usuario>(`${this.url}/${id}`, { 
+      headers: this.getAuthHeaders() // ✅ CON headers
+    });
   }
 
-  // Actualizar usuario existente
   update(u: Usuario) {
-    return this.http.put(this.url, u, { responseType: 'text' });
+    return this.http.put(this.url, u, { 
+      headers: this.getAuthHeaders(), // ✅ CON headers
+      responseType: 'text' 
+    });
   }
 
-  // Eliminar usuario por ID
   delete(id: number) {
-    return this.http.delete(`${this.url}/${id}`, { responseType: 'text' });
+    return this.http.delete(`${this.url}/${id}`, { 
+      headers: this.getAuthHeaders(), // ✅ CON headers
+      responseType: 'text' 
+    });
   }
 
-  // Listar usuarios por nivel
   listByNivel(nivel: number) {
-    return this.http.get<Usuario[]>(`${this.url}/nivel/${nivel}`);
+    return this.http.get<Usuario[]>(`${this.url}/nivel/${nivel}`, { 
+      headers: this.getAuthHeaders() // ✅ CON headers
+    });
   }
 
-  // Obtener resumen de usuarios por nivel (DTO)
   resumenPorNivel(nivel: number) {
-    return this.http.get(`${this.url}/resumen/nivel/${nivel}`);
+    return this.http.get(`${this.url}/resumen/nivel/${nivel}`, { 
+      headers: this.getAuthHeaders() // ✅ CON headers
+    });
   }
 
-  // Obtener ranking de usuarios por logros
   rankingLogros() {
-    return this.http.get(`${this.url}/logros-ranking`);
+    return this.http.get(`${this.url}/logros-ranking`, { 
+      headers: this.getAuthHeaders() // ✅ CON headers
+    });
   }
 
-  // Obtener reporte de participación por género
   reporteGenero() {
-    return this.http.get(`${this.url}/reporte/participantes-genero`);
+    return this.http.get(`${this.url}/reporte/participantes-genero`, { 
+      headers: this.getAuthHeaders() // ✅ CON headers
+    });
   }
 }

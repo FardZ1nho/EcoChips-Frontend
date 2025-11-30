@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RegistroEvento } from '../models/RegistroEvento';
 import { Subject } from 'rxjs';
 
@@ -15,12 +15,26 @@ export class Registroeventoservice {
 
   constructor(private http: HttpClient) {}
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    console.log('🔐 Token usado en registro eventos:', token ? 'SÍ' : 'NO');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  }
+
   list() {
-    return this.http.get<RegistroEvento[]>(this.url);
+    return this.http.get<RegistroEvento[]>(this.url, { 
+      headers: this.getAuthHeaders()
+    });
   }
 
   insert(e: RegistroEvento) {
-    return this.http.post(this.url, e, { responseType: 'text' });
+    return this.http.post(this.url, e, { 
+      headers: this.getAuthHeaders(),
+      responseType: 'text' 
+    });
   }
 
   setList(listaNueva: RegistroEvento[]) {
@@ -32,14 +46,22 @@ export class Registroeventoservice {
   }
 
   listId(id: number) {
-    return this.http.get<RegistroEvento>(`${this.url}/${id}`);
+    return this.http.get<RegistroEvento>(`${this.url}/${id}`, { 
+      headers: this.getAuthHeaders()
+    });
   }
 
   update(e: RegistroEvento) {
-    return this.http.put(`${this.url}`, e, { responseType: 'text' });
+    return this.http.put(`${this.url}`, e, { 
+      headers: this.getAuthHeaders(),
+      responseType: 'text' 
+    });
   }
 
   delete(id: number) {
-    return this.http.delete(`${this.url}/${id}`, { responseType: 'text' });
+    return this.http.delete(`${this.url}/${id}`, { 
+      headers: this.getAuthHeaders(),
+      responseType: 'text' 
+    });
   }
 }

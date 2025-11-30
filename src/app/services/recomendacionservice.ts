@@ -1,10 +1,8 @@
-
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Recomendacion } from '../models/Recomendacion';
 import { Subject, Observable, map } from 'rxjs'; 
-
 import { RecomendacionTipoCountDTO } from '../models/RecomendacionTipoCountDTO'; 
 
 const base_url = environment.base;
@@ -18,12 +16,26 @@ export class Recomendacionservice {
 
   constructor(private http: HttpClient) {}
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    console.log('🔐 Token usado en recomendaciones:', token ? 'SÍ' : 'NO');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  }
+
   list() {
-    return this.http.get<Recomendacion[]>(this.url);
+    return this.http.get<Recomendacion[]>(this.url, { 
+      headers: this.getAuthHeaders()
+    });
   }
 
   insert(e: Recomendacion) {
-    return this.http.post(this.url, e, { responseType: 'text' });
+    return this.http.post(this.url, e, { 
+      headers: this.getAuthHeaders(),
+      responseType: 'text' 
+    });
   }
 
   setList(listaNueva: Recomendacion[]) {
@@ -35,24 +47,29 @@ export class Recomendacionservice {
   }
 
   listId(id: number) {
-    return this.http.get<Recomendacion>(`${this.url}/${id}`);
+    return this.http.get<Recomendacion>(`${this.url}/${id}`, { 
+      headers: this.getAuthHeaders()
+    });
   }
 
   update(e: Recomendacion) {
-    return this.http.put(`${this.url}`, e, { responseType: 'text' });
+    return this.http.put(`${this.url}`, e, { 
+      headers: this.getAuthHeaders(),
+      responseType: 'text' 
+    });
   }
 
   delete(id: number) {
-    return this.http.delete(`${this.url}/${id}`, { responseType: 'text' });
+    return this.http.delete(`${this.url}/${id}`, { 
+      headers: this.getAuthHeaders(),
+      responseType: 'text' 
+    });
   }
 
-
-    getRecomendacionesPorTipo(): Observable<RecomendacionTipoCountDTO[]> {
-    // La URL debe coincidir con el endpoint de tu Controller
+  getRecomendacionesPorTipo(): Observable<RecomendacionTipoCountDTO[]> {
     const reporteUrl = `${this.url}/reportes/por-tipo`; 
-    
-    // Usamos el tipo de retorno directo del DTO del backend
-    return this.http.get<RecomendacionTipoCountDTO[]>(reporteUrl);
+    return this.http.get<RecomendacionTipoCountDTO[]>(reporteUrl, { 
+      headers: this.getAuthHeaders()
+    });
   }
-
 }
