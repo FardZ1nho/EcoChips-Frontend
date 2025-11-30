@@ -1,0 +1,61 @@
+<div class="form-container">
+  <h2>{{ titulo }}</h2>
+  
+  <form [formGroup]="form" (ngSubmit)="aceptar()">
+
+    <!-- SELECT USUARIO -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Usuario</mat-label>
+      <mat-select formControlName="idUsuario">
+        <!-- Iteramos sobre la lista de usuarios cargada en el TS -->
+        <mat-option *ngFor="let u of listaUsuarios" [value]="u.idUsuario">
+          {{ u.nombre }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('idUsuario')?.hasError('required')">
+        Selecciona un usuario
+      </mat-error>
+    </mat-form-field>
+
+    <!-- SELECT RECOMPENSA -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Recompensa</mat-label>
+      <mat-select formControlName="idRecompensa">
+        <!-- Iteramos sobre la lista de recompensas cargada en el TS -->
+        <!-- Mostramos el título y el costo para ayudar a elegir -->
+        <mat-option *ngFor="let r of listaRecompensas" [value]="r.idRecompensa">
+          {{ r.tituloRecompensa }} ({{ r.costoCanjes }} pts)
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('idRecompensa')?.hasError('required')">
+        Selecciona una recompensa
+      </mat-error>
+    </mat-form-field>
+
+    <!-- FECHA ASIGNACIÓN -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Fecha de Canje</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="fechaAsignacion">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="form.get('fechaAsignacion')?.hasError('required')">
+        La fecha es obligatoria
+      </mat-error>
+    </mat-form-field>
+
+    <!-- BOTONES -->
+    <div class="acciones">
+      <!-- Botón Guardar -->
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        Guardar
+      </button>
+      
+      <!-- Botón Cancelar -->
+      <button mat-button color="warn" type="button" routerLink="/home/usuariorecompensa/listar">
+        Cancelar
+      </button>
+    </div>
+
+  </form>
+</div>

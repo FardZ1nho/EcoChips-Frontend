@@ -59,7 +59,7 @@ export class Reportes {
       titulo: 'Recompensas', 
       icono: '🎁', 
       descripcion: 'Ver reporte detallado de recompensas',
-      ruta: '/home/reportes/recompensas' 
+      ruta: '/home/reportes/recompensas-populares' 
     },
     { 
       id: 7, 

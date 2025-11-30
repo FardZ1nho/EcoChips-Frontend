@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="grafico1">
+    <h2>🏆 Recompensas Más Populares 🎁</h2>
+    <p class="subtitle">Top de canjes realizados por los usuarios</p>
+
+    <!-- Gráfico (Solo si hay datos) -->
+    <div *ngIf="hasData" class="chart-container">
+      <canvas baseChart
+              [datasets]="doughnutChartData"
+              [labels]="doughnutChartLabels"
+              [options]="doughnutChartOptions"
+              [legend]="doughnutChartLegend"
+              [type]="doughnutChartType">
+      </canvas>
+    </div>
+
+    <!-- Estado vacío -->
+    <div *ngIf="!hasData" class="no-data">
+      <mat-icon class="no-data-icon">card_giftcard</mat-icon>
+      <p class="no-data-message">Aún no hay canjes registrados para mostrar estadísticas.</p>
+    </div>
+  </div>
+</div>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RegistroTransporte } from '../models/RegistroTransporte';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 const base_url = environment.base;
 
@@ -62,6 +62,10 @@ export class RegistroTransporteService {
       headers: this.getAuthHeaders(),
       responseType: 'text' 
     });
+  }
+
+  listarPorUsuario(idUsuario: number): Observable<RegistroTransporte[]> {
+    return this.http.get<RegistroTransporte[]>(`${this.url}/usuario/${idUsuario}`);
   }
 
   setList(listaNueva: RegistroTransporte[]) {

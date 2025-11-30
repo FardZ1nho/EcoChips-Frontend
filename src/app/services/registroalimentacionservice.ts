@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http'; // ← Agregar HttpHeaders
 import { RegistroAlimentacion } from '../models/RegistroAlimentacion';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 const base_url = environment.base;
 
@@ -65,10 +65,8 @@ export class RegistroAlimentacionService {
   }
 
   // 👤 LISTAR POR USUARIO - ADMIN o USUARIO dueño
-  listarPorUsuario(idUsuario: number) {
-    return this.http.get<RegistroAlimentacion[]>(`${this.url}/usuario/${idUsuario}`, { 
-      headers: this.getAuthHeaders()
-    });
+  listarPorUsuario(idUsuario: number): Observable<RegistroAlimentacion[]> {
+    return this.http.get<RegistroAlimentacion[]>(`${this.url}/usuario/${idUsuario}`);
   }
 
   setList(listaNueva: RegistroAlimentacion[]) {

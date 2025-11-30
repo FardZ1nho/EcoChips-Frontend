@@ -1,29 +1,16 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from '../services/authservice';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard implements CanActivate {
+export const authGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-  constructor(private router: Router) {}
-
-  canActivate(): boolean {
-    // 1. Buscamos si existe la "llave" en el navegador
-    const tieneToken = localStorage.getItem('token');
-    const tieneUsuario = localStorage.getItem('usuario');
-
-    if (tieneToken || tieneUsuario) {
-      // ✅ TIENE LLAVE: Lo dejamos pasar
-      return true;
-    } else {
-      // ⛔ NO TIENE LLAVE: 
-      // Aquí está el truco para evitar la pantalla blanca:
-      // Le decimos explícitamente "Vete al Login"
-      this.router.navigate(['/login']); 
-      
-      // Y devolvemos false para que Angular sepa que no debe cargar el Home
-      return false;
-    }
+  if (authService.isTokenValid()) {
+    return true; // Token válido, pasa
+  } else {
+    // No hay token, redirigir al login
+    router.navigate(['/login']);
+    return false;
   }
-}
+};

@@ -1,0 +1,59 @@
+.form-container {
+    width: 100%;
+    max-width: 450px; /* Ancho máximo controlado para que no se estire */
+    margin: 30px auto; /* Centrado horizontal */
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Sombra suave */
+    border-top: 6px solid #2e7d32; /* Borde verde corporativo */
+}
+
+/* Título del formulario */
+h2 {
+    text-align: center;
+    color: #1b5e20;
+    margin-bottom: 25px;
+    font-size: 24px;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Campos de formulario al 100% del ancho */
+.full-width {
+    width: 100%;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* Contenedor de botones */
+.acciones {
+    display: flex;
+    justify-content: center; /* Centrados */
+    gap: 20px; /* Espacio entre botones */
+    margin-top: 30px;
+}
+
+/* Estilo base para los botones */
+button {
+    min-width: 120px; /* Ancho mínimo para uniformidad */
+    padding: 8px 16px;
+    font-weight: 500;
+}
+
+/* Ajustes responsivos para móviles */
+@media (max-width: 500px) {
+    .form-container {
+        width: 90%;
+        padding: 20px;
+    }
+    
+    .acciones {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    button {
+        width: 100%;
+    }
+}

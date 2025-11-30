@@ -4,7 +4,6 @@ import { Registro } from './pages/auth/registro/registro';
 import { Landing } from './pages/landing/landing';
 
 // ✅ GUARDS ACTUALIZADOS
-import { AuthGuard } from './guards/auth-guard'; 
 import { AdminGuard } from './guards/admin-guard'; 
 import { UserGuard } from './guards/user-guard'; 
 
@@ -54,6 +53,13 @@ import { UsuarioRecomendacionListar } from './components/usuariorecomendacion/us
 import { UsuarioRecomendacionCrear } from './components/usuariorecomendacion/usuariorecomendacioncrear/usuariorecomendacioncrear';
 import { ListarPorUsuarioComponent } from './components/usuariorecomendacion/listarporusuario/listarporusuario';
 import { CompletarPerfilComponent } from './components/completar-perfil/completar-perfil';
+import { authGuard } from './guards/auth-guard';
+import { UsuarioRecompensaListar } from './components/usuariorecompensa/usuariorecompensalistar/usuariorecompensalistar';
+import { UsuarioRecompensaCrear } from './components/usuariorecompensa/usuariorecompensacrear/usuariorecompensacrear';
+import { RegistroAlimentacionListarPorUsuarioComponent } from './components/registroalimentacion/listar-por-usuario/listar-por-usuario';
+import { RegistroTransporteListarPorUsuarioComponent } from './components/registrotransporte/listar-por-usuario/listar-por-usuario';
+import { UsuarioRecompensaListarPorUsuarioComponent } from './components/usuariorecompensa/listar-por-usuario/listar-por-usuario';
+import { ReporteRecompensasPopulares } from './components/reporte-recompensas-populares/reporte-recompensas-populares';
 
 export const routes: Routes = [
     // 🌍 RUTAS PÚBLICAS (Sin autenticación)
@@ -65,7 +71,7 @@ export const routes: Routes = [
     { 
         path: 'home', 
         component: Home,
-        canActivate: [AuthGuard], // ✅ Verifica que esté autenticado
+        canActivate: [authGuard], // ✅ Verifica que esté autenticado
         children: [
             { path: '', component: HomeDashboard },
             { path: 'completar-perfil', component: CompletarPerfilComponent },
@@ -91,6 +97,7 @@ export const routes: Routes = [
             { path: 'recompensas/listar', component: Recompensalistar, canActivate: [AdminGuard] },
             { path: 'recompensas/crear', component: Recompensacrear, canActivate: [AdminGuard] },
             { path: 'recompensas/editar/:id', component: Recompensacrear, canActivate: [AdminGuard] },
+            { path: 'usuariorecompensa/buscar', component: UsuarioRecompensaListarPorUsuarioComponent },
 
             // --- REPORTES (Solo Admin) ---
             { path: 'reportes', component: Reportes, canActivate: [AdminGuard] },
@@ -99,6 +106,7 @@ export const routes: Routes = [
             { path: 'reportes/top5-contaminantes', component: ReporteTransporteImpacto, canActivate: [AdminGuard] },
             { path: 'reportes/promedio-co2-tipo', component: ReporteAlimentoCO2, canActivate: [AdminGuard] },
             { path: 'reportes/por-tipo', component: ReporteRecoPrTipo, canActivate: [AdminGuard] },
+            { path: 'reportes/recompensas-populares', component: ReporteRecompensasPopulares, canActivate: [AdminGuard] },
 
             // --- RECOMENDACIONES (Solo Admin) ---
             { path: 'recomendaciones/listar', component: RecomendacionListar, canActivate: [AdminGuard] },
@@ -110,49 +118,55 @@ export const routes: Routes = [
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
             // --- RETOS (Solo User puede participar) ---
-            { path: 'retos/listar', component: Retolistar, canActivate: [UserGuard] },
-            { path: 'retos/crear', component: Retocrear, canActivate: [UserGuard] },
-            { path: 'retos/editar/:id', component: Retocrear, canActivate: [UserGuard] },
+            { path: 'retos/listar', component: Retolistar, canActivate: [AdminGuard] },
+            { path: 'retos/crear', component: Retocrear, canActivate: [AdminGuard] },
+            { path: 'retos/editar/:id', component: Retocrear, canActivate: [AdminGuard] },
             
             // --- PARTICIPACIÓN (Solo User) ---
-            { path: 'participacionretos/listar', component: ParticipacionRetoListar, canActivate: [UserGuard] },
-            { path: 'participacionretos/crear', component: ParticipacionRetoCrear, canActivate: [UserGuard] },
-            { path: 'participacionretos/editar/:id', component: ParticipacionRetoCrear, canActivate: [UserGuard] },
+            { path: 'participacionretos/listar', component: ParticipacionRetoListar },
+            { path: 'participacionretos/crear', component: ParticipacionRetoCrear },
+            { path: 'participacionretos/editar/:id', component: ParticipacionRetoCrear },
 
-            // --- EVENTOS (Solo User) ---
+            // --- EVENTOS  ---
             { path: 'eventos/listar', component: EventoListar, canActivate: [AdminGuard] },
             { path: 'eventos/crear', component: EventoCrear, canActivate: [AdminGuard] },
             { path: 'eventos/editar/:id', component: EventoCrear, canActivate: [AdminGuard] },
 
-            { path: 'registroeventos/listar', component: RegistroEventoListar, canActivate: [UserGuard] },
+            { path: 'registroeventos/listar', component: RegistroEventoListar, canActivate: [AdminGuard] },
             { path: 'registroeventos/crear', component: RegistroEventoCrear, canActivate: [UserGuard] },
-            { path: 'registroeventos/editar/:id', component: RegistroEventoCrear, canActivate: [UserGuard] },
+            { path: 'registroeventos/editar/:id', component: RegistroEventoCrear },
 
-            // --- REGISTRO TRANSPORTE (Solo User) ---
-            { path: 'registrostransporte/listar', component: RegistroTransporteListar, canActivate: [UserGuard] },
+            // --- REGISTRO TRANSPORTE  ---
+            { path: 'registrostransporte/listar', component: RegistroTransporteListar, canActivate: [AdminGuard] },
             { path: 'registrostransporte/insertar', component: RegistroTransporteInsertar, canActivate: [UserGuard] }, 
             { path: 'registrostransporte/editar/:id', component: RegistroTransporteInsertar, canActivate: [UserGuard] },
+            { path: 'registrostransporte/buscar', component: RegistroTransporteListarPorUsuarioComponent },
 
-            // --- REGISTRO ALIMENTACIÓN (Solo User) ---
-            { path: 'registrosalimentacion/listar', component: Registroalimentacionlistar, canActivate: [UserGuard] },
+            // --- REGISTRO ALIMENTACIÓN  ---
+            { path: 'registrosalimentacion/listar', component: Registroalimentacionlistar, canActivate: [AdminGuard] },
             { path: 'registrosalimentacion/insertar', component: Registroalimentacioninsertar, canActivate: [UserGuard] },
             { path: 'registrosalimentacion/editar/:id', component: Registroalimentacioninsertar, canActivate: [UserGuard] },
+            { path: 'registrosalimentacion/buscar', component: RegistroAlimentacionListarPorUsuarioComponent },
 
-            // --- SOPORTE (Solo User) ---
+            // --- SOPORTE  ---
             { path: 'soportesolicitudes/listar', component: SoporteSolicitudListar, canActivate: [UserGuard] },
             { path: 'soportesolicitudes/crear', component: SoporteSolicitudInsertar, canActivate: [UserGuard] },
             { path: 'soportesolicitudes/editar/:id', component: SoporteSolicitudInsertar, canActivate: [UserGuard] },
 
-            // --- PROGRESO (Solo User) ---
+            // --- PROGRESO ---
             { path: 'progreso/registrar', component: ProgresoCrear, canActivate: [UserGuard] },
-            { path: 'progreso/listar', component: ProgresoListar, canActivate: [UserGuard] },
-            { path: 'progreso/editar/:id', component: ProgresoCrear, canActivate: [UserGuard] },
+            { path: 'progreso/listar', component: ProgresoListar },
+            { path: 'progreso/editar/:id', component: ProgresoCrear },
 
-            // --- USUARIO RECOMENDACIÓN (Solo User) ---
-            { path: 'usuariorecomendacion/listar', component: UsuarioRecomendacionListar, canActivate: [UserGuard] },
-            { path: 'usuariorecomendacion/crear', component: UsuarioRecomendacionCrear, canActivate: [UserGuard] },
-            { path: 'usuariorecomendacion/editar/:id', component: UsuarioRecomendacionCrear, canActivate: [UserGuard] },
-            { path: 'usuariorecomendacion/buscar', component: ListarPorUsuarioComponent, canActivate: [UserGuard] },
+            // --- USUARIO RECOMENDACIÓN ---
+            { path: 'usuariorecomendacion/listar', component: UsuarioRecomendacionListar , canActivate: [AdminGuard] },
+            { path: 'usuariorecomendacion/crear', component: UsuarioRecomendacionCrear , canActivate: [AdminGuard] },
+            { path: 'usuariorecomendacion/editar/:id', component: UsuarioRecomendacionCrear , canActivate: [AdminGuard] },
+            { path: 'usuariorecomendacion/buscar', component: ListarPorUsuarioComponent , canActivate: [AdminGuard] },
+
+            { path: 'usuariorecompensa/listar', component: UsuarioRecompensaListar},
+            { path: 'usuariorecompensa/crear', component: UsuarioRecompensaCrear},
+            { path: 'usuariorecompensa/editar/:id', component:  UsuarioRecompensaCrear},
         ]
     },
 ];
