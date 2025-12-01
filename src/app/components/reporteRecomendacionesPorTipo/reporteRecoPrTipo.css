@@ -1,20 +1,23 @@
 .container {
- display: flex;
- justify-content: center;
- width: 100%;
- margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+  gap: 30px;
 }
 
-.grafico1 {
- flex: 1;
- min-width: 0;
- display: flex;
- flex-direction: column;
- justify-content: center;
- background-color: white;
- padding: 20px;
- border-radius: 10px;
- box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+.grafico-section {
+  width: 95%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  border-top: 5px solid #4CAF50;
 }
 
 .chart-container {
@@ -24,24 +27,135 @@
 }
 
 canvas {
- width: 100% !important;
- height: auto !important;
+  width: 100% !important;
+  height: auto !important;
 }
 
+/* Estilos para el nuevo gráfico de pie */
+.pie-container {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding: 20px;
+  justify-content: center;
+}
+
+.pie-chart {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: #f0f0f0;
+}
+
+.pie {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.leyenda {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+}
+
+.leyenda-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.color-box {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.tipo-text {
+  font-weight: 500;
+  min-width: 150px;
+  word-break: break-word;
+}
+
+.cantidad-text {
+  color: #666;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.total {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+/* Estados */
 .no-data {
- display: flex;
- flex-direction: column;
- align-items: center;
- justify-content: center;
- color: gray;
- margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  padding: 40px;
 }
 
 .no-data-icon {
- font-size: 48px;
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.6;
 }
 
 .no-data-message {
- font-size: 18px;
- text-align: center;
+  font-size: 16px;
+  text-align: center;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: #666;
+}
+
+.loading-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    margin-top: 10px;
+    gap: 20px;
+  }
+  
+  .grafico-section {
+    width: 90%;
+    padding: 20px;
+  }
+  
+  .pie-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .leyenda {
+    max-width: 100%;
+  }
+  
+  .tipo-text {
+    min-width: 120px;
+  }
 }

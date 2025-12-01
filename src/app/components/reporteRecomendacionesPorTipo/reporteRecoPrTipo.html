@@ -1,6 +1,7 @@
 <div class="container">
-  <div class="grafico1">
-    <h2>📊 Conteo de recomendaciones por tipo 📊 </h2>
+  <!-- Gráfico existente - Recomendaciones por tipo -->
+  <div class="grafico-section">
+    <h2>📊 Conteo de recomendaciones por tipo</h2>
 
     <div *ngIf="hasData" class="chart-container">
       <canvas baseChart
@@ -15,6 +16,43 @@
     <div *ngIf="!hasData" class="no-data">
       <mat-icon class="no-data-icon">info_outline</mat-icon>
       <p class="no-data-message">No hay datos disponibles para mostrar.</p>
+    </div>
+  </div>
+
+  <!-- NUEVO: Gráfico de tipos de recomendaciones más asignados -->
+  <div class="grafico-section">
+    <h2>🎯 Tipos de Recomendaciones Más Asignados</h2>
+
+    <!-- Loading -->
+    <div *ngIf="loadingTipos" class="loading">
+      <mat-icon class="loading-icon">autorenew</mat-icon>
+      <p>Cargando tipos de recomendaciones...</p>
+    </div>
+
+    <!-- Gráfico de Pie -->
+    <div *ngIf="!loadingTipos && hasDataTipos" class="pie-container">
+      <div class="pie-chart">
+        <div class="pie" [style.background]="getPieBackground()"></div>
+      </div>
+      
+      <div class="leyenda">
+        <div *ngFor="let item of tiposRecomendacion; let i = index" class="leyenda-item">
+          <div class="color-box" [style.background]="getColor(i)"></div>
+          <span class="tipo-text">{{ formatearTipo(item.tipo) }}</span>
+          <span class="cantidad-text">
+            {{ item.vecesAsignado }} asignaciones ({{ getPorcentaje(item.vecesAsignado).toFixed(1) }}%)
+          </span>
+        </div>
+        <div class="total">
+          <strong>Total: {{ totalAsignaciones }} asignaciones</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sin datos -->
+    <div *ngIf="!loadingTipos && !hasDataTipos" class="no-data">
+      <mat-icon class="no-data-icon">pie_chart</mat-icon>
+      <p class="no-data-message">No hay datos de tipos de recomendaciones disponibles.</p>
     </div>
   </div>
 </div>

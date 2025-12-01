@@ -1,0 +1,42 @@
+<div class="container">
+  <mat-card class="reporte-card">
+    <mat-card-header>
+      <mat-card-title>
+        👥 Distribución por Género
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Loading -->
+      <div *ngIf="loading" class="loading">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        <p>Cargando...</p>
+      </div>
+
+      <!-- Gráfico de Pie -->
+      <div *ngIf="!loading && datosGenero.length > 0" class="pie-container">
+        <div class="pie-chart">
+          <div class="pie" [style.background]="getPieBackground()"></div>
+        </div>
+        
+        <div class="leyenda">
+          <div *ngFor="let item of datosGenero; let i = index" class="leyenda-item">
+            <div class="color-box" [style.background]="getColor(i)"></div>
+            <span class="genero-text">{{ formatearGenero(item.genero) }}</span>
+            <span class="cantidad-text">
+              {{ item.cantidadParticipantes }} ({{ getPorcentaje(item.cantidadParticipantes).toFixed(1) }}%)
+            </span>
+          </div>
+          <div class="total">
+            <strong>Total: {{ totalParticipantes }} participantes</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sin datos -->
+      <div *ngIf="!loading && datosGenero.length === 0" class="no-data">
+        <p>No hay datos disponibles</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

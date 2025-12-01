@@ -1,0 +1,34 @@
+.chart-wrapper {
+  background-color: white;  
+  padding: 30px;            
+  border-radius: 10px;       
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin: 20px auto;        
+}
+
+.chart-container {
+  width: 100%;
+  height: 500px;             
+}
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: gray;
+  margin-top: 20px;
+}
+
+.no-data-icon {
+  font-size: 48px;
+}
+
+.no-data-message {
+  font-size: 18px;
+}
