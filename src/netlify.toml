@@ -1,0 +1,10 @@
+[build]
+  # Verifica que esta ruta coincida con tu carpeta de salida de Angular
+  publish = "dist/tu-nombre-de-app/browser" 
+  command = "ng build --configuration production"
+
+[[redirects]]
+  # Esto es lo que permite que las rutas de Angular (/dashboard) funcionen en Netlify
+  from = "/*"
+  to = "/index.html"
+  status = 200
