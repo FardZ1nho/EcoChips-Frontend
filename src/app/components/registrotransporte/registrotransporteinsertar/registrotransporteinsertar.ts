@@ -19,6 +19,7 @@ import { Transporteservice } from '../../../services/transporteservice';
 import { RegistroTransporteService } from '../../../services/registrotransporteservice';
 import { Usuarioservice } from '../../../services/usuarioservice';
 import { AuthService } from '../../../services/authservice';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -35,7 +36,8 @@ import { AuthService } from '../../../services/authservice';
     MatNativeDateModule,
     MatButtonModule,
     MatIconModule,
-    RouterLink
+    RouterLink,
+    MatSnackBarModule
   ],
   templateUrl: './registrotransporteinsertar.html',
   styleUrls: ['./registrotransporteinsertar.css']
@@ -57,7 +59,8 @@ export class RegistroTransporteInsertar implements OnInit {
     private tS: Transporteservice,
     private authService: AuthService, // <--- 2. INYECTAR AUTH SERVICE
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -155,6 +158,7 @@ export class RegistroTransporteInsertar implements OnInit {
         this.rts.insert(reg).subscribe({
           next: () => {
             this.rts.list().subscribe(d => this.rts.setList(d));
+            this.snackBar.open('Registro creado con éxito', 'Cerrar', { duration: 3000 });
             this.router.navigate(['/home/registrostransporte/listar']);
           },
           error: (e) => console.error("Error:", e)

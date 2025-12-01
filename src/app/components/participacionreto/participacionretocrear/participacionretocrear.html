@@ -1,34 +1,48 @@
 <div class="form-container">
   <h2>{{ titulo }}</h2>
-  <form [formGroup]="form" (ngSubmit)="registrar()">
 
-    <!-- Campo oculto para edición -->
-    <input type="hidden" formControlName="idParticipacion">
+  <!-- Solo renderizar el form cuando 'form' ya esté inicializado -->
+  <form *ngIf="form" [formGroup]="form" (ngSubmit)="registrar()">
 
-    <label>ID Usuario</label>
-    <input type="number" formControlName="idUsuario"
-      [ngClass]="{'error': form.get('idUsuario')?.invalid && form.get('idUsuario')?.touched}">
-    <div class="error-msg" *ngIf="form.get('idUsuario')?.invalid && form.get('idUsuario')?.touched">
-      Este campo es obligatorio.
-    </div>
+    <!-- Usuario logueado -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Usuario</mat-label>
+      <input matInput [value]="usuarioLogueado?.nombre" disabled>
+    </mat-form-field>
 
-    <label>ID Reto</label>
-    <input type="number" formControlName="idReto"
-      [ngClass]="{'error': form.get('idReto')?.invalid && form.get('idReto')?.touched}">
-    <div class="error-msg" *ngIf="form.get('idReto')?.invalid && form.get('idReto')?.touched">
-      Este campo es obligatorio.
-    </div>
+    <!-- Selección de Reto -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Reto</mat-label>
+      <mat-select formControlName="idReto">
+        <mat-option *ngFor="let r of listaRetos" [value]="r.idReto">
+          {{ r.titulo }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('idReto')?.hasError('required')">
+        Seleccione un reto
+      </mat-error>
+    </mat-form-field>
 
-    <label>Completado</label>
-    <select formControlName="completado"
-      [ngClass]="{'error': form.get('completado')?.invalid && form.get('completado')?.touched}">
-      <option value="true">Sí</option>
-      <option value="false">No</option>
-    </select>
+    <!-- Completado -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Completado</mat-label>
+      <mat-select formControlName="completado">
+        <mat-option [value]="true">Sí</mat-option>
+        <mat-option [value]="false">No</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('completado')?.hasError('required')">
+        Indique si completó el reto
+      </mat-error>
+    </mat-form-field>
 
     <div class="acciones">
-      <button type="submit" class="btn-guardar">{{ modoEdicion ? 'Guardar' : 'Registrar' }}</button>
-      <button type="button" class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        Guardar
+      </button>
+      <button mat-button color="warn" type="button" (click)="cancelar()">
+        Cancelar
+      </button>
     </div>
+
   </form>
 </div>

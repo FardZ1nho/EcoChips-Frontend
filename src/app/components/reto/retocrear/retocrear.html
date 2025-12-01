@@ -1,40 +1,65 @@
 <div class="form-container">
   <h2>{{ titulo }}</h2>
+
   <form [formGroup]="form" (ngSubmit)="registrar()">
 
-    <label>Título</label>
-    <input type="text" formControlName="titulo" [ngClass]="{'error': form.get('titulo')?.invalid && form.get('titulo')?.touched}">
-    <div class="error-msg" *ngIf="form.get('titulo')?.invalid && form.get('titulo')?.touched">
-      Este campo es obligatorio.
-    </div>
+    <!-- Título -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Título</mat-label>
+      <input matInput placeholder="Ingrese el título" formControlName="titulo">
+      <mat-error *ngIf="form.get('titulo')?.hasError('required')">
+        Este campo es obligatorio
+      </mat-error>
+    </mat-form-field>
 
-    <label>Descripción</label>
-    <textarea rows="4" formControlName="descripcion" [ngClass]="{'error': form.get('descripcion')?.invalid && form.get('descripcion')?.touched}"></textarea>
-    <div class="error-msg" *ngIf="form.get('descripcion')?.invalid && form.get('descripcion')?.touched">
-      Campo obligatorio. Máx 100 palabras.
-    </div>
+    <!-- Descripción -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput placeholder="Ingrese la descripción" rows="4" formControlName="descripcion"></textarea>
+      <mat-error *ngIf="form.get('descripcion')?.hasError('required')">
+        Campo obligatorio. Máx 100 palabras.
+      </mat-error>
+    </mat-form-field>
 
-    <label>Objetivo (kg)</label>
-    <input type="number" formControlName="objetivoKg" [ngClass]="{'error': form.get('objetivoKg')?.invalid && form.get('objetivoKg')?.touched}">
-    <div class="error-msg" *ngIf="form.get('objetivoKg')?.invalid && form.get('objetivoKg')?.touched">
-      Campo obligatorio.
-    </div>
+    <!-- Objetivo -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Objetivo (kg)</mat-label>
+      <input matInput type="number" placeholder="Ej. 100" formControlName="objetivoKg">
+      <mat-error *ngIf="form.get('objetivoKg')?.hasError('required')">
+        Campo obligatorio
+      </mat-error>
+    </mat-form-field>
 
-    <label>Fecha Inicio</label>
-    <input type="date" formControlName="fechaInicio" [min]="minDate" [ngClass]="{'error': form.get('fechaInicio')?.invalid && form.get('fechaInicio')?.touched}">
-    <div class="error-msg" *ngIf="form.get('fechaInicio')?.invalid && form.get('fechaInicio')?.touched">
-      Campo obligatorio.
-    </div>
+    <!-- Fecha Inicio -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Fecha Inicio</mat-label>
+      <input matInput [matDatepicker]="pickerInicio" formControlName="fechaInicio">
+      <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+      <mat-datepicker #pickerInicio startView="month"></mat-datepicker>
+      <mat-error *ngIf="form.get('fechaInicio')?.hasError('required')">
+        Campo obligatorio
+      </mat-error>
+    </mat-form-field>
 
-    <label>Fecha Fin</label>
-    <input type="date" formControlName="fechaFin" [min]="minDate" [ngClass]="{'error': form.get('fechaFin')?.invalid && form.get('fechaFin')?.touched}">
-    <div class="error-msg" *ngIf="form.get('fechaFin')?.invalid && form.get('fechaFin')?.touched">
-      Campo obligatorio.
-    </div>
+    <!-- Fecha Fin -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Fecha Fin</mat-label>
+      <input matInput [matDatepicker]="pickerFin" formControlName="fechaFin">
+      <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+      <mat-datepicker #pickerFin startView="month"></mat-datepicker>
+      <mat-error *ngIf="form.get('fechaFin')?.hasError('required')">
+        Campo obligatorio
+      </mat-error>
+    </mat-form-field>
 
     <div class="acciones">
-      <button type="submit" class="btn-guardar">{{ modoEdicion ? 'Guardar' : 'Registrar' }}</button>
-      <button type="button" class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        {{ modoEdicion ? 'Guardar' : 'Registrar' }}
+      </button>
+      <button mat-button color="warn" type="button" (click)="cancelar()">
+        Cancelar
+      </button>
     </div>
+
   </form>
 </div>

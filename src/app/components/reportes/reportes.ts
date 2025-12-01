@@ -34,25 +34,18 @@ export class Reportes {
       ruta: '/home/reportes/top5-contaminantes' 
     },
     { 
-      id: 3, 
-      titulo: 'Eventos', 
-      icono: '📅', 
-      descripcion: 'Ver reporte detallado de eventos',
-      ruta: '/home/reportes/eventos' 
-    },
-    { 
       id: 4, 
       titulo: 'Retos', 
       icono: '🏆', 
       descripcion: 'Ver reporte detallado de retos',
-      ruta: '/home/reportes/top-usuarios' 
+      ruta: '/home/reportes/populares' 
     },
     { 
       id: 5, 
       titulo: 'Participaciones', 
       icono: '👥', 
       descripcion: 'Ver reporte detallado de participaciones',
-      ruta: '/home/reportes/populares' 
+      ruta: '/home/reportes/top-usuarios' 
     },
     { 
       id: 6, 
