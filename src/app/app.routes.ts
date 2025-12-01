@@ -123,9 +123,9 @@ export const routes: Routes = [
             { path: 'retos/editar/:id', component: Retocrear, canActivate: [AdminGuard] },
             
             // --- PARTICIPACIÓN (Solo User) ---
-            { path: 'participacionretos/listar', component: ParticipacionRetoListar },
-            { path: 'participacionretos/crear', component: ParticipacionRetoCrear },
-            { path: 'participacionretos/editar/:id', component: ParticipacionRetoCrear },
+            { path: 'participacionretos/listar', component: ParticipacionRetoListar, canActivate: [AdminGuard] },
+            { path: 'participacionretos/crear', component: ParticipacionRetoCrear, canActivate: [UserGuard] },
+            { path: 'participacionretos/editar/:id', component: ParticipacionRetoCrear, canActivate: [AdminGuard] },
 
             // --- EVENTOS  ---
             { path: 'eventos/listar', component: EventoListar, canActivate: [AdminGuard] },
@@ -134,7 +134,7 @@ export const routes: Routes = [
 
             { path: 'registroeventos/listar', component: RegistroEventoListar, canActivate: [AdminGuard] },
             { path: 'registroeventos/crear', component: RegistroEventoCrear, canActivate: [UserGuard] },
-            { path: 'registroeventos/editar/:id', component: RegistroEventoCrear },
+            { path: 'registroeventos/editar/:id', component: RegistroEventoCrear, canActivate: [AdminGuard] },
 
             // --- REGISTRO TRANSPORTE  ---
             { path: 'registrostransporte/listar', component: RegistroTransporteListar, canActivate: [AdminGuard] },

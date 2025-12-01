@@ -14,7 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'; // <--- OPCIONAL PERO RECOMENDADO
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';// <--- OPCIONAL PERO RECOMENDADO
 
 import { Transporte } from '../../../models/Transporte';
 import { Transporteservice } from '../../../services/transporteservice';
@@ -26,10 +26,10 @@ import { Transporteservice } from '../../../services/transporteservice';
     CommonModule, // <--- IMPORTANTE PARA NGIF ETC
     MatFormFieldModule,
     MatInputModule,
+    MatSnackBarModule,
     MatButtonModule,
     ReactiveFormsModule,
-    MatIconModule,
-    MatSnackBarModule
+    MatIconModule
   ],
   templateUrl: './transporteinsertar.html',
   styleUrl: './transporteinsertar.css',
@@ -46,7 +46,8 @@ export class Transporteinsertar implements OnInit {
     private tS: Transporteservice,
     private router: Router,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -89,8 +90,8 @@ export class Transporteinsertar implements OnInit {
         this.tS.insert(this.t).subscribe(() => {
           this.tS.list().subscribe((data) => {
             this.tS.setList(data);
-            // LA NAVEGACIÓN VA AQUÍ ADENTRO
             this.router.navigate(['/home/transporte/listar']);
+            this.snackBar.open('Transporte registrado correctamente', 'Cerrar', {duration: 2000});
           });
         });
       }
@@ -112,4 +113,5 @@ export class Transporteinsertar implements OnInit {
       });
     }
   }
+  cancelar() { this.router.navigate(['/home']); }
 }

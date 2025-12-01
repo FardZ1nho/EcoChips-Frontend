@@ -1,22 +1,36 @@
 <div class="form-container">
   <h2>{{ titulo }}</h2>
-  <form [formGroup]="form" (ngSubmit)="guardar()">
 
-    <label>ID Usuario</label>
-    <input type="number" formControlName="idUsuario">
-    <div *ngIf="form.controls['idUsuario'].invalid && form.controls['idUsuario'].touched" class="error-msg">
-      Este campo es obligatorio
-    </div>
+  <!-- Solo renderizar el form cuando 'form' ya esté inicializado -->
+  <form *ngIf="form" [formGroup]="form" (ngSubmit)="aceptar()">
 
-    <label>ID Evento</label>
-    <input type="number" formControlName="idEvento">
-    <div *ngIf="form.controls['idEvento'].invalid && form.controls['idEvento'].touched" class="error-msg">
-      Este campo es obligatorio
-    </div>
+    <!-- Usuario logueado -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Usuario</mat-label>
+      <input matInput [value]="usuarioLogueado?.nombre" disabled>
+    </mat-form-field>
+
+    <!-- Selección de evento -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Evento</mat-label>
+      <mat-select formControlName="idEvento">
+        <mat-option *ngFor="let e of listaEventos" [value]="e.idEvento">
+          {{ e.titulo }} - {{ e.fecha | date:'dd/MM/yyyy' }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('idEvento')?.hasError('required')">
+        Seleccione un evento
+      </mat-error>
+    </mat-form-field>
 
     <div class="acciones">
-      <button type="submit" class="btn-guardar">{{ modoEdicion ? 'Modificar' : 'Guardar' }}</button>
-      <button type="button" class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        Guardar
+      </button>
+      <button mat-button color="warn" type="button" (click)="cancelar()">
+        Cancelar
+      </button>
     </div>
+
   </form>
 </div>

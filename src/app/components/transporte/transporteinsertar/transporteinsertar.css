@@ -1,105 +1,31 @@
-/* Contenedor principal centrado (Tarjeta) */
 .form-container {
     width: 100%;
-    max-width: 500px; /* Ancho máximo para que no se estire demasiado */
-    margin: 40px auto; /* Centrado horizontal y margen superior */
-    background-color: #ffffff;
-    padding: 30px;
+    max-width: 450px;
+    margin: 30px auto;
+    padding: 25px;
+    background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    border-top: 5px solid #2e7d32; /* Borde verde superior (Estilo EcoChips) */
-    font-family: 'Roboto', sans-serif;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    border-top: 5px solid #2e7d32;
 }
 
-/* Título */
 h2 {
     text-align: center;
-    color: #1b5e20; /* Verde oscuro */
+    color: #1b5e20;
     margin-bottom: 25px;
-    font-weight: 500;
 }
 
-/* Estilo de cada bloque de campo */
-.campo {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: #424242;
-}
-
-/* Inputs (Cajas de texto) */
-input[type="text"],
-input[type="number"] {
+.full-width {
     width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    box-sizing: border-box; /* Para que el padding no rompa el ancho */
-    transition: border-color 0.3s;
+    margin-bottom: 10px;
 }
 
-input:focus {
-    outline: none;
-    border-color: #2e7d32; /* Borde verde al hacer clic */
-    background-color: #f1f8e9; /* Fondo verde muy suave */
-}
-
-/* Estilo para input con error */
-.input-error {
-    border-color: #d32f2f !important;
-    background-color: #ffebee !important;
-}
-
-.mensaje-error {
-    color: #d32f2f;
-    font-size: 12px;
-    margin-top: 5px;
-}
-
-/* Botones */
 .acciones {
     display: flex;
-    justify-content: center;
-    gap: 15px; /* Espacio entre botones */
-    margin-top: 30px;
+    justify-content: space-around;
+    margin-top: 20px;
 }
 
 button {
-    padding: 10px 25px;
-    border: none;
-    border-radius: 5px;
-    font-size: 15px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.3s;
-}
-
-/* Botón Guardar */
-.btn-guardar {
-    background-color: #2e7d32;
-    color: white;
-}
-
-.btn-guardar:hover {
-    background-color: #1b5e20;
-}
-
-.btn-guardar:disabled {
-    background-color: #a5d6a7;
-    cursor: not-allowed;
-}
-
-/* Botón Cancelar */
-.btn-cancelar {
-    background-color: #e0e0e0;
-    color: #333;
-}
-
-.btn-cancelar:hover {
-    background-color: #bdbdbd;
+    min-width: 120px;
 }
