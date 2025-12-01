@@ -4,14 +4,19 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 
 import { routes } from './app.routes';
 import { jwtInterceptor } from './pages/auth/jwt.interceptor';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
+// 🛑 IMPORTACIÓN DE CORRECCIÓN: provideNoopAnimations anula la dependencia rota
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideAnimationsAsync(),
+    
+    // 🛑 APLICACIÓN DE CORRECCIÓN: Reemplazamos provideAnimationsAsync()
+    provideNoopAnimations(),
+    
     provideHttpClient(withInterceptors([jwtInterceptor]),withFetch())
   ]
 };
