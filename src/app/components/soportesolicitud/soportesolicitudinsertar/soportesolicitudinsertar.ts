@@ -20,6 +20,7 @@ import { SoporteSolicitud } from '../../../models/SoporteSolicitud';
 import { SoporteSolicitudService } from '../../../services/soportesolicitudservice'; 
 import { Usuario } from '../../../models/Usuario';
 import { Usuarioservice } from '../../../services/usuarioservice';
+import { AuthService } from '../../../services/authservice'; // ✅ IMPORTAR
 
 @Component({
   selector: 'app-soportesolicitudinsertar',
@@ -65,6 +66,7 @@ export class SoporteSolicitudInsertar implements OnInit {
   constructor(
     private sS: SoporteSolicitudService,
     private uS: Usuarioservice,
+    private authService: AuthService, // ✅ INYECTAR AUTH SERVICE
     private router: Router,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute
@@ -72,6 +74,9 @@ export class SoporteSolicitudInsertar implements OnInit {
 
   ngOnInit(): void {
     this.uS.list().subscribe(data => this.listaUsuarios = data);
+
+    // ✅ OBTENER ID DEL USUARIO LOGUEADO
+    const usuarioLogueadoId = this.authService.getCurrentUserId();
 
     this.form = this.formBuilder.group({
       idSoporteSolicitud: [''], 
@@ -82,7 +87,8 @@ export class SoporteSolicitudInsertar implements OnInit {
       ]],
       fechahora: [{value: this.fechaActual, disabled: true}, Validators.required],
       Apartado: ['', Validators.required],
-      usuario: ['', Validators.required]
+      // ✅ CAMPO USUARIO: valor por defecto y DESHABILITADO
+      usuario: [{ value: usuarioLogueadoId, disabled: true }, Validators.required]
     });
 
     this.route.params.subscribe((data: Params) => {
@@ -98,17 +104,20 @@ export class SoporteSolicitudInsertar implements OnInit {
 
   aceptar(): void {
     if (this.form.valid && this.validarPalabras()) {
+      // ✅ USAR getRawValue() PARA LEER CAMPOS DESHABILITADOS
+      const datosFormulario = this.form.getRawValue();
+
       // Crear el objeto con la estructura correcta para el DTO
       const solicitudData = {
         idSoporteSolicitud: this.edicion ? this.id : 0,
-        titulo: this.form.value.titulo,
-        descripcion: this.form.value.descripcion,
+        titulo: datosFormulario.titulo,
+        descripcion: datosFormulario.descripcion,
         fechahora: this.formatearLocalDateTime(this.fechaActual),
-        apartado: this.form.value.Apartado, // Nota: minúscula para el DTO
-        idUsuario: this.form.value.usuario
+        apartado: datosFormulario.Apartado,
+        idUsuario: datosFormulario.usuario // ✅ Ahora sí lee el usuario
       };
 
-      console.log('Enviando datos:', solicitudData);
+      console.log('✅ Enviando datos:', solicitudData);
 
       if (this.edicion) {
         this.sS.update(solicitudData).subscribe({
@@ -119,7 +128,7 @@ export class SoporteSolicitudInsertar implements OnInit {
             });
           },
           error: (err) => {
-            console.error('Error al actualizar:', err);
+            console.error('❌ Error al actualizar:', err);
             alert('Error al actualizar la solicitud: ' + err.error);
           }
         });
@@ -132,7 +141,7 @@ export class SoporteSolicitudInsertar implements OnInit {
             });
           },
           error: (err) => {
-            console.error('Error al insertar:', err);
+            console.error('❌ Error al insertar:', err);
             alert('Error al registrar la solicitud: ' + err.error);
           }
         });
@@ -167,12 +176,15 @@ export class SoporteSolicitudInsertar implements OnInit {
             titulo: data.titulo,
             descripcion: data.descripcion,
             fechahora: fechaData,
-            Apartado: data.apartado, // Nota: minúscula del DTO
+            Apartado: data.apartado,
             usuario: data.idUsuario
           });
+
+          // ✅ Asegurar que el usuario siga bloqueado en edición
+          this.form.get('usuario')?.disable();
         },
         error: (err) => {
-          console.error('Error al cargar datos:', err);
+          console.error('❌ Error al cargar datos:', err);
           alert('Error al cargar los datos de la solicitud');
         }
       });

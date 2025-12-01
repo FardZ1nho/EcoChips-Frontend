@@ -3,18 +3,7 @@
 
   <form [formGroup]="form" (ngSubmit)="aceptar()">
 
-    <!-- Usuario -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Usuario</mat-label>
-      <mat-select formControlName="usuario">
-        <mat-option *ngFor="let u of listaUsuarios" [value]="u.idUsuario">
-          {{ u.nombre }}
-        </mat-option>
-      </mat-select>
-      <mat-error *ngIf="form.get('usuario')?.hasError('required')">
-        Seleccione un usuario
-      </mat-error>
-    </mat-form-field>
+    <!-- ❌ ELIMINADO: Campo de selección de usuario (ahora está oculto y automático) -->
 
     <!-- Título -->
     <mat-form-field appearance="outline" class="full-width">
