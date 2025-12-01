@@ -20,4 +20,72 @@
       <p class="no-data-message">Aún no hay canjes registrados para mostrar estadísticas.</p>
     </div>
   </div>
+
+  <!-- NUEVAS TABLAS DE COSTOS -->
+  <div class="tablas-costos-section">
+    <h2>💰 Análisis de Costos de Recompensas</h2>
+    <p class="subtitle">Recompensas ordenadas por costo en puntos</p>
+
+    <!-- Loading para tablas -->
+    <div *ngIf="loadingTablas" class="loading-tablas">
+      <div class="spinner">⏳</div>
+      <p>Cargando análisis de costos...</p>
+    </div>
+
+    <!-- Error para tablas -->
+    <div *ngIf="errorTablas && !loadingTablas" class="error-tablas">
+      <p>❌ Error al cargar el análisis de costos. Intenta nuevamente.</p>
+    </div>
+
+    <!-- Tablas de costos -->
+    <div *ngIf="!loadingTablas && !errorTablas" class="tablas-container">
+      
+      <!-- Recompensas Más Costosas -->
+      <div class="tabla-section">
+        <h3>💎 Recompensas Más Costosas</h3>
+        <div class="table-responsive">
+          <table class="tabla-reporte">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Recompensa</th>
+                <th>Costo (Puntos)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let recompensa of recompensasCostosas; let i = index">
+                <td class="rank">{{ i + 1 }}</td>
+                <td class="nombre">{{ recompensa.tituloRecompensa }}</td>
+                <td class="costo destacado">{{ recompensa.costoCanjes | number }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Recompensas Más Baratas -->
+      <div class="tabla-section">
+        <h3>💸 Recompensas Más Baratas</h3>
+        <div class="table-responsive">
+          <table class="tabla-reporte">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Recompensa</th>
+                <th>Costo (Puntos)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let recompensa of recompensasBaratas; let i = index">
+                <td class="rank">{{ i + 1 }}</td>
+                <td class="nombre">{{ recompensa.tituloRecompensa }}</td>
+                <td class="costo economico">{{ recompensa.costoCanjes | number }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
