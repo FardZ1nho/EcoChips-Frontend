@@ -78,4 +78,10 @@ export class UsuarioRecomendacionService {
   getList() {
     return this.listaCambio.asObservable();
   }
+
+  getTiposRecomendacionesMasAsignados() {
+  return this.http.get<any[]>(`${this.url}/reportes/tipos-mas-asignados`, { 
+    headers: this.getAuthHeaders()
+  });
+}
 }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Usuario } from '../models/Usuario';
 import { Subject, Observable } from 'rxjs';
+import { UsuarioCo2ImpactoDTO } from '../models/UsuarioCo2ImpactoDTO';
 
 const base_url = environment.base;
 
@@ -111,6 +112,23 @@ export class Usuarioservice {
   reporteGenero() {
     return this.http.get(`${this.url}/reporte/participantes-genero`, { 
       headers: this.getAuthHeaders() // ✅ CON headers
+    });
+  }
+
+  // Agrega este método en tu Usuarioservice:
+
+getDistribucionParticipantesPorGenero() {
+  return this.http.get<any[]>(`${this.url}/reporte/participantes-genero`, { 
+    headers: this.getAuthHeaders()
+  });
+}
+
+ getUsuariosMenorImpacto(): Observable<UsuarioCo2ImpactoDTO[]> {
+    const reporteUrl = `${this.url}/reportes/menor-impacto`; 
+    
+  
+    return this.http.get<UsuarioCo2ImpactoDTO[]>(reporteUrl, { 
+      headers: this.getAuthHeaders()
     });
   }
 }

@@ -64,6 +64,8 @@ import { RegistroAlimentacionListarPorUsuarioComponent } from './components/regi
 import { RegistroTransporteListarPorUsuarioComponent } from './components/registrotransporte/listar-por-usuario/listar-por-usuario';
 import { UsuarioRecompensaListarPorUsuarioComponent } from './components/usuariorecompensa/listar-por-usuario/listar-por-usuario';
 import { ReporteRecompensasPopulares } from './components/reporte-recompensas-populares/reporte-recompensas-populares';
+import { ReporteDistribucionGenero } from './components/reporte-distribucion-genero/reporte-distribucion-genero';
+import { UsuarioCo2Impacto } from './components/reporte-usuario-co2-impacto/reporte-usuario-co2-impacto';
 
 export const routes: Routes = [
     // 🌍 RUTAS PÚBLICAS (Sin autenticación)
@@ -111,6 +113,8 @@ export const routes: Routes = [
             { path: 'reportes/promedio-co2-tipo', component: ReporteAlimentoCO2, canActivate: [AdminGuard] },
             { path: 'reportes/por-tipo', component: ReporteRecoPrTipo, canActivate: [AdminGuard] },
             { path: 'reportes/recompensas-populares', component: ReporteRecompensasPopulares, canActivate: [AdminGuard] },
+            { path: 'reportes/usuarios', component: ReporteDistribucionGenero, canActivate: [AdminGuard] },
+            { path: 'reportes/menor-impactos', component: UsuarioCo2Impacto, canActivate: [AdminGuard] },
 
             // --- RECOMENDACIONES ---
             { path: 'recomendaciones/listar', component: RecomendacionListar, canActivate: [AdminGuard] },
