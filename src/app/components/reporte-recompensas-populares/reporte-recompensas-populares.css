@@ -1,16 +1,17 @@
+/* ESTILOS ORIGINALES MANTENIDOS */
 .container {
   display: flex;
   justify-content: center;
   width: 100%;
   margin-top: 20px;
-  padding-bottom: 50px; /* Espacio para scroll */
+  padding-bottom: 50px;
+  flex-direction: column;
+  align-items: center;
 }
 
 .grafico1 {
-  /* Ocupa casi todo el ancho disponible, hasta un máximo razonable */
   width: 95%;
   max-width: 1000px;
-  
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -19,27 +20,23 @@
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  
-  /* Borde superior azul para diferenciarlo de otros reportes */
-  /* Si prefieres verde como el resto, cambia #1976d2 por #2e7d32 */
-  border-top: 5px solid #1976d2; 
+  border-top: 5px solid #1976d2;
+  margin-bottom: 30px;
 }
 
 .chart-container {
   position: relative;
-  width: 100%; 
-  max-width: 600px; /* Tamaño ideal para que la dona no se vea gigante */
-  height: 500px;    /* Altura fija para mantener proporción */
+  width: 100%;
+  max-width: 600px;
+  height: 500px;
   margin: 20px auto;
 }
 
-/* Asegura que el canvas ocupe el espacio asignado */
 canvas {
   width: 100% !important;
   height: 100% !important;
 }
 
-/* Estilos para el estado "Sin datos" */
 .no-data {
   display: flex;
   flex-direction: column;
@@ -55,7 +52,7 @@ canvas {
   width: 64px;
   height: 64px;
   margin-bottom: 10px;
-  color: #bdbdbd; /* Gris suave */
+  color: #bdbdbd;
 }
 
 .no-data-message {
@@ -63,19 +60,112 @@ canvas {
   text-align: center;
 }
 
-/* Título */
 h2 {
-    text-align: center;
-    color: #2c3e50;
-    margin-bottom: 5px;
-    font-size: 26px;
-    font-weight: 500;
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 5px;
+  font-size: 26px;
+  font-weight: 500;
 }
 
-/* Subtítulo */
 .subtitle {
-    text-align: center;
-    color: #7f8c8d;
-    margin-bottom: 25px;
-    font-size: 16px;
+  text-align: center;
+  color: #7f8c8d;
+  margin-bottom: 25px;
+  font-size: 16px;
+}
+
+/* NUEVOS ESTILOS PARA LAS TABLAS */
+.tablas-costos-section {
+  width: 95%;
+  max-width: 1000px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  border-top: 5px solid #27ae60; /* Verde para diferenciar */
+}
+
+.tablas-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.tabla-section h3 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 5px;
+  font-size: 20px;
+}
+
+.tabla-reporte {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.tabla-reporte th {
+  background: #34495e;
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-weight: 500;
+}
+
+.tabla-reporte td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.tabla-reporte tr:hover {
+  background: #f8f9fa;
+}
+
+.rank {
+  font-weight: bold;
+  color: #7f8c8d;
+  width: 50px;
+}
+
+.costo.destacado {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.costo.economico {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.loading-tablas, .error-tablas {
+  text-align: center;
+  padding: 40px;
+  font-size: 16px;
+}
+
+.loading-tablas .spinner {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.error-tablas {
+  color: #e74c3c;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tablas-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .grafico1, .tablas-costos-section {
+    width: 90%;
+    padding: 20px;
+  }
 }

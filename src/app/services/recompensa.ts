@@ -64,4 +64,18 @@ export class RecompensaService {
   getList() {
     return this.listaCambio.asObservable();
   }
+
+  // Agregar estos métodos al RecompensaService existente IMPORTANTE
+
+getRecompensasMasCostosas() {
+  return this.http.get<any[]>(`${this.url}/reportes/mas-costosas`, { 
+    headers: this.getAuthHeaders()
+  });
+}
+
+getRecompensasMasBaratas() {
+  return this.http.get<any[]>(`${this.url}/reportes/mas-baratas`, { 
+    headers: this.getAuthHeaders()
+  });
+}
 }
