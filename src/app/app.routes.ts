@@ -3,10 +3,12 @@ import { Login } from './pages/auth/login/login';
 import { Registro } from './pages/auth/registro/registro';
 import { Landing } from './pages/landing/landing';
 
-// ✅ GUARDS ACTUALIZADOS
+// ✅ GUARDS
 import { AdminGuard } from './guards/admin-guard'; 
 import { UserGuard } from './guards/user-guard'; 
+import { authGuard } from './guards/auth-guard';
 
+// COMPONENTES
 import { Usuariolistar } from './components/usuario/usuariolistar/usuariolistar';
 import { UsuarioCrear } from './components/usuario/usuariocrear/usuariocrear';
 
@@ -37,6 +39,8 @@ import { Registroalimentacioninsertar } from './components/registroalimentacion/
 import { SoporteSolicitudInsertar } from './components/soportesolicitud/soportesolicitudinsertar/soportesolicitudinsertar';
 import { SoporteSolicitudListar } from './components/soportesolicitud/soportesolicitudlistar/soportesolicitudlistar';
 
+import { SoporteRespuestaInsertar } from './components/soporterespuesta/soporte-respuesta-insertar/soporte-respuesta-insertar';
+
 import { Reportes } from './components/reportes/reportes';
 import { ReporteRetosPopulares } from './components/reporteRetosPopulares/reporteRetosPopulares';
 import { ReportePrTopUsuarios } from './components/reportePrTopUsuarios/reportePrTopUsuarios';
@@ -53,7 +57,7 @@ import { UsuarioRecomendacionListar } from './components/usuariorecomendacion/us
 import { UsuarioRecomendacionCrear } from './components/usuariorecomendacion/usuariorecomendacioncrear/usuariorecomendacioncrear';
 import { ListarPorUsuarioComponent } from './components/usuariorecomendacion/listarporusuario/listarporusuario';
 import { CompletarPerfilComponent } from './components/completar-perfil/completar-perfil';
-import { authGuard } from './guards/auth-guard';
+
 import { UsuarioRecompensaListar } from './components/usuariorecompensa/usuariorecompensalistar/usuariorecompensalistar';
 import { UsuarioRecompensaCrear } from './components/usuariorecompensa/usuariorecompensacrear/usuariorecompensacrear';
 import { RegistroAlimentacionListarPorUsuarioComponent } from './components/registroalimentacion/listar-por-usuario/listar-por-usuario';
@@ -71,7 +75,7 @@ export const routes: Routes = [
     { 
         path: 'home', 
         component: Home,
-        canActivate: [authGuard], // ✅ Verifica que esté autenticado
+        canActivate: [authGuard], 
         children: [
             { path: '', component: HomeDashboard },
             { path: 'completar-perfil', component: CompletarPerfilComponent },
@@ -83,23 +87,23 @@ export const routes: Routes = [
             { path: 'usuarios/listar', component: Usuariolistar, canActivate: [AdminGuard] },
             { path: 'usuarios/crear', component: UsuarioCrear, canActivate: [AdminGuard] },
 
-            // --- TRANSPORTES (Solo Admin puede crear/editar) ---
+            // --- TRANSPORTES ---
             { path: 'transporte/listar', component: Transportelistar, canActivate: [AdminGuard] },
             { path: 'transporte/registrar', component: Transporteinsertar, canActivate: [AdminGuard] },
             { path: 'transporte/actualizar/:id', component: Transporteinsertar, canActivate: [AdminGuard] },
 
-            // --- ALIMENTOS (Solo Admin) ---
+            // --- ALIMENTOS ---
             { path: 'alimentos/listar', component: Alimentolistar, canActivate: [AdminGuard] },
             { path: 'alimentos/crear', component: Alimentocrear, canActivate: [AdminGuard] },
             { path: 'alimentos/editar/:id', component: Alimentocrear, canActivate: [AdminGuard] },
 
-            // --- RECOMPENSAS (Solo Admin) ---
+            // --- RECOMPENSAS ---
             { path: 'recompensas/listar', component: Recompensalistar, canActivate: [AdminGuard] },
             { path: 'recompensas/crear', component: Recompensacrear, canActivate: [AdminGuard] },
             { path: 'recompensas/editar/:id', component: Recompensacrear, canActivate: [AdminGuard] },
             { path: 'usuariorecompensa/buscar', component: UsuarioRecompensaListarPorUsuarioComponent },
 
-            // --- REPORTES (Solo Admin) ---
+            // --- REPORTES ---
             { path: 'reportes', component: Reportes, canActivate: [AdminGuard] },
             { path: 'reportes/populares', component: ReporteRetosPopulares, canActivate: [AdminGuard] },
             { path: 'reportes/top-usuarios', component: ReportePrTopUsuarios, canActivate: [AdminGuard] },
@@ -108,26 +112,26 @@ export const routes: Routes = [
             { path: 'reportes/por-tipo', component: ReporteRecoPrTipo, canActivate: [AdminGuard] },
             { path: 'reportes/recompensas-populares', component: ReporteRecompensasPopulares, canActivate: [AdminGuard] },
 
-            // --- RECOMENDACIONES (Solo Admin) ---
+            // --- RECOMENDACIONES ---
             { path: 'recomendaciones/listar', component: RecomendacionListar, canActivate: [AdminGuard] },
             { path: 'recomendaciones/crear', component: RecomendacionCrear, canActivate: [AdminGuard] },
             { path: 'recomendaciones/editar/:id', component: RecomendacionCrear, canActivate: [AdminGuard] },
 
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-            // 👤 RUTAS SOLO PARA USUARIOS NORMALES
+            // 👤 RUTAS SOLO PARA USUARIOS NORMALES / MIXTAS
             // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-            // --- RETOS (Solo User puede participar) ---
+            // --- RETOS ---
             { path: 'retos/listar', component: Retolistar, canActivate: [AdminGuard] },
             { path: 'retos/crear', component: Retocrear, canActivate: [AdminGuard] },
             { path: 'retos/editar/:id', component: Retocrear, canActivate: [AdminGuard] },
             
-            // --- PARTICIPACIÓN (Solo User) ---
+            // --- PARTICIPACIÓN ---
             { path: 'participacionretos/listar', component: ParticipacionRetoListar, canActivate: [AdminGuard] },
             { path: 'participacionretos/crear', component: ParticipacionRetoCrear, canActivate: [UserGuard] },
             { path: 'participacionretos/editar/:id', component: ParticipacionRetoCrear, canActivate: [AdminGuard] },
 
-            // --- EVENTOS  ---
+            // --- EVENTOS ---
             { path: 'eventos/listar', component: EventoListar, canActivate: [AdminGuard] },
             { path: 'eventos/crear', component: EventoCrear, canActivate: [AdminGuard] },
             { path: 'eventos/editar/:id', component: EventoCrear, canActivate: [AdminGuard] },
@@ -136,22 +140,25 @@ export const routes: Routes = [
             { path: 'registroeventos/crear', component: RegistroEventoCrear, canActivate: [UserGuard] },
             { path: 'registroeventos/editar/:id', component: RegistroEventoCrear, canActivate: [AdminGuard] },
 
-            // --- REGISTRO TRANSPORTE  ---
+            // --- REGISTRO TRANSPORTE ---
             { path: 'registrostransporte/listar', component: RegistroTransporteListar, canActivate: [AdminGuard] },
             { path: 'registrostransporte/insertar', component: RegistroTransporteInsertar, canActivate: [UserGuard] }, 
             { path: 'registrostransporte/editar/:id', component: RegistroTransporteInsertar, canActivate: [UserGuard] },
             { path: 'registrostransporte/buscar', component: RegistroTransporteListarPorUsuarioComponent },
 
-            // --- REGISTRO ALIMENTACIÓN  ---
+            // --- REGISTRO ALIMENTACIÓN ---
             { path: 'registrosalimentacion/listar', component: Registroalimentacionlistar, canActivate: [AdminGuard] },
             { path: 'registrosalimentacion/insertar', component: Registroalimentacioninsertar, canActivate: [UserGuard] },
             { path: 'registrosalimentacion/editar/:id', component: Registroalimentacioninsertar, canActivate: [UserGuard] },
             { path: 'registrosalimentacion/buscar', component: RegistroAlimentacionListarPorUsuarioComponent },
 
-            // --- SOPORTE  ---
-            { path: 'soportesolicitudes/listar', component: SoporteSolicitudListar, canActivate: [UserGuard] },
+            // --- SOPORTE SOLICITUDES ---
+            { path: 'soportesolicitudes/listar', component: SoporteSolicitudListar, canActivate: [AdminGuard] },
             { path: 'soportesolicitudes/crear', component: SoporteSolicitudInsertar, canActivate: [UserGuard] },
             { path: 'soportesolicitudes/editar/:id', component: SoporteSolicitudInsertar, canActivate: [UserGuard] },
+
+            // ✅ NUEVA RUTA: RESPUESTA SOPORTE (Solo Admin)
+            { path: 'soporterespuestas/crear', component: SoporteRespuestaInsertar, canActivate: [AdminGuard] },
 
             // --- PROGRESO ---
             { path: 'progreso/registrar', component: ProgresoCrear, canActivate: [UserGuard] },

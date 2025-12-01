@@ -6,12 +6,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table'; 
 import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SoporteSolicitud } from '../../../models/SoporteSolicitud';
-import { SoporteSolicitudService } from '../../../services/soportesolicitudservice'; 
+import { SoporteSolicitudService } from '../../../services/soportesolicitudservice';
+import { AuthService } from '../../../services/authservice';
+
 @Component({
   selector: 'app-soportesolicitudlistar',
-  standalone: true, // Componente independiente (sin módulo)
+  standalone: true,
   imports: [
     CommonModule,
     RouterLink,
@@ -19,7 +22,8 @@ import { SoporteSolicitudService } from '../../../services/soportesolicitudservi
     MatIconModule,
     MatPaginatorModule,
     MatTableModule,
-    MatCardModule
+    MatCardModule,
+    MatTooltipModule
   ],
   templateUrl: './soportesolicitudlistar.html',
   styleUrls: ['./soportesolicitudlistar.css'],
@@ -34,21 +38,25 @@ export class SoporteSolicitudListar implements OnInit, AfterViewInit {
     'descripcion', 
     'fechahora', 
     'apartado', 
-    'idUsuario',
+    'idUsuario', 
     'acciones'
   ];
   
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  pageSizeOptions: number[] = [5, 10, 15];
+  
+  esAdmin: boolean = false;
 
   constructor(
     private sS: SoporteSolicitudService, 
+    private authService: AuthService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    const role = this.authService.getTipoUsuario();
+    this.esAdmin = role === 'ADMIN'; // Solo si es admin verá el botón verde
+
     this.cargarLista();
-    
     this.sS.getList().subscribe(data => {
       this.dataSource.data = data;
       if (this.paginator) {
@@ -67,18 +75,13 @@ export class SoporteSolicitudListar implements OnInit, AfterViewInit {
         this.dataSource.data = data;
         this.dataSource.paginator = this.paginator;
       },
-      error: err => console.error('Error al listar solicitudes:', err)
+      error: err => console.error('Error al listar:', err)
     });
   }
 
   eliminar(id: number) {
-    if (confirm('¿Seguro que deseas eliminar esta solicitud de soporte?')) {
-      this.sS.delete(id).subscribe({
-        next: () => {
-          this.cargarLista(); 
-        },
-        error: err => console.error(err)
-      });
+    if (confirm('¿Seguro que deseas eliminar esta solicitud?')) {
+      this.sS.delete(id).subscribe(() => this.cargarLista());
     }
   }
 
@@ -88,5 +91,16 @@ export class SoporteSolicitudListar implements OnInit, AfterViewInit {
 
   nuevo() {
     this.router.navigate(['/home/soportesolicitudes/crear']);
+  }
+
+  // ✅ ESTA ES LA FUNCIÓN CLAVE PARA EL BOTÓN VERDE
+  responder(id: number) {
+    console.log("Navegando a responder solicitud ID:", id);
+    
+    // 1. Guardamos el ID en la memoria del navegador
+    localStorage.setItem('idSolicitudAResponder', id.toString());
+    
+    // 2. Redirigimos a la página de respuesta (Asegúrate que esta ruta exista en tus rutas)
+    this.router.navigate(['/home/soporterespuestas/crear']);
   }
 }

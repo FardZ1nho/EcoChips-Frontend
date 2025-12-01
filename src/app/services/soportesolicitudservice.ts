@@ -11,13 +11,15 @@ const base_url = environment.base;
 })
 export class SoporteSolicitudService {
   private url = `${base_url}/soporte`; 
+  
+  // ❌ ELIMINAMOS urlRespuesta de aquí porque ya tiene su propio servicio
+
   private listaCambio = new Subject<SoporteSolicitud[]>(); 
   
   constructor(private http: HttpClient) {}
 
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
-    console.log('🔐 Token usado en soporte solicitud:', token ? 'SÍ' : 'NO');
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
@@ -25,17 +27,14 @@ export class SoporteSolicitudService {
   }
   
   list() {
-    return this.http.get<SoporteSolicitud[]>(this.url, { 
-      headers: this.getAuthHeaders()
-    });
+    return this.http.get<SoporteSolicitud[]>(this.url, { headers: this.getAuthHeaders() });
   }
   
   insert(s: SoporteSolicitud) {
-    return this.http.post(this.url, s, { 
-      headers: this.getAuthHeaders(),
-      responseType: 'text' 
-    });
+    return this.http.post(this.url, s, { headers: this.getAuthHeaders(), responseType: 'text' });
   }
+  
+  // ❌ ELIMINADO: insertRespuesta ya no va aquí.
   
   setList(listaNueva: SoporteSolicitud[]) {
     this.listaCambio.next(listaNueva);
@@ -46,34 +45,22 @@ export class SoporteSolicitudService {
   }
   
   listId(id: number) {
-    return this.http.get<SoporteSolicitud>(`${this.url}/${id}`, { 
-      headers: this.getAuthHeaders()
-    });
+    return this.http.get<SoporteSolicitud>(`${this.url}/${id}`, { headers: this.getAuthHeaders() });
   }
   
   update(s: SoporteSolicitud) {
-    return this.http.put(this.url, s, { 
-      headers: this.getAuthHeaders(),
-      responseType: 'text' 
-    });
+    return this.http.put(this.url, s, { headers: this.getAuthHeaders(), responseType: 'text' });
   }
   
   delete(id: number) {
-    return this.http.delete(`${this.url}/${id}`, { 
-      headers: this.getAuthHeaders(),
-      responseType: 'text' 
-    });
+    return this.http.delete(`${this.url}/${id}`, { headers: this.getAuthHeaders(), responseType: 'text' });
   }
 
   buscar(titulo: string) {
-    return this.http.get<SoporteSolicitud[]>(`${this.url}/buscar/${titulo}`, { 
-      headers: this.getAuthHeaders()
-    });
+    return this.http.get<SoporteSolicitud[]>(`${this.url}/buscar/${titulo}`, { headers: this.getAuthHeaders() });
   }
 
   listarPorApartado(apartado: string) {
-    return this.http.get<SoporteSolicitud[]>(`${this.url}/estado/${apartado}`, { 
-      headers: this.getAuthHeaders()
-    });
+    return this.http.get<SoporteSolicitud[]>(`${this.url}/estado/${apartado}`, { headers: this.getAuthHeaders() });
   }
 }
