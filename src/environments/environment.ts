@@ -1,5 +1,5 @@
 export const environment = {
   production: true, 
-  // Usa la URL de Render para la producción
-  base: 'https://ecobackend-ubbd.onrender.com/api/v1/' 
+  // 🛑 CORRECCIÓN: La URL debe ser solo el dominio base de Render
+  base: 'https://ecobackend-ubbd.onrender.com/' 
 };
