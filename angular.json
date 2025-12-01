@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "outputPath": "dist/frontend-app",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -32,6 +33,10 @@
           },
           "configurations": {
             "production": {
+              "allowedCommonJsDependencies": [
+                "@angular/animations",
+                "@angular/animations/browser"
+              ],
               "budgets": [
                 {
                   "type": "initial",
