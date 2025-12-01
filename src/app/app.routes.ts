@@ -61,6 +61,9 @@ import { RegistroTransporteListarPorUsuarioComponent } from './components/regist
 import { UsuarioRecompensaListarPorUsuarioComponent } from './components/usuariorecompensa/listar-por-usuario/listar-por-usuario';
 import { ReporteRecompensasPopulares } from './components/reporte-recompensas-populares/reporte-recompensas-populares';
 
+
+import { UsuarioCo2Impacto } from './components/reporteUsuarioCo2Impacto/reporteUsuarioCo2Impacto';
+
 export const routes: Routes = [
     // 🌍 RUTAS PÚBLICAS (Sin autenticación)
     { path: '', component: Landing },
@@ -107,7 +110,9 @@ export const routes: Routes = [
             { path: 'reportes/promedio-co2-tipo', component: ReporteAlimentoCO2, canActivate: [AdminGuard] },
             { path: 'reportes/por-tipo', component: ReporteRecoPrTipo, canActivate: [AdminGuard] },
             { path: 'reportes/recompensas-populares', component: ReporteRecompensasPopulares, canActivate: [AdminGuard] },
-
+            
+            { path: 'reportes/menor-impactos', component: UsuarioCo2Impacto, canActivate: [AdminGuard] },
+ 
             // --- RECOMENDACIONES (Solo Admin) ---
             { path: 'recomendaciones/listar', component: RecomendacionListar, canActivate: [AdminGuard] },
             { path: 'recomendaciones/crear', component: RecomendacionCrear, canActivate: [AdminGuard] },

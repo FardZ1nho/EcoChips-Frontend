@@ -1,0 +1,43 @@
+<div class="report-container">
+  <mat-card class="report-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon color="primary">grass</mat-icon> RANKING: Usuarios con Menor Impacto de CO2
+      </mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <!-- Descripción del Reporte -->
+      <p class="report-description">
+        Este gráfico muestra los usuarios con el registro más bajo de CO2 Total, lo que indica un mejor seguimiento de las prácticas ecológicas.
+      </p>
+
+      <div class="chart-wrapper">
+        
+        <!-- Título que se mostrará en la gráfica -->
+        <h2>🌿 Huella de Carbono Registrada por Usuario (Menor Impacto)</h2>
+        
+        <!-- Gráfica que se muestra si hay datos (usa la estructura de tu ejemplo) -->
+        <div *ngIf="hasData; else noDataTemplate" class="chart-container">
+          <canvas
+            baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [type]="barChartType"
+          >
+          </canvas>
+        </div>
+
+        <!-- Mensaje de No Hay Datos -->
+        <ng-template #noDataTemplate>
+          <div class="no-data">
+            <mat-icon class="no-data-icon">info_outline</mat-icon>
+            <p class="no-data-message">No hay datos de CO2 Total registrados para mostrar este ranking.</p>
+          </div>
+        </ng-template>
+        
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

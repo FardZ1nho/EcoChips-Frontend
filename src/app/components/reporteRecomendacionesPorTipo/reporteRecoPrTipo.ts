@@ -34,9 +34,9 @@ export class ReporteRecoPrTipo implements OnInit {
         this.psService.getRecomendacionesPorTipo().subscribe((data: RecomendacionTipoCountDTO[]) => {
             if(data.length > 0) {
                 this.hasData = true;
-                // 1. Eje X (Labels): Se usa el campo 'tipo' (que viene de r.tipo)
+              
                  this.barChartLabels = data.map((item) => item.tipo);
-                // 2. Eje Y (Data): Se usa el campo 'cantidad' (que viene de COUNT)
+             
                 this.barChartData = [
                     {
                         data: data.map((item) => item.cantidad),
@@ -48,7 +48,7 @@ export class ReporteRecoPrTipo implements OnInit {
                             '#69d48bff',
                             '#ffdf6eff'
                         ],
-                        hoverBackgroundColor: '#3F51B5' // Color de fondo al pasar el ratón
+                        hoverBackgroundColor: '#3F51B5' 
                     },
                 ];
             } else {

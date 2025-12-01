@@ -81,7 +81,16 @@ export class Reportes {
       icono: '💬', 
       descripcion: 'Ver reporte detallado de recomendacion',
       ruta: '/home/reportes/por-tipo' 
+    },
+
+        { 
+      id: 10, 
+      titulo: 'Impacto Co2', 
+      icono: '🙎🏻‍♂️', 
+      descripcion: 'Ver reporte detallado de recomendacion',
+      ruta: '/home/reportes/menor-impactos' 
     }
+
 
 
   ];
