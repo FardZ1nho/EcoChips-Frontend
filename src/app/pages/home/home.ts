@@ -163,11 +163,11 @@ export class Home implements OnInit {
           ]
         },
         {
+          // ✅ SECCIÓN RESPUESTA MODIFICADA
           label: 'Respuesta',
           hasSubmenu: true,
           submenuItems: [
-            { label: 'Registrar Respuesta', route: '/home/soporterespuestas/crear' },
-            { label: 'Listar Respuestas', route: '/home/soporterespuestas/listar' }
+            { label: 'Ver Solicitudes', route: '/home/soportesolicitudes/listar' }
           ]
         }
       ]
@@ -181,7 +181,7 @@ export class Home implements OnInit {
 
   ngOnInit(): void {
     this.cargarInfoUsuario();
-    this.verificarPerfilCompleto(); // 🆕 Llamar al nuevo método
+    this.verificarPerfilCompleto();
   }
 
   cargarInfoUsuario(): void {
@@ -189,7 +189,6 @@ export class Home implements OnInit {
     
     if (usuario) {
       this.nombreUsuario = usuario.nombre || 'Usuario';
-      
       console.log('👤 Usuario cargado:', this.nombreUsuario);
     }
 
@@ -203,13 +202,11 @@ export class Home implements OnInit {
     }
   }
 
-  // 🆕 MÉTODO PARA VERIFICAR SI EL PERFIL ESTÁ COMPLETO
   verificarPerfilCompleto(): void {
     this.perfilCompleto = this.authService.isPerfilCompleto();
     console.log('🔍 Perfil completo:', this.perfilCompleto);
   }
 
-  // 🆕 MÉTODO PARA IR A COMPLETAR PERFIL
   irACompletarPerfil(): void {
     console.log('🎯 Navegando a completar perfil');
     this.router.navigate(['/home/completar-perfil']);
@@ -261,7 +258,6 @@ export class Home implements OnInit {
 
   cerrarSesion(): void {
     console.log('🚪 Cerrando sesión...');
-    
     this.authService.logout();
   }
 }

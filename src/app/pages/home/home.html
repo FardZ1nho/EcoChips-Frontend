@@ -8,12 +8,10 @@
       <div class="user-avatar">
         <img src="assets/img/user-avatar.jpg" alt="Usuario" />
       </div>
-      <!-- ✅ CAMBIO AQUÍ: Mostrar nombre del usuario dinámicamente -->
       <span class="user-greeting">¡Hola, {{nombreUsuario}}!</span>
     </div>
   </header>
 
-  <!-- 🆕 BANNER COMPLETAR PERFIL -->
   <div *ngIf="!perfilCompleto" class="completar-banner">
     <div class="banner-content">
       <div class="banner-icon">📝</div>
@@ -29,12 +27,10 @@
 
   <div class="main-container">
 
-    <!-- ===== MENÚ LATERAL ===== -->
     <aside class="sidebar">
       <nav class="sidebar-nav">
 
         <div class="menu-item-wrapper" *ngFor="let item of menuItems">
-          <!-- Item principal del menú -->
           <div 
             class="menu-item" 
             [class.active]="isSubmenuOpen(item.id)"
@@ -48,7 +44,6 @@
             </span>
           </div>
 
-          <!-- Submenú -->
           <div 
             *ngIf="item.hasSubmenu" 
             class="submenu"
@@ -56,7 +51,6 @@
             
             <ng-container *ngFor="let subItem of item.submenuItems">
               
-              <!-- Si es un submenú anidado (como Solicitud/Respuesta) -->
               <div *ngIf="isNestedMenu(subItem); else regularSubmenuItem" class="nested-submenu-wrapper">
                 <div 
                   class="submenu-item nested-trigger"
@@ -70,7 +64,6 @@
                   </span>
                 </div>
                 
-                <!-- Submenú anidado nivel 2 -->
                 <div 
                   class="nested-submenu"
                   [class.open]="isNestedSubmenuOpen(item.id + '-' + subItem.label)">
@@ -84,7 +77,6 @@
                 </div>
               </div>
 
-              <!-- Si es un item normal del submenú -->
               <ng-template #regularSubmenuItem>
                 <div 
                   *ngIf="getRoute(subItem) as route"
@@ -109,7 +101,6 @@
       </div>
     </aside>
 
-    <!-- ===== CONTENIDO DINÁMICO ===== -->
     <main class="main-content">
       <router-outlet></router-outlet>
     </main>

@@ -1,0 +1,57 @@
+<div class="contenedor-respuesta">
+  
+  <!-- SECCIÓN 1: DETALLES DE LA SOLICITUD (Contexto) -->
+  <mat-card class="card-detalle" *ngIf="solicitudDetalle">
+    <mat-card-header>
+      <mat-card-title>Respondiendo a: {{ solicitudDetalle.titulo }}</mat-card-title>
+      <mat-card-subtitle>
+        Usuario ID: {{ solicitudDetalle.idUsuario }} | Apartado: {{ solicitudDetalle.apartado }}
+      </mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content class="contenido-solicitud">
+      <p class="label-msg">Mensaje del Usuario:</p>
+      <div class="mensaje-box">
+        {{ solicitudDetalle.descripcion }}
+      </div>
+      <p class="fecha-msg">Enviado el: {{ solicitudDetalle.fechahora | date:'dd/MM/yyyy HH:mm' }}</p>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- SECCIÓN 2: FORMULARIO DE RESPUESTA -->
+  <mat-card class="card-formulario">
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>rate_review</mat-icon>
+      </div>
+      <mat-card-title>Escribir Respuesta</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="registrar()">
+        
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Tu Respuesta</mat-label>
+          <textarea matInput 
+                    formControlName="mensaje" 
+                    placeholder="Hola, hemos analizado tu caso..."
+                    rows="6"></textarea>
+          <mat-error *ngIf="form.get('mensaje')?.hasError('required')">
+            El mensaje es obligatorio.
+          </mat-error>
+        </mat-form-field>
+
+        <div class="botones">
+          <button mat-raised-button color="primary" [disabled]="form.invalid">
+            <mat-icon>send</mat-icon> Enviar Respuesta
+          </button>
+          <button mat-button color="warn" routerLink="/home/soportesolicitudes/listar">
+            Cancelar
+          </button>
+        </div>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+</div>
