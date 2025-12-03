@@ -5,4 +5,5 @@ export class Reto {
     objetivoKg: number = 0
     fechaInicio: Date = new Date()
     fechaFin: Date = new Date()
+    canjesRecompensa: number = 1
 }
