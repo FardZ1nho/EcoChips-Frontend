@@ -16,7 +16,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
   selector: 'app-retocrear',
   standalone: true,
   providers: [provideNativeDateAdapter()],
-  imports: [CommonModule, 
+  imports: [
+    CommonModule, 
     FormsModule, 
     ReactiveFormsModule, 
     RouterLink, 
@@ -31,11 +32,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
   styleUrls: ['./retocrear.css']
 })
 export class Retocrear implements OnInit {
-  form: FormGroup = new FormGroup({});
+
+  form!: FormGroup;
   modoEdicion: boolean = false;
-  id: number = 0;
   titulo: string = 'Registrar Reto';
-  minDate: string = new Date().toISOString().split('T')[0];
+  minDate: Date = new Date();
 
   constructor(
     private rS: Retoservice,
@@ -50,21 +51,21 @@ export class Retocrear implements OnInit {
       idReto: [''],
       titulo: ['', Validators.required],
       descripcion: ['', [Validators.required, Validators.maxLength(1000)]],
-      objetivoKg: ['', Validators.required],
+      objetivoKg: ['', [Validators.required, Validators.min(1)]],
       fechaInicio: ['', Validators.required],
-      fechaFin: ['', Validators.required]
+      fechaFin: ['', Validators.required],
+      canjesRecompensa: ['', [Validators.required, Validators.min(1)]]
     });
 
-    // Revisamos si es modo edición
     this.route.params.subscribe(params => {
       const idParam = params['id'];
       if(idParam){
         this.modoEdicion = true;
         this.titulo = 'Editar Reto';
         const id = +idParam;
+
         this.rS.listId(id).subscribe({
           next: (data: Reto) => {
-            // Inicializamos el form con los datos existentes
             this.initForm(data);
           },
           error: err => {
@@ -77,15 +78,15 @@ export class Retocrear implements OnInit {
     });
   }
 
-  // Función para inicializar el form en modo edición
   initForm(data: Reto) {
     this.form = new FormGroup({
       idReto: new FormControl(data.idReto),
       titulo: new FormControl(data.titulo, Validators.required),
       descripcion: new FormControl(data.descripcion, [Validators.required, Validators.maxLength(1000)]),
-      objetivoKg: new FormControl(data.objetivoKg, Validators.required),
+      objetivoKg: new FormControl(data.objetivoKg, [Validators.required, Validators.min(1)]),
       fechaInicio: new FormControl(data.fechaInicio, Validators.required),
-      fechaFin: new FormControl(data.fechaFin, Validators.required)
+      fechaFin: new FormControl(data.fechaFin, Validators.required),
+      canjesRecompensa: new FormControl(data.canjesRecompensa, [Validators.required, Validators.min(1)])
     });
   }
 
@@ -95,17 +96,16 @@ export class Retocrear implements OnInit {
       return;
     }
 
-    // Crear objeto tipado Reto
     const reto: Reto = {
-      idReto: this.modoEdicion ? this.form.value.idReto : 0, // <-- aquí usamos idReto correctamente
+      idReto: this.modoEdicion ? this.form.value.idReto : 0,
       titulo: this.form.value.titulo,
       descripcion: this.form.value.descripcion,
       objetivoKg: this.form.value.objetivoKg,
       fechaInicio: this.form.value.fechaInicio,
       fechaFin: this.form.value.fechaFin,
+      canjesRecompensa: this.form.value.canjesRecompensa
     };
 
-    // Validaciones extra
     if(reto.fechaInicio > reto.fechaFin){
       this.snackBar.open('La fecha de inicio no puede ser posterior a la fecha de fin', 'Cerrar', {duration: 4000});
       return;
@@ -121,9 +121,6 @@ export class Retocrear implements OnInit {
         next: () => {
           this.rS.list().subscribe(data => this.rS.setList(data));
           this.router.navigate(['/home/retos/listar']);
-        },
-        error: err => {
-          console.error(err);
         }
       });
     } else {
@@ -132,13 +129,12 @@ export class Retocrear implements OnInit {
           this.rS.list().subscribe(data => this.rS.setList(data));
           this.snackBar.open('Reto registrado correctamente', 'Cerrar', {duration: 2000});
           this.router.navigate(['/home/retos/listar']);
-        },
-        error: err => {
-          console.error(err);
         }
       });
     }
   }
 
-  cancelar() { this.router.navigate(['/home']); }
+  cancelar() {
+    this.router.navigate(['/home']);
+  }
 }
