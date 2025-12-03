@@ -27,6 +27,34 @@
     </div>
   </div>
 
+<!-- NUEVAS CARDS DE CLIMA Y CONTAMINACIÓN -->
+<div class="stats-grid">
+  <div class="stat-card" *ngIf="clima">
+    <div class="stat-icon">🌥</div>
+    <div class="stat-value">{{clima.main.temp}}°C</div>
+    <div class="stat-label">Temperatura en Lima</div>
+  </div>
+
+  <div class="stat-card" *ngIf="clima">
+    <div class="stat-icon">💧</div>
+    <div class="stat-value">{{clima.main.humidity}}%</div>
+    <div class="stat-label">Humedad</div>
+  </div>
+
+  <div class="stat-card" *ngIf="contaminacion">
+    <div class="stat-icon">🟢</div>
+    <div class="stat-value">{{contaminacion.list[0].components.pm2_5}}</div>
+    <div class="stat-label">PM2.5</div>
+  </div>
+
+  <div class="stat-card" *ngIf="contaminacion">
+    <div class="stat-icon">🟠</div>
+    <div class="stat-value">{{contaminacion.list[0].components.pm10}}</div>
+    <div class="stat-label">PM10</div>
+  </div>
+</div>
+  <!-- FIN DE NUEVAS CARDS -->
+
   <div class="two-column-layout">
     <div class="cards-container">
 
@@ -120,14 +148,14 @@
         </div>
 
         <div class="tip-item">
-          <div class="tip-icon">🛍️</div>
+          <div class="tip-icon">🛍</div>
           <div class="tip-content">
             <p class="tip-text">Lleva tu propia bolsa reutilizable...</p>
           </div>
         </div>
 
         <div class="tip-item">
-          <div class="tip-icon">♻️</div>
+          <div class="tip-icon">♻</div>
           <div class="tip-content">
             <p class="tip-text">Separa tus residuos correctamente...</p>
           </div>
@@ -140,5 +168,5 @@
       </div>
 
     </div>
-  </div>
+  </div>
 </div>
