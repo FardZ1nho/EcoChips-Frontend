@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';  // <- IMPORTANTE: Agrega esta línea
+import { ClimaService } from '../../services/Clima'; 
 
 interface MenuItem {
   id: string;
@@ -18,12 +19,15 @@ interface SubMenuItem {
 @Component({
   selector: 'app-home-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],  // <- IMPORTANTE: Agrega esta línea
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './home-dashboard.html',
   styleUrls: ['./home-dashboard.css']
 })
 export class HomeDashboard {
   openSubmenu: string | null = null;
+
+  clima: any;
+  contaminacion: any;
 
   menuItems: MenuItem[] = [
     { 
@@ -106,7 +110,19 @@ export class HomeDashboard {
     }
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private climaService: ClimaService) {}
+
+  ngOnInit(): void {
+    // Obtener clima
+    this.climaService.obtenerClimaLima().subscribe(data => {
+      this.clima = data;
+    });
+
+    // Obtener contaminación
+    this.climaService.obtenerContaminacionLima().subscribe(data => {
+      this.contaminacion = data;
+    });
+  }
 
   // ---- Métodos propios que ya tenías ----
   irUsuarios() {
@@ -137,5 +153,5 @@ export class HomeDashboard {
   cerrarSesion(): void {
     console.log('Cerrando sesión...');
     this.router.navigate(['/login']);
-  }
+  }
 }
