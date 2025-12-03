@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -82,28 +82,19 @@ export class EventoCrear implements OnInit {
     });
   }
 
-  // ---------------------------------------
-  // VALIDACIÓN DE HORA DESDE 6 AM
-  // ---------------------------------------
-  horaMinimaValidator(control: any) {
+  // Validación hora mínima 6 AM
+  horaMinimaValidator(control: AbstractControl) {
     if (!control.value) return null;
 
     let hour: number = 0;
 
     const value = control.value;
 
-    // Caso 1: formato string "HH:mm"
     if (typeof value === 'string' && value.includes(':')) {
       hour = parseInt(value.split(':')[0], 10);
-    }
-
-    // Caso 2: si devuelve un Date
-    else if (value instanceof Date) {
+    } else if (value instanceof Date) {
       hour = value.getHours();
-    }
-
-    // Caso 3: si devuelve objeto { hour, minute }
-    else if (typeof value === 'object' && value.hour !== undefined) {
+    } else if (typeof value === 'object' && value.hour !== undefined) {
       hour = value.hour;
     }
 
@@ -116,7 +107,23 @@ export class EventoCrear implements OnInit {
       return;
     }
 
-    const evento: Evento = this.form.value;
+    // Normalizar fecha y hora antes de enviar
+    const fechaVal = this.form.value.fecha instanceof Date
+      ? this.form.value.fecha.toISOString().split('T')[0] // YYYY-MM-DD
+      : this.form.value.fecha;
+
+    let horaVal = this.form.value.hora;
+    if (horaVal instanceof Date) {
+      horaVal = horaVal.getHours().toString().padStart(2,'0') + ':' + horaVal.getMinutes().toString().padStart(2,'0');
+    } else if (typeof horaVal === 'object' && horaVal.hour !== undefined) {
+      horaVal = horaVal.hour.toString().padStart(2,'0') + ':' + (horaVal.minute ?? 0).toString().padStart(2,'0');
+    }
+
+    const evento: Evento = {
+      ...this.form.value,
+      fecha: fechaVal,
+      hora: horaVal
+    };
 
     if (this.modoEdicion) {
       this.eS.update(evento).subscribe({
