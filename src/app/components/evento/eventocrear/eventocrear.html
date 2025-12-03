@@ -1,32 +1,81 @@
 <div class="form-container">
   <h2>{{ titulo }}</h2>
+
   <form [formGroup]="form" (ngSubmit)="guardar()">
 
     <input type="hidden" formControlName="idEvento">
 
-    <label>Título</label>
-    <input type="text" formControlName="titulo" [ngClass]="{'error': form.get('titulo')?.invalid && form.get('titulo')?.touched}">
-    <div class="error-msg" *ngIf="form.get('titulo')?.invalid && form.get('titulo')?.touched">El título es obligatorio</div>
+    <!-- TÍTULO -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="titulo">
+      <mat-error *ngIf="form.get('titulo')?.hasError('required')">
+        El título es obligatorio
+      </mat-error>
+    </mat-form-field>
 
-    <label>Descripción</label>
-    <textarea formControlName="descripcion" [ngClass]="{'error': form.get('descripcion')?.invalid && form.get('descripcion')?.touched}"></textarea>
-    <div class="error-msg" *ngIf="form.get('descripcion')?.invalid && form.get('descripcion')?.touched">La descripción es obligatoria</div>
+    <!-- DESCRIPCIÓN -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput rows="3" formControlName="descripcion"></textarea>
+      <mat-error *ngIf="form.get('descripcion')?.hasError('required')">
+        La descripción es obligatoria
+      </mat-error>
+    </mat-form-field>
 
-    <label>Fecha</label>
-    <input type="date" formControlName="fecha" [ngClass]="{'error': form.get('fecha')?.invalid && form.get('fecha')?.touched}">
-    <div class="error-msg" *ngIf="form.get('fecha')?.invalid && form.get('fecha')?.touched">La fecha es obligatoria</div>
+    <!-- FECHA (HOY Y FUTURAS) -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Fecha</mat-label>
+      <input
+        matInput
+        [matDatepicker]="pickerFecha"
+        formControlName="fecha"
+        [min]="minFecha">
 
-    <label>Hora</label>
-    <input type="time" formControlName="hora" [ngClass]="{'error': form.get('hora')?.invalid && form.get('hora')?.touched}">
-    <div class="error-msg" *ngIf="form.get('hora')?.invalid && form.get('hora')?.touched">La hora es obligatoria</div>
+      <mat-datepicker-toggle matSuffix [for]="pickerFecha"></mat-datepicker-toggle>
+      <mat-datepicker #pickerFecha></mat-datepicker>
 
-    <label>Dirección</label>
-    <input type="text" formControlName="direccion" [ngClass]="{'error': form.get('direccion')?.invalid && form.get('direccion')?.touched}">
-    <div class="error-msg" *ngIf="form.get('direccion')?.invalid && form.get('direccion')?.touched">La dirección es obligatoria</div>
+      <mat-error *ngIf="form.get('fecha')?.hasError('required')">
+        La fecha es obligatoria
+      </mat-error>
+    </mat-form-field>
 
+    <!-- HORA (DESDE 6 AM) -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Hora</mat-label>
+      <input matInput [matTimepicker]="pickerHora" formControlName="hora">
+
+      <mat-timepicker-toggle matSuffix [for]="pickerHora"></mat-timepicker-toggle>
+      <mat-timepicker #pickerHora></mat-timepicker>
+
+      <mat-error *ngIf="form.get('hora')?.hasError('required')">
+        La hora es obligatoria
+      </mat-error>
+
+      <mat-error *ngIf="form.get('hora')?.hasError('horaInvalida')">
+        La hora debe ser desde las 6:00 AM
+      </mat-error>
+    </mat-form-field>
+
+    <!-- DIRECCIÓN -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Dirección</mat-label>
+      <input matInput formControlName="direccion">
+      <mat-error *ngIf="form.get('direccion')?.hasError('required')">
+        La dirección es obligatoria
+      </mat-error>
+    </mat-form-field>
+
+    <!-- BOTONES -->
     <div class="acciones">
-      <button type="submit" class="btn-guardar">{{ modoEdicion ? 'Actualizar' : 'Guardar' }}</button>
-      <button type="button" class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+        {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
+      </button>
+
+      <button mat-button color="warn" type="button" (click)="cancelar()">
+        Cancelar
+      </button>
     </div>
+
   </form>
 </div>
