@@ -30,12 +30,26 @@
       </mat-error>
     </mat-form-field>
 
+    <!-- ✅ CANJES DE RECOMPENSA -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Canjes de Recompensa</mat-label>
+      <input matInput type="number" placeholder="Ej. 5" formControlName="canjesRecompensa">
+
+      <mat-error *ngIf="form.get('canjesRecompensa')?.hasError('required')">
+        Campo obligatorio
+      </mat-error>
+
+      <mat-error *ngIf="form.get('canjesRecompensa')?.hasError('min')">
+        El valor mínimo es 1
+      </mat-error>
+    </mat-form-field>
+
     <!-- Fecha Inicio -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Fecha Inicio</mat-label>
-      <input matInput [matDatepicker]="pickerInicio" formControlName="fechaInicio">
+      <input matInput [matDatepicker]="pickerInicio" [min]="minDate" formControlName="fechaInicio">
       <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
-      <mat-datepicker #pickerInicio startView="month"></mat-datepicker>
+      <mat-datepicker #pickerInicio></mat-datepicker>
       <mat-error *ngIf="form.get('fechaInicio')?.hasError('required')">
         Campo obligatorio
       </mat-error>
@@ -44,9 +58,9 @@
     <!-- Fecha Fin -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Fecha Fin</mat-label>
-      <input matInput [matDatepicker]="pickerFin" formControlName="fechaFin">
+      <input matInput [matDatepicker]="pickerFin" [min]="minDate" formControlName="fechaFin">
       <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
-      <mat-datepicker #pickerFin startView="month"></mat-datepicker>
+      <mat-datepicker #pickerFin></mat-datepicker>
       <mat-error *ngIf="form.get('fechaFin')?.hasError('required')">
         Campo obligatorio
       </mat-error>
@@ -56,6 +70,7 @@
       <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
         {{ modoEdicion ? 'Guardar' : 'Registrar' }}
       </button>
+
       <button mat-button color="warn" type="button" (click)="cancelar()">
         Cancelar
       </button>
