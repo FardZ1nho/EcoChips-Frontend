@@ -1,15 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { Evento } from '../../../models/Evento';
 import { Eventoservice } from '../../../services/eventoservice';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatTimepickerModule } from '@angular/material/timepicker';
 
 @Component({
   selector: 'app-eventocrear',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, MatSnackBarModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterLink,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTimepickerModule
+  ],
   templateUrl: './eventocrear.html',
   styleUrls: ['./eventocrear.css']
 })
@@ -18,6 +40,8 @@ export class EventoCrear implements OnInit {
   form!: FormGroup;
   modoEdicion: boolean = false;
   titulo: string = 'Registrar Evento';
+
+  minFecha: Date = new Date(); // Fecha mínima: hoy
 
   constructor(
     private eS: Eventoservice,
@@ -33,7 +57,7 @@ export class EventoCrear implements OnInit {
       titulo: ['', Validators.required],
       descripcion: ['', Validators.required],
       fecha: ['', Validators.required],
-      hora: ['', Validators.required],
+      hora: ['', [Validators.required, this.horaMinimaValidator]], 
       direccion: ['', Validators.required]
     });
 
@@ -43,6 +67,7 @@ export class EventoCrear implements OnInit {
         this.modoEdicion = true;
         this.titulo = 'Editar Evento';
         const id = +idParam;
+
         this.eS.listId(id).subscribe({
           next: (data: Evento) => {
             this.form.patchValue(data);
@@ -50,22 +75,50 @@ export class EventoCrear implements OnInit {
           error: err => {
             console.error('Error cargando evento:', err);
             this.snackBar.open('No se pudo cargar el evento para editar', 'Cerrar', { duration: 3000 });
-            this.router.navigate(['/eventos']);
+            this.router.navigate(['/home/eventos/listar']);
           }
         });
       }
     });
   }
 
+  // ---------------------------------------
+  // VALIDACIÓN DE HORA DESDE 6 AM
+  // ---------------------------------------
+  horaMinimaValidator(control: any) {
+    if (!control.value) return null;
+
+    let hour: number = 0;
+
+    const value = control.value;
+
+    // Caso 1: formato string "HH:mm"
+    if (typeof value === 'string' && value.includes(':')) {
+      hour = parseInt(value.split(':')[0], 10);
+    }
+
+    // Caso 2: si devuelve un Date
+    else if (value instanceof Date) {
+      hour = value.getHours();
+    }
+
+    // Caso 3: si devuelve objeto { hour, minute }
+    else if (typeof value === 'object' && value.hour !== undefined) {
+      hour = value.hour;
+    }
+
+    return hour < 6 ? { horaInvalida: true } : null;
+  }
+
   guardar() {
-    if(this.form.invalid){
+    if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
     const evento: Evento = this.form.value;
 
-    if(this.modoEdicion){
+    if (this.modoEdicion) {
       this.eS.update(evento).subscribe({
         next: () => {
           this.eS.list().subscribe(data => this.eS.setList(data));
@@ -89,5 +142,8 @@ export class EventoCrear implements OnInit {
       });
     }
   }
-  cancelar() { this.router.navigate(['/home']); }
+
+  cancelar() {
+    this.router.navigate(['/home/eventos/listar']);
+  }
 }
