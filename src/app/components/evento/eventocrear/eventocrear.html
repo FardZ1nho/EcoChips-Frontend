@@ -23,10 +23,14 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- FECHA (HOY Y FUTURAS) -->
+    <!-- FECHA -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Fecha</mat-label>
-      <input matInput [matDatepicker]="pickerFecha" formControlName="fecha" [min]="minFecha">
+      <input
+        matInput
+        [matDatepicker]="pickerFecha"
+        formControlName="fecha"
+        [min]="minFecha">
       <mat-datepicker-toggle matSuffix [for]="pickerFecha"></mat-datepicker-toggle>
       <mat-datepicker #pickerFecha></mat-datepicker>
       <mat-error *ngIf="form.get('fecha')?.hasError('required')">
@@ -34,15 +38,17 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- HORA (DESDE 6 AM) -->
+    <!-- HORA -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Hora</mat-label>
       <input matInput [matTimepicker]="pickerHora" formControlName="hora">
       <mat-timepicker-toggle matSuffix [for]="pickerHora"></mat-timepicker-toggle>
       <mat-timepicker #pickerHora></mat-timepicker>
+
       <mat-error *ngIf="form.get('hora')?.hasError('required')">
         La hora es obligatoria
       </mat-error>
+
       <mat-error *ngIf="form.get('hora')?.hasError('horaInvalida')">
         La hora debe ser desde las 6:00 AM
       </mat-error>
@@ -62,6 +68,7 @@
       <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
         {{ modoEdicion ? 'Actualizar' : 'Guardar' }}
       </button>
+
       <button mat-button color="warn" type="button" (click)="cancelar()">
         Cancelar
       </button>
