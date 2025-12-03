@@ -30,20 +30,6 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- ✅ CANJES DE RECOMPENSA -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Canjes de Recompensa</mat-label>
-      <input matInput type="number" placeholder="Ej. 5" formControlName="canjesRecompensa">
-
-      <mat-error *ngIf="form.get('canjesRecompensa')?.hasError('required')">
-        Campo obligatorio
-      </mat-error>
-
-      <mat-error *ngIf="form.get('canjesRecompensa')?.hasError('min')">
-        El valor mínimo es 1
-      </mat-error>
-    </mat-form-field>
-
     <!-- Fecha Inicio -->
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Fecha Inicio</mat-label>
