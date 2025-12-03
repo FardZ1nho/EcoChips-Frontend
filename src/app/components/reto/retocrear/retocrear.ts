@@ -53,8 +53,7 @@ export class Retocrear implements OnInit {
       descripcion: ['', [Validators.required, Validators.maxLength(1000)]],
       objetivoKg: ['', [Validators.required, Validators.min(1)]],
       fechaInicio: ['', Validators.required],
-      fechaFin: ['', Validators.required],
-      canjesRecompensa: ['', [Validators.required, Validators.min(1)]]
+      fechaFin: ['', Validators.required]
     });
 
     this.route.params.subscribe(params => {
@@ -85,8 +84,7 @@ export class Retocrear implements OnInit {
       descripcion: new FormControl(data.descripcion, [Validators.required, Validators.maxLength(1000)]),
       objetivoKg: new FormControl(data.objetivoKg, [Validators.required, Validators.min(1)]),
       fechaInicio: new FormControl(data.fechaInicio, Validators.required),
-      fechaFin: new FormControl(data.fechaFin, Validators.required),
-      canjesRecompensa: new FormControl(data.canjesRecompensa, [Validators.required, Validators.min(1)])
+      fechaFin: new FormControl(data.fechaFin, Validators.required)
     });
   }
 
@@ -102,8 +100,7 @@ export class Retocrear implements OnInit {
       descripcion: this.form.value.descripcion,
       objetivoKg: this.form.value.objetivoKg,
       fechaInicio: this.form.value.fechaInicio,
-      fechaFin: this.form.value.fechaFin,
-      canjesRecompensa: this.form.value.canjesRecompensa
+      fechaFin: this.form.value.fechaFin
     };
 
     if(reto.fechaInicio > reto.fechaFin){
